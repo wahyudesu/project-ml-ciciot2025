@@ -1,0 +1,39 @@
+# Data files - too large for GitHub
+research/data/*.zip
+research/data/*.tar.xz
+research/data/*.tar.gz
+research/data/*.tar.bz2
+research/data/raw_files/
+research/data/processed_files/
+
+# Tools archives
+research/tools/*.tar.xz
+research/tools/*.zip
+
+# Large PDF
+references/paper/*.pdf
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Keep directory structure (commented out - using .gitkeep instead)
+# research/data/
+# research/tools/

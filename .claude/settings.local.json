@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(notebooklm)",
+      "Read(//c/Users/why/.claude/skills/notebooklm/**)",
+      "Bash(python scripts/run.py auth_manager.py status)",
+      "Bash(python scripts/run.py notebook_manager.py list)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Bash(.venv/Scripts/pip.exe install *)",
+      "Bash(python -c ' *)",
+      "Bash(python scripts/run.py auth_manager.py setup)",
+      "Bash(.venv/Scripts/python.exe -m patchright install chrome)",
+      "Bash(.venv/Scripts/python.exe -m playwright install chrome)",
+      "Bash(.venv/Scripts/python.exe -m playwright install chromium)",
+      "Bash(.venv/Scripts/python.exe -m patchright install chromium)",
+      "Bash(where chrome *)",
+      "Bash(where chromium *)",
+      "Bash(dir \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\")",
+      "Bash(dir \"C:\\\\Users\\\\why\\\\AppData\\\\Local\\\\Vivaldi\\\\Application\\\\vivaldi.exe\")"
+    ]
+  }
+}

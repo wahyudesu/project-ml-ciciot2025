@@ -1,0 +1,274 @@
+{
+  "main": {
+    "id": "8b55ccd930b91588",
+    "type": "split",
+    "children": [
+      {
+        "id": "1570da2589bc1a5b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "03360a30143444a9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "books/brainstorming-v2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "brainstorming-v2"
+            }
+          },
+          {
+            "id": "db09f13c0de89025",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "books/PLAN.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "PLAN"
+            }
+          },
+          {
+            "id": "b3cfc88226881c28",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "references/references-workflow.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "references-workflow"
+            }
+          },
+          {
+            "id": "ecfb4e242d17fead",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "references/references-workflow.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "references-workflow"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7e136d7cc0a4ef50",
+    "type": "split",
+    "children": [
+      {
+        "id": "5b9a5d829beb4cc8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b8127f9a75ff3139",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7a080add5d4b2ea9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a54c7d8f4cdf7742",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5aa1f6cbf8be80a0",
+    "type": "split",
+    "children": [
+      {
+        "id": "34a6eb31cfa67536",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3a199ddef03c8954",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "books/brainstorming-v2.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for brainstorming-v2"
+            }
+          },
+          {
+            "id": "fb4936723b3016cf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "books/brainstorming-v2.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from brainstorming-v2"
+            }
+          },
+          {
+            "id": "4010a244419a1c64",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1617502c3b68ddfc",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "56a0c6425fe39de2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "books/brainstorming-v2.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of brainstorming-v2"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "b3cfc88226881c28",
+  "lastOpenFiles": [
+    "logbook.md",
+    "presentation.slides.md",
+    "mindmap.mindmap.tmp.15812.1779304599174",
+    "mindmap.mindmap.tmp.10660.1779304385349",
+    "mindmap.mindmap",
+    "okok.mindmap",
+    "ok.mindmap",
+    "Pasted image 20260521014454.png",
+    "references/paper/15.pdf",
+    "references/paper/Vol.+10+No.+20s+(2025)+--Deepa.pdf",
+    "Pasted image 20260521014056.png",
+    "references/references-proposal.png",
+    "references/paper/05_Abebe_IoT_Attack_Detection_F1000_2026.pdf",
+    "references/references-code.md",
+    "references/references-workflow.md",
+    "Pasted image 20260521014032.png",
+    "references/paper/08_Ntayagabiri_Supervised_ML_IoT_Attack_JCTA_2025.pdf",
+    "references/paper/02_CICIoT2023_Neto_Sensors_2023.pdf",
+    "Pasted image 20260521013820.png",
+    "books/PLAN.md",
+    "research/data/processed_files/AGENTS.md",
+    "research/data/AGENTS.md",
+    "references/references-paper.md",
+    "books/SPPA/references-code.md",
+    "books/SPPA/references-github.md",
+    "books/SPPA/references-paper-github.md",
+    "books/SPPA/references-paper copy.md",
+    "books/SPPA/references.md",
+    "books/SPPA/references-paper.md",
+    "books/multistep-research.md",
+    "books/brainstorming-v2.md",
+    "AGENTS.md",
+    "books/AGENTS.md",
+    "books/presentation.slides.md",
+    "books/presentasi.slides.md",
+    "books/QNA.md",
+    "references/AGENTS.md",
+    "books/qna.md",
+    "books/brainstorming-v1.md",
+    "references/proposal.png",
+    "books/SPPA/docs.md",
+    "presentasi.slides.md"
+  ]
+}
