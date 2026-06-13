@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TRD.md",
+                "file": "research/AGENTS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TRD"
+              "title": "AGENTS"
             }
           }
         ],
@@ -93,7 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 353.5
   },
   "right": {
     "id": "5aa1f6cbf8be80a0",
@@ -195,17 +195,25 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false
     }
   },
   "active": "d72d5831ce491928",
   "lastOpenFiles": [
+    "books/proposal-pa-1.pdf",
+    "books/diagram-systems.excalidraw",
+    "books/presentation.slides.md",
+    "Untitled.md",
+    "references/AGENTS.md",
+    "references/references-paper.md",
+    "references/references-workflow.md",
+    "references/references-proposal.png",
     "revisi-kerjaan.md",
     "TRD.md",
     "README.md",
     "books/brainstorming-v2.md",
     "books/PLAN.md",
-    "references/references-workflow.md",
     "logbook.md",
     "presentation.slides.md",
     "mindmap.mindmap.tmp.15812.1779304599174",
@@ -217,16 +225,13 @@
     "references/paper/15.pdf",
     "references/paper/Vol.+10+No.+20s+(2025)+--Deepa.pdf",
     "Pasted image 20260521014056.png",
-    "references/references-proposal.png",
     "references/paper/05_Abebe_IoT_Attack_Detection_F1000_2026.pdf",
     "references/references-code.md",
     "Pasted image 20260521014032.png",
     "references/paper/08_Ntayagabiri_Supervised_ML_IoT_Attack_JCTA_2025.pdf",
-    "references/paper/02_CICIoT2023_Neto_Sensors_2023.pdf",
     "Pasted image 20260521013820.png",
     "research/data/processed_files/AGENTS.md",
     "research/data/AGENTS.md",
-    "references/references-paper.md",
     "books/SPPA/references-code.md",
     "books/SPPA/references-github.md",
     "books/SPPA/references-paper-github.md",
@@ -236,11 +241,7 @@
     "books/multistep-research.md",
     "AGENTS.md",
     "books/AGENTS.md",
-    "books/presentation.slides.md",
     "books/presentasi.slides.md",
-    "books/QNA.md",
-    "references/AGENTS.md",
-    "books/qna.md",
     "references/proposal.png"
   ]
 }
