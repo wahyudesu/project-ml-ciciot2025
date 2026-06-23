@@ -1,3 +1,10 @@
+---
+type: Plan
+title: Research Plan
+description: Rencana dan prioritas pengerjaan penelitian CICIOT 2025
+tags: [plan, research]
+timestamp: 2026-06-23T00:00:00Z
+---
 
 sebagian besar dari penelitian ini akan fokus di penelitian terkait 
 

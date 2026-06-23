@@ -1,3 +1,11 @@
+---
+type: Log
+title: Research Logbook
+description: Catatan progres dan keputusan harian selama penelitian
+tags: [log, progress]
+timestamp: 2026-06-23T00:00:00Z
+---
+
 # Logbook
 
 **Total progress saat ini:** akumulasi sekitar 6+ jam eksplorasi penelitian terkait.

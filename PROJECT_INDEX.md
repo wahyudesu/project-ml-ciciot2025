@@ -1,3 +1,11 @@
+---
+type: Index
+title: Project ML CICIOT 2025
+description: Root index proyek penelitian deteksi serangan IoT menggunakan ML pada dataset CICIOT 2025
+tags: [ciciot, iot, machine-learning, intrusion-detection]
+timestamp: 2026-06-23T00:00:00Z
+---
+
 # Project Index
 
 Dokumen ini adalah peta cepat untuk memahami proyek penelitian ini tanpa harus membaca seluruh repo sekaligus.
