@@ -1,0 +1,3 @@
+[submodule ".agents/skills/notebooklm"]
+	path = .agents/skills/notebooklm
+	url = https://github.com/PleasePrompto/notebooklm-skill
