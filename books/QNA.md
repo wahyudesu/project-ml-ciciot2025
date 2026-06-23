@@ -64,3 +64,100 @@ Contoh yang **relevan dengan IoT/IIoT**:
 - Dataset CIC IIoT 2025 memperluas ke skenario IIoT dengan layer sensor–network–edge–cloud yang lebih kompleks
 
 > "Dataset lain seperti BoT-IoT atau Edge-IIoTset juga sangat bagus, tetapi arsitektur testbed, fitur, dan skema serangannya cukup berbeda sehingga pertanyaan 'apakah model dari CICIoT2023 masih relevan di dataset penerusnya' justru paling tepat dijawab dengan pasangan CICIoT2023 → CIC IIoT 2025."
+
+## Q4: Apa urgensi dari penelitian ini?
+
+**Jawaban:**
+
+Ada dua lapis urgensi. Pertama, urgensi praktis: ancaman siber terhadap perangkat IoT dan IIoT terus meningkat — proliferasi perangkat IoT diproyeksikan mencapai 27,1 miliar unit pada 2025, dan setiap perangkat yang terhubung adalah titik masuk potensial bagi penyerang. Serangan Mirai 2016 adalah bukti nyata skala dampaknya: botnet yang menginfeksi jutaan perangkat IoT berhasil melumpuhkan sebagian besar infrastruktur internet global. Sementara di sisi IIoT, serangan ke infrastruktur industri bisa menghentikan produksi, merusak peralatan, atau membahayakan keselamatan fisik.
+
+Kedua, urgensi riset: komunitas penelitian sudah menghasilkan banyak model IDS berbasis ML dengan performa tinggi di in-dataset — RF 99,29%, XGBoost 99,26% [8]. Tapi angka-angka itu menjawab pertanyaan yang salah. Model yang bagus di dataset training belum tentu berguna di lingkungan deployment yang berbeda. Studi cross-dataset pada NIDS umum (Cantone et al., 2024) sudah membuktikan bahwa akurasi hampir sempurna secara within-dataset bisa jatuh mendekati random secara cross-dataset. Pertanyaan "apakah model IoT bisa generalize ke IIoT?" belum pernah dijawab secara sistematis — padahal jawabannya penting untuk menentukan apakah model-model yang ada layak dipertimbangkan untuk deployment di lingkungan industri nyata.
+
+---
+
+## Q5: Apa motivasi ngambil judul penelitian ini?
+
+**Jawaban:**
+
+Titik awalnya adalah gap yang sangat jelas di literatur. Tiga studi paling relevan di CICIoT2023 — Ntayagabiri et al. [8], Firdaus et al. [10], dan Dzaki et al. [11] — semuanya menghasilkan model dengan performa kompetitif, tapi semuanya hanya evaluasi in-dataset. Tidak ada yang menanyakan: "oke, kalau model ini kita pakai di domain yang berbeda, hasilnya bagaimana?" Gap itu terlalu nyata untuk diabaikan.
+
+Di sisi lain, DataSense (CIC IIoT 2025) muncul sebagai dataset IIoT industri paling realistis yang tersedia — testbed nyata dengan sensor industri Arduino, integrasi data sensor dan trafik jaringan, 50 skenario serangan. Tapi karena baru dirilis 2025, belum ada yang jadikan foundational reference: belum ada yang tahu baseline performanya, distribusi kelasnya, atau fitur mana yang bekerja di dalamnya.
+
+Jadi penelitian ini menjawab dua hal sekaligus: mengukur generalization gap lintas domain (IoT konsumen → IIoT industri) sekaligus membangun baseline awal untuk DataSense supaya peneliti berikutnya tidak mulai dari nol.
+
+---
+
+## Q6: Model apa yang akan dipakai dan kenapa?
+
+**Tabel kemunculan di literatur:**
+
+| Model | Muncul di | Performa di Referensi |
+|---|---|---|
+| **Random Forest** | [3][4][5][8][10][14][15] → **7 paper** | Top performer di [4][8][14]; akurasi 99% di [4] |
+| **Decision Tree** | [4][5][8][11][15] → **5 paper** | Best di [5] (98,34%), dipakai sebagai baseline kuat |
+| **SVM** | [3][4][5][8][10][15] → **6 paper** | Jarang menang, tapi selalu dipakai sebagai pembanding |
+| **XGBoost** | [8][10] → **2 paper** | Best overall di [10] (F1 0,8891), ke-2 terbaik di [8] (99,26%) |
+| **CNN** | [8][13] → **2 paper** | Best DL untuk tabular di [8] (98,33%) |
+| **ANN/DNN** | [4][8][13] → **3 paper** | Konsisten di atas 95%, kalah dari RF/XGBoost |
+| **Hybrid DL** | [13] → **1 paper** | Akurasi 99,99% tapi sangat kompleks |
+
+**Pilihan akhir: Decision Tree, Random Forest, XGBoost.**
+
+Alasannya by design — ketiganya dipilih karena representasi kompleksitas ensemble yang berbeda: DT adalah model pohon tunggal (baseline interpretable), RF adalah ensemble bagging (paralel, reduksi varians), XGBoost adalah ensemble boosting (sekuensial, reduksi bias, dengan regularisasi L1/L2 bawaan). Dengan memilih ketiganya, penelitian ini bisa menjawab apakah peningkatan kompleksitas ensemble menghasilkan generalisasi lintas domain yang lebih baik — atau justru sebaliknya karena model lebih kompleks cenderung overfit ke karakteristik spesifik dataset asalnya.
+
+Deep learning tidak dimasukkan bukan karena performanya buruk, tapi karena tujuan penelitian ini adalah mengukur generalization gap dan feature robustness, bukan mencari arsitektur terbaik. DT/RF/XGBoost juga lebih interpretable sehingga analisis fitur lebih mudah dilakukan.
+
+---
+
+## Q7: Bagaimana skema train/test cross-dataset yang dirancang?
+
+**Jawaban:**
+
+Skema dasarnya: model dilatih di CICIoT2023, lalu diuji di DataSense. Berbeda dari train/test split biasa yang masih berada dalam satu distribusi data yang sama, di sini model tidak pernah "melihat" DataSense selama pelatihan — DataSense murni digunakan sebagai evaluasi generalisasi.
+
+Tahapan yang diperlukan sebelum bisa dijalankan:
+1. **Label mapping** — menyesuaikan kategori serangan yang overlap antara kedua dataset (keduanya punya DDoS, DoS, Recon, Brute Force; DataSense punya tambahan MitM dan Malware yang tidak ada di CICIoT2023)
+2. **Feature alignment** — mengidentifikasi fitur yang secara semantik tersedia di kedua dataset, karena kedua dataset sama-sama mengekstraksi fitur dari trafik jaringan (IAT, Protocol Type, Header Length, flow duration, flag counts kemungkinan overlap)
+3. **Preprocessing konsisten** — normalisasi dan handling imbalance diterapkan dengan pipeline yang kompatibel di kedua dataset
+
+Generalization gap diukur sebagai selisih performa model antara evaluasi in-dataset (CICIoT2023) dan cross-dataset (DataSense).
+
+---
+
+## Q8: Metrik apa yang dipakai dan kenapa tidak cukup akurasi saja?
+
+**Jawaban:**
+
+Akurasi menyesatkan pada data tidak seimbang. Di CICIoT2023, kelas DDoS mendominasi lebih dari 30 juta sampel sementara Brute Force hanya ~11 ribu. Model yang selalu memprediksi "DDoS" akan punya akurasi tinggi tapi tidak berguna sama sekali. Dalam konteks keamanan, yang lebih kritis adalah **recall** — kemampuan mendeteksi semua serangan nyata. False negative (serangan tidak terdeteksi) jauh lebih berbahaya dari false positive.
+
+Metrik yang digunakan:
+- **Precision** — kemampuan menghindari false positive
+- **Recall** — kemampuan mendeteksi semua serangan nyata (metrik paling kritis)
+- **F1-Score** — rata-rata harmonik precision dan recall, berguna untuk data tidak seimbang
+- **Macro F1** — rata-rata F1 di semua kelas dengan bobot setara, sehingga kelas serangan minoritas tetap dievaluasi dengan adil
+
+Macro F1 dipilih atas weighted F1 karena weighted F1 akan didominasi kelas mayoritas dan menutupi performa buruk di kelas minoritas.
+
+---
+
+## Q9: Apa keterbatasan penelitian ini?
+
+**Jawaban:**
+
+Beberapa keterbatasan yang sudah disadari sejak awal:
+
+- **Label mapping tidak sempurna** — ada kategori serangan di DataSense (MitM, Malware) yang tidak ada di CICIoT2023, sehingga evaluasi pada kategori tersebut terbatas
+- **Evaluasi satu arah** — train di CICIoT2023, test di DataSense. Evaluasi dua arah bisa lebih informatif tapi di luar scope penelitian ini
+- **Scope eksperimental** — penelitian ini menghasilkan rekomendasi akademis, bukan sistem IDS siap deployment
+- **Feature overlap tidak dijamin** — kalau ada fitur yang ada di CICIoT2023 tapi tidak di DataSense, model perlu dilatih ulang dengan subset fitur yang kompatibel; gap akibat fitur yang hilang itu sendiri dilaporkan sebagai temuan
+
+---
+
+## Q10: Kalau penguji tanya "kenapa tidak pakai SVM atau LightGBM?"
+
+**Jawaban:**
+
+SVM memang sering muncul di literatur [3][4][5][8][10][15], tapi performa di CICIoT2023 tidak kompetitif dibanding RF dan XGBoost — dan SVM sangat bergantung pada feature scaling; Firdaus et al. [10] membuktikan performanya turun signifikan tanpa normalisasi. Lebih penting lagi, SVM tidak masuk dalam kerangka perbandingan ensemble complexity yang menjadi rationale utama pemilihan algoritma.
+
+LightGBM muncul di [8] dengan hasil anomali — akurasi hanya 36,01% yang mengindikasikan masalah konfigurasi, bukan kelemahan algoritmanya. Sebagai varian boosting, LightGBM secara konseptual serupa dengan XGBoost; memasukkan keduanya akan redundan untuk pertanyaan penelitian ini.
+

@@ -77,3 +77,8 @@ Kalau disambungkan ke rencana kamu (CICIoT2023 → Asia IT 2023/2025):
 - Pakai **iotthreat-classification-ensemble** sebagai:
   - Template **ensemble klasik multi‑algoritma**.  
   - Kamu bisa re‑run ensemble di CICIoT2023 dengan subset yang sama dengan XGBoost baseline, lalu port ke Asia IT 2023/2025 untuk melihat apakah boosting vs ensemble klasik punya pola generalisasi berbeda.  
+
+
+https://www.kaggle.com/code/baderbotaiban/iiot-2025-eda-preprocessing/notebook
+
+

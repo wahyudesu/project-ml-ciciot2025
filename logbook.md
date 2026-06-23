@@ -22,7 +22,6 @@ Dari sisi cara saya mengerjakan PA ini, saya membaginya menjadi **dua bagian yan
 Selanjutnya, untuk, eh, slide selanjutnya, itu akan berisi data dari CMCI LOT 2023 sebagai acuan untuk dipakai di dataset yang lebih baru, 2025. 
 
 
-
 TODO
 - bikin rancangan slides ppt - 20 menit
 - apply code dari salah satu referensi 2023 untuk dieksplor - 30 menit
