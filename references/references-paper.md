@@ -1,3 +1,4 @@
+
 ---
 jumlah references: "25"
 rentang waktu penelitian: "2002-2026"
@@ -11,7 +12,7 @@ keyword:
   - attack classification
   - feature selection
   - preprocessing
-  - class imbalance
+- 
   - ensemble learning
 list-website: researchrabbit.ai, scispace.com, perplexity.ai, semanticscholar.org, 
 ---
@@ -35,8 +36,16 @@ https://www.mdpi.com/1424-8220/23/13/5941
 [3] Alsamiri, J., Alsubhi, K., Internet of Things Cyber Attacks Detection Using Machine Learning, International Journal of Advanced Computer Science and Applications (IJACSA), Vol. 10, No. 12, 2019.
 https://thesai.org/Downloads/Volume10No12/Paper_80-Internet_of_Things_Cyber_Attacks_Detection.pdf
 
+```note
+implementasi steps nya oke banget, cuman gaperlu featuredari cic flow meter karena makan waktu, komparasi nya juga oke
+```
+
 [4] Churcher, A., Razdan, R., Ahmad, I., Tachtatzis, C., Sherwood, D., Weir, G., Andonovic, I., Michie, C., Tan, W. S., An Experimental Analysis of Attack Classification Using Machine Learning in IoT Networks, Sensors, Vol. 21, No. 2, Art. No. 446, 2021.
 https://arxiv.org/pdf/2101.12270
+
+```note
+penjelasan ids nya oke, dan poin 2.2 nya bisa dipake karena dia make algoritma ml utk deteksi iot network
+```
 
 ---
 
@@ -45,6 +54,12 @@ https://arxiv.org/pdf/2101.12270
 
 [5] Abebe, A., Gebeyehu, S., Alem, A., Internet of Things Attack Detection Using Machine Learning Algorithms, F1000Research, Vol. 14, Art. No. 230, 2026.
 https://f1000research.com/articles/14-230
+
+```note
+dataset informasi nya bisa dipake, hasil evaluasinya jg bisa dipake 
+
+implementasi nya sangat sederhana dan kayaknya pake ini aja deh 
+```
 
 ---
 
@@ -57,6 +72,7 @@ https://doi.org/10.1109/ACCESS.2022.3185049
 [25] Gaber, T., Awotunde, J. B., Folorunso, S. O., Ajagbe, S. A., Eldesouky, E., Industrial Internet of Things Intrusion Detection Method Using Machine Learning and Optimization Techniques, Wireless Communications and Mobile Computing, Vol. 2023, Art. No. 3939895, Hal. 1–15, 2023.
 https://onlinelibrary.wiley.com/doi/10.1155/2023/3939895
 
+
 ---
 
 ## Survey IoT/IIoT Intrusion Detection
@@ -64,8 +80,15 @@ https://onlinelibrary.wiley.com/doi/10.1155/2023/3939895
 [6] Bzai, J., Alam, F., Dhafer, A., Bojovic, M., Altowaijri, S. M., Niazi, I. K., Mehmood, R., Machine Learning-Enabled Internet of Things (IoT): Data, Applications, and Industry Perspective, Electronics, Vol. 11, No. 17, Art. No. 2676, 2022.
 https://www.mdpi.com/2079-9292/11/17/2676
 
-[7] Blali, A., Dargaoui, S., Azrour, M., Guezzaz, A., Amounas, F., Alabdulatif, A., Analysis of Deep Learning-Based Intrusion Detection Systems in IoT Environments, EDPACS, Vol. 70, No. 11, Hal. 18–52, 2025.
+[7] Blali, A., Dargaoui, S., Azrour, M., Guezzaz, A., Amounas, F., Alabdulatif, A., Analysis of Deep Learning-Based Intrusion Detection Systems in IoT Environments, EDPACS, Vol. 70, No. 11, Hal. 18–52, 2025
+
 https://www.semanticscholar.org/paper/Analysis-of-deep-learning-based-intrusion-detection-Blali-Dargaoui/3f2a335a36bac8cfa6625d360cf4a0e9f3b746c6
+
+
+```note
+hasil eksperimennya bagus dan alurnya bisa dipake di proect
+
+```
 
 ---
 
@@ -75,9 +98,18 @@ https://www.semanticscholar.org/paper/Analysis-of-deep-learning-based-intrusion-
 [8] Ntayagabiri, J. P., Bentaleb, Y., Ndikumagenge, J., El Makhtoum, H., A Comparative Analysis of Supervised Machine Learning Algorithms for IoT Attack Detection and Classification, Journal of Computing Theories and Applications, Vol. 2, No. 3, Hal. 395–409, 2025.
 https://dl.futuretechsci.org/id/eprint/101/1/11901-Article%20Text-43408-1-10-20250213.pdf
 
+```note
+modelnya kebanyakan utk analisis dataset
+```
+
 [9] Saheed, Y. K., Abiodun, A. I., Misra, S., Holone, M. K., Colomo-Palacios, R., A Machine Learning-Based Intrusion Detection for Detecting Internet of Things Network Attacks, Alexandria Engineering Journal, Vol. 61, No. 12, Hal. 9395–9409, 2022.
 https://www.sciencedirect.com/science/article/pii/S1877050922021470
 
+```note
+mirip dgn paper 3 tapi dengan evlauasi lebih banyak chart
+gap penelitian
+bab 4 dengan hasil yang lebih detail
+```
 ---
 
 <!-- KATEGORI: 1 Rare Class / Imbalance / Augmentation -->
@@ -93,6 +125,10 @@ https://www.sciencedirect.com/science/article/pii/S1877050922021470
 [11] Dzaki, M. H., Nugraha, A., Luthfiarta, A., Riyanto, A. A. R., Novandian, Y. D., Accelerating Classification for IoT Attack Detection Using Decision Tree Model with Gini Impurity Tree-Based Feature Selection Technique, Jurnal Teknik Informatika (JUTIF), Vol. 6, No. 5, Hal. 3405–3418, 2025.
 
 [12] Sarhan, M., Layeghy, S., Portmann, M., Feature Analysis for Machine Learning-Based IoT Intrusion Detection, arXiv preprint arXiv:2108.12732, 2022.
+
+```note
+dataset maybe...
+```
 
 ---
 
@@ -112,6 +148,9 @@ https://arxiv.org/pdf/2502.11470
 [15] Premalatha, D. V., Ramanujam, S., Ensemble-Based Intrusion Detection for IoT Networks Using the CICIoT2023 Dataset, Journal of Information Systems Engineering and Management (JISEM), Vol. 10, No. 21s, 2025.
 https://jisem-journal.com/index.php/journal/article/view/3407
 
+```note
+penjelasan tiap sistem design
+```
 ---
 
 <!-- KATEGORI: Survey IDS Berbasis ML -->
@@ -138,6 +177,11 @@ https://doi.org/10.1613/jair.953
 
 [23] Alahmari, S., Aleisa, N., Enhancing the CIC IoT Dataset 2023 for Improved Attack Detection through GANs Augmentation and Federated Learning, Journal of Computer Science, Hal. 1688–1704, 2025.
 https://thescipub.com/pdf/jcssp.2025.1688.1704.pdf
+
+```note
+contoh gap penelitian
+desain sistem
+```
 
 ---
 
@@ -166,4 +210,9 @@ https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-
 [22] Al-Shibly, I., Burgas, L., Massana, J., Interpretable Intrusion Detection for IoT: A CNN-BiLSTM Permutation Importance Framework for Deep Feature Selection, Frontiers in Big Data, Vol. 9, Art. No. 1813265, 2026.
 https://www.frontiersin.org/journals/big-data/articles/10.3389/fdata.2026.1813265/full
 
+```note
+pake data terbaru, pake ini kalau mau contoh data 2025
+gap penelitian
+detail desain sistem
+```
 ## references: mau ku tambahin, 
