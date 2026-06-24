@@ -16,7 +16,26 @@
       "Bash(where chrome *)",
       "Bash(where chromium *)",
       "Bash(dir \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\")",
-      "Bash(dir \"C:\\\\Users\\\\why\\\\AppData\\\\Local\\\\Vivaldi\\\\Application\\\\vivaldi.exe\")"
+      "Bash(dir \"C:\\\\Users\\\\why\\\\AppData\\\\Local\\\\Vivaldi\\\\Application\\\\vivaldi.exe\")",
+      "Bash(git submodule *)",
+      "Bash(git -C .agents/skills/notebooklm remote -v)",
+      "Bash(git add *)",
+      "Bash(git -C .agents/skills/notebooklm status)",
+      "Bash(git -C .agents/skills/notebooklm diff SKILL.md)",
+      "Bash(git -C .agents/skills/notebooklm restore SKILL.md)",
+      "Bash(git commit -m 'add .gitmodules for notebooklm submodule *)",
+      "Bash(rm -rf .agents/skills/notebooklm/.git)",
+      "Bash(git rm *)",
+      "Bash(rm .gitmodules)",
+      "Bash(git commit -m 'convert notebooklm submodule to regular files *)",
+      "Bash(git push *)",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "Bash(git commit -m 'apply OKF: add frontmatter and index files *)",
+      "Bash(git commit -m 'add README with project overview *)",
+      "WebFetch(domain:pdfs.semanticscholar.org)",
+      "WebFetch(domain:onlinelibrary.wiley.com)",
+      "WebFetch(domain:www.semanticscholar.org)"
     ]
   }
 }

@@ -1,5 +1,5 @@
 ---
-jumlah references: "23"
+jumlah references: "25"
 rentang waktu penelitian: "2002-2026"
 keyword:
   - IoT intrusion detection
@@ -48,7 +48,17 @@ https://f1000research.com/articles/14-230
 
 ---
 
-<!-- KATEGORI: 2 Survey IoT/IIoT Intrusion Detection -->
+<!-- KATEGORI: Dasar Teori IIoT -->
+## Dasar Teori IIoT
+
+[24] Alabadi, M., Habbal, A., Wei, X., Industrial Internet of Things: Requirements, Architecture, Challenges, and Future Research Directions, IEEE Access, Vol. 10, Hal. 66374–66400, 2022.
+https://doi.org/10.1109/ACCESS.2022.3185049
+
+[25] Gaber, T., Awotunde, J. B., Folorunso, S. O., Ajagbe, S. A., Eldesouky, E., Industrial Internet of Things Intrusion Detection Method Using Machine Learning and Optimization Techniques, Wireless Communications and Mobile Computing, Vol. 2023, Art. No. 3939895, Hal. 1–15, 2023.
+https://onlinelibrary.wiley.com/doi/10.1155/2023/3939895
+
+---
+
 ## Survey IoT/IIoT Intrusion Detection
 
 [6] Bzai, J., Alam, F., Dhafer, A., Bojovic, M., Altowaijri, S. M., Niazi, I. K., Mehmood, R., Machine Learning-Enabled Internet of Things (IoT): Data, Applications, and Industry Perspective, Electronics, Vol. 11, No. 17, Art. No. 2676, 2022.
@@ -155,3 +165,5 @@ https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-
 
 [22] Al-Shibly, I., Burgas, L., Massana, J., Interpretable Intrusion Detection for IoT: A CNN-BiLSTM Permutation Importance Framework for Deep Feature Selection, Frontiers in Big Data, Vol. 9, Art. No. 1813265, 2026.
 https://www.frontiersin.org/journals/big-data/articles/10.3389/fdata.2026.1813265/full
+
+## references: mau ku tambahin, 

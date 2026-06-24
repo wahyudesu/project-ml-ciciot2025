@@ -4,37 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "c83e139fc5eb89ad",
+        "id": "5bacb102a5744f55",
         "type": "tabs",
         "children": [
           {
-            "id": "badcfc112a3f6dc8",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "references/paper/08_Ntayagabiri_Supervised_ML_IoT_Attack_JCTA_2025.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "08_Ntayagabiri_Supervised_ML_IoT_Attack_JCTA_2025"
-            }
-          },
-          {
-            "id": "a064cd89d9e10b61",
+            "id": "8d81945a837814f4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "books/TODO.md",
+                "file": "documents/proposal/proposal markdown.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TODO"
+              "title": "proposal markdown"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,53 +186,53 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "a064cd89d9e10b61",
+  "active": "8d81945a837814f4",
   "lastOpenFiles": [
-    "books/proposal/judul.pdf",
-    "books/panduan/Pedoman PA PENS 2025 _ok.pdf",
-    "books/panduan/Panduan_Proposal_PA_SarjanaTerapan_A4.pdf",
-    "books/panduan/Panduan_Proposal_PA_SarjanaTerapan_A4.docx",
-    "books/panduan/Panduan_Progres_PA_SarjanaTerapan_A4.pdf",
-    "books/panduan/Panduan_Progres_PA_SarjanaTerapan_A4.docx",
-    "books/panduan/Panduan_Buku_PA_SarjanaTerapan_A4_Rev05.pdf",
-    "books/panduan/Panduan_Buku_PA_SarjanaTerapan_A4_Rev05.docx",
-    "books/panduan",
-    "books/SPPA/presentation markdown.slides.md",
-    "books/proposal/diagram-systems.excalidraw",
+    "documents/proposal/ABCDE - merged - 2~551B6.tmp",
+    "documents/progress/~$nduan_Progres_PA_SarjanaTerapan_A4 copy.docx",
+    "documents/progress/Panduan_Progres_PA_SarjanaTerapan_A4 copy.docx",
+    "documents/panduan/Panduan_Progres_PA_SarjanaTerapan_A4 copy.docx",
+    "documents/proposal/~$CDE - merged - 2.docx",
+    "documents/proposal/ABCDE - merged - 2~BC3C3.tmp",
+    "references/paper/08_Ntayagabiri_Supervised_ML_IoT_Attack_JCTA_2025.pdf",
+    "references/references-paper.md.tmp.28168.e9abff58d4e5",
+    "references/references-paper.md.tmp.26316.c5a34d915473",
+    "references/references-paper.md.tmp.16888.432c6a84de14",
+    "logbook-bimbingan.md",
+    "documents/proposal/~$CDE - merged.docx",
+    "documents/proposal/proposal markdown.md",
+    "documents/proposal/presentation markdown.slides.md",
+    "documents/proposal/instructions presentation.md",
+    "documents/proposal/instruction proposal.md",
+    "documents/proposal/diagram-systems.png",
+    "documents/TODO.md",
+    "documents/QNA.md",
+    "documents/PLAN.md",
+    "documents/multistep-research.md",
+    "documents/index.md",
+    "documents/AGENTS.md",
+    "documents/brainstorming-v1.md",
+    "books/TODO.md",
+    "docuemnts/proposal/proposal markdown.md",
+    "docuemnts/proposal/presentation markdown.slides.md",
+    "docuemnts/proposal/instructions presentation.md",
+    "docuemnts/proposal/instruction proposal.md",
+    "docuemnts/proposal/diagram-systems.png",
+    "docuemnts/QNA.md",
+    "docuemnts/TODO.md",
+    "docuemnts/PLAN.md",
+    "docuemnts/multistep-research.md",
+    "docuemnts/index.md",
+    "docuemnts/brainstorming-v1.md",
+    "docuemnts/AGENTS.md",
+    "books/proposal/diagram-systems.png",
+    "research/index.md",
     "books/proposal/image.png",
-    "books/proposal/proposal-pa-1.pdf",
-    "books/proposal/proposal markdown.md",
-    "books/proposal/presentation markdown.slides.md",
-    "books/proposal/instructions presentation.md",
-    "books/proposal/instruction proposal.md",
-    "books/SPPA/proposal markdown.md",
     "assets/class distribution 2023.png",
     "assets/class distribution 2025.png",
-    "books/TODO.md",
-    "books/timeline.md",
-    "PROJECT_INDEX.md",
     "assets/class distribution 2025 2.jpg",
     "assets/workflow.png",
     "assets/20260521014032.png",
-    "Pasted image 20260622155812.png",
-    "references/references-paper.md",
-    "references/gap-penelitian.md",
-    "books/image.png",
-    "references/references-code.md",
-    "books/brainstorming-v1.md",
-    "books/AGENTS.md",
-    "books/QNA.md",
-    "books/SPPA/instructions presentation.md",
-    "books/brainstorming-v2.md",
-    "books/SPPA/instruction proposal.md",
-    "books/PLAN.md",
-    "books/SPPA/QNA.md",
-    "books/SPPA/presentation.slides.md",
-    "books/SPPA/docs.md",
-    "books/SPPA/image.png",
-    "docs/teori-penunjang.md",
-    "books/multistep-research.md",
-    "books/brainstorming-v3.md",
-    "assets/20260521014454.png"
+    "Pasted image 20260622155812.png"
   ]
 }
