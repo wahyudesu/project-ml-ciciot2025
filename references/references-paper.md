@@ -1,6 +1,6 @@
 
 ---
-jumlah references: "25"
+jumlah references: "27"
 rentang waktu penelitian: "2002-2026"
 keyword:
   - IoT intrusion detection
@@ -198,6 +198,29 @@ https://doi.org/10.1016/j.ipm.2009.03.002
 
 [20] Khraisat, A., Gondal, I., Vamplew, P., Kamruzzaman, J., Survey of Intrusion Detection Systems: Techniques, Datasets and Challenges, Cybersecurity, Vol. 2, Art. No. 20, 2019.
 https://cybersecurity.springeropen.com/articles/10.1186/s42400-019-0038-7
+
+```notes
+```
+
+[26] Farah, A., Cross-Dataset Evaluation for IoT Network Intrusion Detection, Master's Thesis, University of Wisconsin-Milwaukee, 2020.
+https://minds.wisc.edu/server/api/core/bitstreams/c2baf164-6d13-4ee8-927b-3476fd493985/content
+
+```notes
+gap penelitian
+evaluation methodsnya bagus buat dipake
+```
+
+[27] Cantone, M., Marrocco, C., Bria, A., On the Cross-Dataset Generalization of Machine Learning for Network Intrusion Detection, IEEE Access, Vol. 12, Hal. 144489–144508, 2024.
+https://doi.org/10.1109/ACCESS.2024.3472907
+
+[29] Elangovan, R., Parthasarathy, D. D., Jawahar, M., Kaliyaperumal, P., Balusamy, B., Yogarajan, S., Venkatesan, V., Cross-Dataset Temporal and Semantic Generalization of Intrusion Detection Models for the Future Internet, 2026.
+
+```note
+sangat relevan — evaluasi temporal robustness + cross-domain transfer (enterprise ke IoT)
+membuktikan tree-based ensemble paling robust lintas dataset (degradasi 6–23%)
+semantic feature stability: flow intensity & temporal activity lebih stabil lintas dataset
+bagus banget buat bagian cross-dataset generalization gap
+```
 
 ---
 

@@ -25,4 +25,7 @@ Machine Learning Frameworks for Industrial Internet of Things (IIoT): A Comprehe
 
 https://www.semanticscholar.org/paper/Machine-Learning-Frameworks-for-Industrial-Internet-Choudhry-J./d63efeaeb680bb9feeb7f631e9bedbf10fa381ce
 
+- [ ] bab 3 kureng, gunakan /grill-me untuk refine bab 3 juga tanyakan ke aku beberap apertanyaan supaya hasilnya lbeih relevan
+- [ ] peneliitian terkait diganti saah satunya menggunakan yg tahun 2026
+
 

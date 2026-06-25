@@ -18,7 +18,7 @@ Penelitian ini berangkat dari permasalahan bahwa model intrusion detection berba
 ## 1.3 Tujuan
 
 %% Jelaskan tujuan penelitian proyek akhir secara jelas, singkat, dan menunjukkan orisinalitas solusi yang ditawarkan. Tujuan dapat diawali dengan penjelasan mengenai pendekatan, metode, atau teknik yang digunakan untuk menyelesaikan permasalahan, lalu dilanjutkan dengan uraian fitur atau keunggulan unik dari solusi tersebut. %%
-==tujuan: kerangka evaluasi cross-dataset — menguji generalisasi model IDS berbasis ML dari IoT konsumen (CICIoT2023) ke IIoT industri (DataSense). 4 keunggulan: (1) pengukuran generalization gap CICIoT2023→DataSense secara kuantitatif; (2) komparasi DT/RF/XGBoost untuk melihat pengaruh kompleksitas ensemble terhadap generalisasi lintas domain; (3) analisis feature robustness — identifikasi subset fitur CICIoT2023 yang tetap prediktif di DataSense; (4) foundational reference untuk peneliti yang mulai bekerja dengan DataSense. Ref [1][2][8][10][11].==
+
 Penelitian proyek akhir ini mengajukan suatu kerangka evaluasi baru untuk mengatasi permasalahan generalisasi model *intrusion detection* berbasis machine learning lintas domain IoT dan IIoT, dengan menggunakan pendekatan evaluasi *cross-dataset* yang secara sistematis menguji model-model yang dikembangkan pada CICIoT2023 terhadap dataset DataSense (CIC IIoT 2025).
 
 Kerangka evaluasi yang diajukan memiliki beberapa keunggulan unik. Pertama, penelitian ini merupakan studi pertama yang secara eksplisit mengukur *generalization gap* antara domain IoT konsumen (CICIoT2023) dan domain IIoT industri (DataSense), sehingga menghasilkan pemahaman kuantitatif tentang seberapa jauh model yang bekerja baik secara *in-dataset* mampu bertahan di lingkungan yang berbeda. Kedua, evaluasi dilakukan secara komparatif terhadap tiga algoritma dengan tingkat kompleksitas ensemble yang berbeda — Decision Tree (model pohon tunggal yang interpretable), Random Forest (*ensemble bagging*), dan XGBoost (*ensemble boosting*) sehingga menghasilkan gambaran tentang bagaimana peningkatan kompleksitas ensemble memengaruhi kemampuan generalisasi lintas domain. Ketiga, penelitian ini menganalisis ketahanan fitur (*feature robustness*) secara lintas domain dengan mengidentifikasi subset fitur dari CICIoT2023 yang mempertahankan daya prediktif ketika diterapkan pada DataSense. Keempat, hasil penelitian dikemas sebagai rekomendasi praktis yang dapat langsung digunakan oleh peneliti yang ingin menjadikan DataSense sebagai titik awal pengembangan sistem IDS berbasis ML untuk lingkungan IIoT.
@@ -26,7 +26,7 @@ Kerangka evaluasi yang diajukan memiliki beberapa keunggulan unik. Pertama, pene
 ## 1.4 Manfaat
 
 %% Jelaskan kontribusi proyek akhir terhadap pengembangan ilmu, teknologi, atau penyelesaian masalah tertentu. Uraikan secara spesifik pihak yang mendapatkan manfaat dari penelitian serta bentuk manfaat yang diberikan. %%
-==manfaat penelitian ini menyasar tiga kelompok. Pertama, komunitas riset keamanan IoT/IIoT: penelitian mengisi celah literatur dengan studi cross-dataset yang mengukur generalisasi IDS lintas domain — sesuatu yang belum pernah dilakukan sebelumnya oleh [8], [10], maupun [11]; hasilnya menjadi referensi perancangan eksperimen sejenis. Kedua, peneliti yang ingin bekerja dengan DataSense (CIC IIoT 2025) yang baru dan sangat berpotensi: penelitian ini menjadi foundational reference yang menyediakan pemahaman awal tentang karakteristik dataset, distribusi kelas, dan baseline performa berbagai algoritma sehingga peneliti berikutnya tidak perlu mulai dari nol. Ketiga, praktisi dan developer sistem keamanan IoT/IIoT: mendapat panduan empiris tentang keluarga algoritma dan konfigurasi fitur yang paling layak untuk deployment lintas domain, sekaligus peringatan terhadap risiko overfitting yang kerap terjadi dalam pengembangan IDS berbasis ML.==
+
 Penelitian ini memberikan kontribusi yang dapat dirasakan oleh beberapa pihak. Bagi komunitas riset keamanan jaringan IoT/IIoT, penelitian ini mengisi celah literatur yang selama ini belum ditangani, yaitu studi *cross-dataset* yang mengukur kemampuan generalisasi model IDS dari domain IoT konsumen ke domain IIoT industri. Hasil evaluasi kuantitatif yang dihasilkan dapat menjadi referensi dalam perancangan eksperimen penelitian sejenis di masa mendatang.
 
 Bagi peneliti yang ingin bekerja dengan dataset DataSense (CIC IIoT 2025), penelitian ini berfungsi sebagai *foundational reference* — menyediakan pemahaman awal tentang karakteristik dataset, distribusi kelas, dan performa baseline berbagai algoritma, sehingga peneliti berikutnya tidak perlu memulai dari nol. Bagi praktisi dan pengembang sistem keamanan IoT/IIoT, penelitian ini memberikan panduan empiris tentang keluarga algoritma dan konfigurasi fitur yang paling layak dipertimbangkan untuk skenario deployment lintas domain, sekaligus mengingatkan risiko overfitting terhadap karakteristik satu dataset spesifik yang kerap terjadi dalam pengembangan IDS berbasis ML.
@@ -56,20 +56,16 @@ Permasalahan utama yang dihadapi dalam penelitian ini adalah kesenjangan general
 
 Secara konkret, CICIoT2023 mencakup 33 jenis serangan yang dibangkitkan oleh 105 perangkat IoT konsumen dalam topologi terkontrol dengan lebih dari 46 juta rekaman dan 48 fitur jaringan [2], [11]. Sementara itu, DataSense (CIC IIoT 2025) mencakup 50 skenario serangan pada sensor industri berbasis Arduino dan perangkat IoT komersial yang terhubung melalui MQTT broker, dengan data sensor yang tersinkronisasi dengan data trafik jaringan dalam pendekatan multi-objective feature selection [1]. Kombinasi perbedaan skala, ruang fitur, dan karakteristik domain ini menjadikan evaluasi cross-dataset sebagai tantangan teknis yang perlu dikaji secara sistematis.
 
-==IoT bersifat resource-constrained (komputasi, memori, baterai terbatas) sementara IIoT menambah kompleksitas berupa heterogenitas perangkat, campuran protokol terstandarisasi dan proprietary, serta tuntutan latensi dan keandalan ekstrem — keduanya tidak bisa diamankan dengan solusi keamanan konvensional. Inti permasalahan: model ML yang dilatih pada satu dataset IoT sering mencapai akurasi tinggi secara in-dataset, namun belum terbukti mampu mempertahankan performa ketika diterapkan ke domain yang berbeda secara statistik dan operasional (domain shift). Konkretnya: CICIoT2023 mewakili IoT konsumen (105 perangkat, 33 serangan, 46 juta baris, 48 fitur) sedangkan DataSense mewakili IIoT industri (50 skenario serangan, sensor Arduino via MQTT broker tersinkronisasi dengan trafik jaringan, multi-objective feature selection) — dua karakteristik domain yang sangat berbeda. Ref [1][2][3][11].==
-
 ## 2.2 Teori Penunjang
 
 aku sedang menunlis teori penunjang untuk penelitianku di bab 2.2 teori penunjang dan yang mau  iot, iiiot ml, llm  
-==muat informasi dari references iot, iiot, ids, asd==
+==muat informasi dari references iot, iiot, ids, ml: random forest, decision tree, xgboost==
 
 ### 2.2.1 Internet of Things (IoT)
 
 Internet of Things (IoT) adalah paradigma jaringan yang menghubungkan perangkat fisik maupun virtual — sensor, aktuator, kamera, dan berbagai perangkat cerdas lainnya — ke internet, memungkinkan komunikasi mesin-ke-mesin (M2M) tanpa intervensi manusia [3], [11]. Konsep ini sudah diterapkan luas di berbagai sektor, mulai dari pertanian, rumah tangga pintar, layanan kesehatan, transportasi, hingga otomasi industri [3], [4]. Menurut Dzaki et al. [11], pada akhir tahun 2020 terdapat 11,3 miliar perangkat IoT yang terhubung dan diperkirakan akan mencapai 27,1 miliar pada tahun 2025, didorong oleh kemudahan pengumpulan data dan otomasi proses yang ditawarkan teknologi ini.
 
 Karakteristik utama perangkat IoT yang membedakannya dari perangkat komputasi konvensional adalah keterbatasan sumber daya: kapasitas penyimpanan rendah, daya komputasi terbatas, dan konsumsi energi minimal [3], [11]. Menurut Alsamiri dan Alsubhi [3], perangkat IoT umumnya terhubung tanpa intervensi manusia dalam jangka waktu panjang, sehingga dibutuhkan solusi keamanan berbasis jaringan yang cerdas — bukan solusi konvensional berkapasitas tinggi yang tidak cocok untuk lingkungan IoT. Perluasan ekosistem IoT inilah yang sekaligus memperbesar *attack surface* bagi pelaku ancaman siber.
-
-==IoT adalah paradigma jaringan yang memungkinkan perangkat fisik berkomunikasi secara machine-to-machine tanpa intervensi manusia; diterapkan luas di sektor pertanian, rumah tangga pintar, layanan kesehatan, transportasi, hingga otomasi industri. Skala adopsinya masif: 11,3 miliar perangkat pada tahun 2020 dan diproyeksikan mencapai 27,1 miliar pada 2025. Karena perangkat IoT bersifat resource-constrained — kapasitas penyimpanan rendah, komputasi terbatas, konsumsi energi minimal — solusi keamanan konvensional tidak cocok; dibutuhkan solusi berbasis jaringan yang ringan. Semakin besar ekosistem IoT, semakin luas pula attack surface bagi pelaku ancaman siber. Ref [3][4][6][11].==
 
 ### 2.2.2 Industrial Internet of Things (IIoT)
 
@@ -85,33 +81,86 @@ Intrusion Detection System (IDS) adalah mekanisme pengawasan jaringan yang secar
 
 Perkembangan machine learning telah mendorong pergeseran paradigma IDS dari pendekatan berbasis aturan ke pendekatan berbasis data. Saheed et al. [9] menegaskan bahwa algoritma machine learning mampu mempelajari pola trafik secara otomatis dari data historis dan menghasilkan model klasifikasi yang dapat membedakan trafik normal dari trafik serangan dengan akurasi kompetitif. Gutierrez [16] mengkonfirmasi bahwa IDS berbasis ML menjadi komponen fundamental dalam proteksi infrastruktur kritis karena kemampuannya menangani spektrum ancaman yang lebih luas dibandingkan sistem berbasis *signature*. Dalam konteks IoT dan IIoT, kebutuhan akan IDS berbasis ML semakin mendesak karena keterbatasan sumber daya perangkat dan heterogenitas protokol komunikasi membuat solusi keamanan konvensional tidak dapat diterapkan secara efektif [3], [7].
 
-### 2.2.4 Decision Tree
+### 2.2.4 Machine Learning Models
+Berbagai classifier berbasis machine learning digunakan untuk memprediksi dataset. Metode-metode machine learning yang dijelaskan berikut digunakan sebagai bagian dari penelitian ini.
+
+### 2.2.4.1 Decision Tree
 
 Decision Tree (DT) adalah algoritma pembelajaran terawasi non-parametrik yang membangun model klasifikasi dalam bentuk struktur pohon hierarkis, di mana setiap simpul internal merepresentasikan pengujian terhadap suatu atribut fitur, setiap cabang merepresentasikan hasil pengujian, dan setiap simpul daun (*leaf*) merepresentasikan label kelas [11]. Proses pembangunan pohon dilakukan secara rekursif menggunakan kriteria impuritas untuk memilih fitur pemisah terbaik di setiap langkah; dua kriteria yang paling umum digunakan adalah Gini Impurity dan Information Gain. Gini Impurity mengukur seberapa sering sampel yang dipilih secara acak dari suatu himpunan akan salah diklasifikasikan jika diberi label sesuai distribusi kelas pada himpunan tersebut, sehingga DT memilih pemisahan yang meminimalkan nilai Gini Impurity pada setiap simpul [11].
 
 Karakteristik utama DT yang membuatnya relevan dalam konteks IDS adalah sifatnya yang sepenuhnya *interpretable* — setiap keputusan klasifikasi dapat dilacak kembali ke serangkaian aturan kondisional yang dapat dibaca manusia. Dzaki et al. [11] membuktikan bahwa DT dengan seleksi fitur berbasis Gini Impurity Tree-based berhasil mereduksi 48 fitur CICIoT2023 menjadi 10 fitur terpilih, menghasilkan pohon yang lebih dangkal (64 level dari 73 level *baseline*) dengan percepatan pelatihan 63,06% tanpa penurunan akurasi yang berarti. Dalam penelitian ini, DT difungsikan sebagai model *baseline* pohon tunggal yang menghasilkan batas keputusan eksplisit sekaligus sebagai fondasi komparatif terhadap algoritma *ensemble* yang lebih kompleks.
 
-### 2.2.5 Random Forest
+### 2.2.4.2 Random Forest
 
 Random Forest (RF) adalah algoritma *ensemble* berbasis *bagging* yang membangun sejumlah pohon keputusan secara paralel, masing-masing dilatih pada subset data dan subset fitur yang dipilih secara acak, kemudian menggabungkan prediksi seluruh pohon melalui mekanisme *majority voting* untuk menghasilkan keputusan akhir [4]. Pengacakan ganda — pada level sampel data (*bootstrap sampling*) maupun pada level pemilihan fitur di setiap simpul (*random feature subspace*) — mereduksi korelasi antar pohon secara signifikan sehingga meningkatkan generalisasi model dan mengurangi risiko *overfitting* dibandingkan pohon keputusan tunggal. Sebagai efek samping dari proses pelatihan berbasis pohon, RF juga menghasilkan *feature importance score* yang dapat dimanfaatkan untuk seleksi fitur dalam pipeline IDS [10].
 
 Dalam literatur IDS berbasis machine learning, Random Forest secara konsisten muncul sebagai model dengan performa tertinggi. Ntayagabiri et al. [8] melaporkan bahwa RF mencapai akurasi 99,29% pada CICIoT2023, melampaui seluruh model non-*ensemble* maupun *deep learning* yang dievaluasi. Premalatha dan Ramanujam [15] mengkonfirmasi dominansi RF dalam studi serupa pada dataset yang sama. Firdaus et al. [10] memanfaatkan *Random Forest Feature Importance* (RFFI) sebagai komponen dalam seleksi fitur hibrida, menunjukkan bahwa RF tidak hanya unggul sebagai model klasifikasi tetapi juga berperan dalam tahap seleksi fitur pada pipeline IDS secara keseluruhan.
 
-### 2.2.6 Support Vector Machine (SVM)
+### 2.2.4.3 XGBoost
 
-Support Vector Machine (SVM) adalah algoritma pembelajaran terawasi yang bekerja dengan menemukan *hyperplane* optimal dalam ruang fitur berdimensi tinggi yang memisahkan kelas-kelas dengan *margin* maksimum [10]. Untuk data yang tidak dapat dipisahkan secara linear, SVM menggunakan fungsi kernel — seperti kernel RBF (*Radial Basis Function*), *polynomial*, atau *sigmoid* — untuk memetakan data ke ruang dimensi lebih tinggi di mana pemisahan linear menjadi dimungkinkan [17]. Konsep *margin* maksimum inilah yang memberikan SVM sifat generalisasi yang baik secara teoritis, karena *hyperplane* yang dipilih adalah yang paling jauh dari titik data terdekat dari masing-masing kelas (*support vectors*).
+XGBoost (*Extreme Gradient Boosting*) adalah algoritma *ensemble* berbasis *boosting* sekuensial yang membangun model secara iteratif, di mana setiap pohon keputusan baru dilatih untuk memperbaiki kesalahan residu dari pohon-pohon sebelumnya menggunakan optimasi gradien orde kedua [8]. Berbeda dari Random Forest yang membangun pohon secara paralel dan independen, XGBoost membangun pohon secara berurutan sehingga setiap iterasi langsung menargetkan titik-titik kesalahan prediksi sebelumnya. Proses optimasi menggunakan pendekatan *regularized learning objective* yang menggabungkan fungsi loss dengan term regularisasi L1 dan L2 untuk mengontrol kompleksitas model dan mencegah *overfitting*.
 
-Vassiliou [17] mengevaluasi dua varian SVM — C-SVM dan OC-SVM — untuk deteksi serangan jaringan pada perangkat IoT berdaya rendah dan menemukan bahwa C-SVM mencapai akurasi 100% pada topologi jaringan yang dikenal, namun menurun menjadi 81% pada topologi yang belum pernah dilihat sebelumnya, mengindikasikan sensitivitas SVM terhadap pergeseran distribusi data. Firdaus et al. [10] mengevaluasi SVM dalam komparasi dengan model *ensemble* pada CICIoT2023 dan menemukan bahwa performa SVM sangat bergantung pada kualitas *preprocessing* — khususnya normalisasi fitur — karena sensitivitasnya terhadap skala fitur dalam perhitungan jarak kernel. Karakteristik ini menjadikan SVM sebagai algoritma yang relevan untuk dikaji dalam skenario *cross-dataset*, di mana konsistensi distribusi fitur lintas domain menjadi faktor penentu.
+XGBoost memiliki sejumlah keunggulan teknis yang relevan dalam konteks IDS berbasis machine learning. Pertama, mekanisme *sparsity-aware split finding* memungkinkan penanganan nilai yang hilang secara otomatis tanpa imputasi eksplisit. Kedua, dukungan komputasi paralel pada level pencarian titik pemisahan (*split finding*) — meskipun struktur boosting tetap sekuensial — menjadikannya efisien untuk dataset berskala besar seperti CICIoT2023. Ketiga, *built-in feature importance* yang dihasilkan dari frekuensi penggunaan fitur sebagai pemisah memberikan insight seleksi fitur yang dapat dibandingkan langsung dengan hasil Random Forest Feature Importance [10].
+
+Dalam literatur IDS berbasis CICIoT2023, XGBoost secara konsisten muncul sebagai model dengan *macro F1-score* tertinggi. Ntayagabiri et al. [8] melaporkan XGBoost mencapai akurasi 99,26% dengan presisi 74,05%, bersaing ketat dengan Random Forest di posisi teratas. Firdaus et al. [10] mengkonfirmasi bahwa XGBoost menghasilkan *macro F1-score* rata-rata 0,8891 ± 0,0008 — tertinggi di antara seluruh model yang dievaluasi, termasuk Random Forest — ketika dikombinasikan dengan seleksi fitur hibrida dan strategi *undersampling*. Dalam penelitian ini, XGBoost difungsikan sebagai representasi *ensemble boosting* yang melengkapi DT dan RF dalam evaluasi *cross-dataset*, dengan hipotesis bahwa mekanisme koreksi residual sekuensialnya berpotensi menghasilkan representasi fitur yang lebih adaptif terhadap distribusi data lintas domain.
+
+### 2.2.5 Evaluation Metric
+
+Pemilihan metrik evaluasi yang tepat sangat krusial dalam menilai performa model machine learning. Apabila metrik yang digunakan tidak sesuai, model yang tampak baik selama pelatihan dapat menunjukkan performa buruk ketika diterapkan di dunia nyata [19]. Berikut adalah metrik-metrik evaluasi standar yang digunakan dalam penelitian ini.
+
+**Confusion Matrix** adalah tabel berukuran N×N yang digunakan untuk menentukan performa model machine learning pada N kelas. Dari *confusion matrix* dapat diturunkan empat komponen dasar berikut:
+
+- *True Positive* (TP): Nilai aktual adalah positif dan model memprediksi positif.
+- *False Positive* (FP): Disebut juga *Type I Error*; nilai aktual adalah negatif namun model memprediksi positif.
+- *True Negative* (TN): Nilai aktual adalah negatif dan model memprediksi negatif.
+- *False Negative* (FN): Disebut juga *Type II Error*; nilai aktual adalah positif namun model memprediksi negatif.
+
+**ROC-AUC** — ROC (*Receiver Operating Characteristics*) adalah kurva yang memetakan hubungan antara *sensitivity* model terhadap *false positive rate*-nya. Nilai-nilai ini dihitung menggunakan formula berikut:
+
+- *Sensitivity* (*True Positive Rate*): Merupakan proporsi instance positif yang diklasifikasikan dengan benar sebagai positif oleh model.
+
+$$\text{TPR} = \frac{TP}{FN + TP}$$
+
+- *Specificity* (*True Negative Rate*): Merupakan proporsi instance negatif yang diklasifikasikan dengan benar sebagai negatif oleh model.
+
+$$\text{TNR} = \frac{TN}{TN + FP}$$
+
+- *False Positive Rate*: Merupakan proporsi instance negatif yang salah diklasifikasikan sebagai positif oleh model. FPR juga dapat dipandang sebagai 1 − *specificity*.
+
+$$\text{FPR} = \frac{FP}{TN + FP}$$
+
+Kurva ROC tidak terpengaruh oleh ketidakseimbangan kelas. AUC (*Area Under the Curve*) adalah nilai tunggal yang menghitung luas area di bawah kurva ROC, dengan rentang nilai 0 hingga 1,0. Semakin tinggi nilai AUC, semakin baik performa model. AUC sebesar 1,0 menunjukkan bahwa model mengklasifikasikan seluruh instance dengan benar, sedangkan AUC sebesar 0,5 setara dengan klasifikasi acak (*random classification*) [19].
+
+**Accuracy** adalah proporsi total prediksi yang benar dari seluruh prediksi yang dilakukan model [22].
+
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+**Precision** adalah proporsi prediksi positif yang benar dari seluruh prediksi positif yang dihasilkan model [22].
+
+$$\text{Precision} = \frac{TP}{TP + FP}$$
+
+**Recall** adalah proporsi instance positif yang berhasil diidentifikasi dengan benar oleh model [22].
+
+$$\text{Recall} = \frac{TP}{TP + FN}$$
+
+**F1-score** adalah rata-rata harmonik dari Precision dan Recall yang memberikan keseimbangan antara keduanya, terutama berguna dalam skenario ketidakseimbangan kelas [22].
+
+$$\text{F1-score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+Untuk evaluasi multikelas, terdapat dua pendekatan perataan: *macro-averaging* menghitung rata-rata metrik secara setara untuk setiap kelas sehingga kelas minoritas mendapat bobot yang sama, sementara *weighted averaging* menghitung rata-rata berbobot berdasarkan jumlah sampel per kelas [19]. Dalam konteks *cross-dataset* dengan distribusi kelas yang tidak seimbang, **Weighted AUC** digunakan sebagai metrik utama mengikuti metodologi Farah [26], karena nilai ini tidak dipengaruhi ketidakseimbangan kelas dan merangkum performa model secara keseluruhan dalam satu nilai agregat.
+
 
 ## 2.3 Penelitian Terkait
 
 ==paper dgn keterkaitan paling tinggi aku mau pakai untuk dipake ke penelitian ku ini, diantanya nya topik  yang mkau aku pakai sebagai identitas untuk saya kutip tu
 1 cic iot 2025
 1 cic iot 2023
-1 tentang cross dataset 
-asdasd
+1 tentang cross dataset
+**Cross-dataset** → [26] Farah 2020 atau [27] Cantone 2024
+**IDS ML pakai CICIoT2023** → [10] Firdaus 2026, [15] Premalatha 2025, atau [8] Ntayagabiri 2025
+**IDS ML pakai DataSense (CIC IIoT 2025)** → nah ini masalahnya, dari 27 references yang ada **belum ada** yang eksplisit pakai DataSense sebagai dataset penelitian. [1] itu paper dataset-nya sendiri, bukan penelitian yang menggunakannya.
+riset lagi utk deteksi model prlu ambil 
 
-==
 
 ### 2.3.1 A Comparative Analysis of Supervised Machine Learning Algorithms for IoT Attack Detection and Classification [8]
 
@@ -130,14 +179,15 @@ Ketiga penelitian di atas secara konsisten menghasilkan model dengan performa ti
 
 Tabel 2.1 Gap penelitian
 
+==gap nya kudu dipilah lagi dari paper yg deteksi ids, ml dari references paper dan dama dri highlight di bab 2
+
+
 | Ref  | Peneliti           | Tahun | Dataset       | Kelas      | Metode                                 | Hasil Terbaik  | Gap                                                                                                                      |
 | ---- | ------------------ | ----- | ------------- | ---------- | -------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [8]  | Ntayagabiri et al. | 2025  | CICIoT2023    | Multiclass | RF, XGBoost, LightGBM, CNN, LSTM, dll. | RF: 99.29%     | In-dataset only; recall rendah (72.19%); tidak uji generalisasi ke IIoT                                                  |
 | [11] | Dzaki et al.       | 2025  | CICIoT2023    | Multiclass | DT + Gini Impurity FS                  | DT: 99.4%      | In-dataset only; 10 fitur terpilih tidak divalidasi di dataset lain; robustness fitur lintas domain tidak dieksplorasi   |
 | [13] | Bensaoud & Kalita  | 2025  | CICIoT2023    | Multiclass | SOM + DBN + Autoencoder + PSO          | 99.99%         | In-dataset only; arsitektur DL berat tidak cocok edge IoT; tidak ada cross-dataset                                       |
 | [22] | Al-Shibly et al.   | 2026  | CIC IIoT 2025 | **Binary** | CNN-BiLSTM + Permutation Importance    | DT+DFS: 97.20% | **Binary only** — tidak uji multiclass; in-dataset DataSense only; tidak ada evaluasi model dari CICIoT2023 ke DataSense |
-
-Mau langsung sisipkan ke proposal Bab 2.3?
 
 # BAB 3 DESAIN SISTEM
 
@@ -167,17 +217,15 @@ Secara garis besar, pipeline CICIoT2023 mengalirkan data melalui tahap pemrosesa
 
 Pemrosesan data merupakan tahap pertama pada kedua pipeline dan bertujuan mengubah data mentah dari masing-masing dataset ke bentuk yang siap diproses model ML.
 
-Pada pipeline **CICIoT2023**, pemrosesan data mencakup empat langkah berurutan. Pertama, *data cleaning*: menghapus baris duplikat, menangani nilai hilang (*missing values*) dengan strategi *drop-row*, dan menghapus fitur non-informatif seperti alamat IP sumber/tujuan, nomor *port*, dan *timestamp* yang tidak berkontribusi pada deteksi pola serangan. Kedua, *random undersampling*: mendistribusikan ulang kelas dengan mengambil sejumlah sampel yang sama dari setiap kelas — mengacu pada distribusi Dzaki et al. [11] yang menggunakan 437.853 sampel per kelas untuk 8 kelas, menurunkan total data dari 46 juta baris menjadi sekitar 3,5 juta baris. Ketiga, *Gini Impurity Tree-based feature selection*: memilih subset fitur paling relevan dari 48 fitur awal menggunakan algoritma Decision Tree dengan kriteria Gini Impurity, menghasilkan 10 fitur terpilih [11]. Keempat, *Min-Max normalization*: menskalakan semua nilai fitur ke rentang [0,1] menggunakan parameter minimum dan maksimum yang dihitung eksklusif dari data *training*.
+Pada pipeline **CICIoT2023**, pemrosesan data mencakup empat langkah berurutan. Pertama, *data cleaning*: menghapus baris duplikat, menangani nilai hilang (*missing values*) dengan strategi *drop-row*, dan menghapus fitur non-informatif seperti alamat IP sumber/tujuan, nomor *port*, dan *timestamp* yang tidak berkontribusi pada deteksi pola serangan. Kedua, *random undersampling*: mendistribusikan ulang kelas dengan mengambil sejumlah sampel yang sama dari setiap kelas — mengacu pada distribusi Dzaki et al. [11] yang menggunakan 437.853 sampel per kelas untuk 8 kelas, menurunkan total data dari 46 juta baris menjadi sekitar 3,5 juta baris. Undersampling dilakukan terhadap seluruh 8 kelas CICIoT2023; tiga kelas yang tidak memiliki padanan di DataSense (Mirai, Spoofing, Web-based) baru dieliminasi pada tahap pemetaan label sebelum evaluasi *cross-dataset*. Ketiga, *Gini Impurity Tree-based feature selection*: memilih subset fitur paling relevan dari 48 fitur awal menggunakan algoritma Decision Tree dengan kriteria Gini Impurity, menghasilkan 10 fitur terpilih [11]. Keempat, *Min-Max normalization*: menskalakan semua nilai fitur ke rentang [0,1] menggunakan parameter minimum dan maksimum yang dihitung eksklusif dari data *training*.
 
 Pada pipeline **DataSense**, pemrosesan data mengikuti langkah yang serupa dalam hal *cleaning* dan normalisasi, namun tidak melibatkan *undersampling* karena DataSense digunakan seluruhnya sebagai *test set*. Parameter normalisasi (nilai min dan max per fitur) yang digunakan adalah parameter yang sama yang dihitung dari data *training* CICIoT2023 — bukan dihitung ulang dari DataSense — untuk memastikan konsistensi transformasi lintas domain dan menghindari kebocoran informasi dari *test set* ke *training*.
 
-### 3.2.2 Seleksi Fitur dan Penyelarasan Domain
+### 3.2.2 Seleksi Fitur dan Pemetaan Label
 
-Setelah tahap preprocessing, seleksi fitur pada pipeline CICIoT2023 menghasilkan subset fitur terpilih yang kemudian dicocokkan dengan fitur yang tersedia di DataSense melalui proses *feature alignment*.
+Setelah tahap *preprocessing*, *Gini Impurity Tree-based feature selection* diterapkan pada pipeline CICIoT2023 untuk memilih subset fitur paling informatif dari 48 fitur awal. Algoritma Decision Tree dengan kriteria Gini Impurity digunakan sebagai selektor, menghasilkan 10 fitur terpilih yang digunakan sebagai input bersama ketiga model [11]. Subset fitur yang sama — tanpa seleksi ulang — diterapkan langsung pada DataSense saat evaluasi *cross-dataset*, sehingga model menerima ruang fitur yang identik di kedua domain.
 
-*Feature alignment* dilakukan dengan membangun **interseksi fitur** — hanya fitur yang secara eksplisit tersedia di kedua CICIoT2023 dan DataSense yang dipertahankan sebagai input model saat evaluasi *cross-dataset*. Fitur CICIoT2023 yang tidak memiliki padanan semantik di DataSense dieliminasi dari pipeline evaluasi lintas domain. Jumlah fitur dalam interseksi ini menjadi salah satu variabel analisis utama: semakin kecil interseksi relatif terhadap jumlah fitur awal, semakin besar perbedaan ruang fitur yang harus dihadapi model.
-
-Penyelarasan label kelas dilakukan bersamaan dengan penyelarasan fitur. Delapan kelas CICIoT2023, DDoS, DoS, Mirai, Benign, Spoofing, Recon, Web, dan Brute Force dipetakan ke **lima kelas bersama** yang tersedia di kedua dataset: DDoS, DoS, Reconnaissance, Brute Force, dan Benign. Kelas Mirai, Spoofing, dan Web-based pada CICIoT2023, serta kelas Man-in-the-Middle dan Malware pada DataSense, dieliminasi dari evaluasi *cross-dataset* karena tidak memiliki padanan langsung di dataset yang berlawanan. Pemetaan ini memastikan bahwa perbandingan performa model antar domain dilakukan pada basis kelas yang identik.
+Sebelum evaluasi *cross-dataset*, pemetaan label dilakukan untuk menyamakan basis kelas antar domain. Delapan kelas CICIoT2023 — DDoS, DoS, Mirai, Benign, Spoofing, Recon, Web, dan Brute Force — dipetakan ke **lima kelas bersama** yang tersedia di kedua dataset: DDoS, DoS, Reconnaissance, Brute Force, dan Benign. Kelas Mirai, Spoofing, dan Web-based pada CICIoT2023, serta kelas Man-in-the-Middle dan Malware pada DataSense, dieliminasi dari evaluasi *cross-dataset* karena tidak memiliki padanan langsung di dataset yang berlawanan. Pemetaan ini memastikan bahwa perbandingan performa model antar domain dilakukan pada basis kelas yang identik.
 
 ### 3.2.3 Pelatihan Model dan Evaluasi Cross-Dataset
 
@@ -185,25 +233,31 @@ Pelatihan model dilakukan pada data CICIoT2023 yang telah melewati seluruh tahap
 
 Tiga model dilatih secara independen menggunakan data *training* yang sama. **Decision Tree** dilatih dengan kriteria Gini Impurity sebagai model *baseline* pohon tunggal yang menghasilkan aturan klasifikasi yang sepenuhnya *interpretable*. **Random Forest** dilatih menggunakan mekanisme *bootstrap aggregating* di mana sejumlah pohon keputusan dibangun secara paralel pada subset data dan fitur yang berbeda, kemudian prediksi digabung melalui *majority voting*. **XGBoost** dilatih menggunakan *gradient boosting* sekuensial dengan regularisasi L1 dan L2 bawaan untuk mencegah *overfitting*, di mana setiap pohon baru difokuskan memperbaiki kesalahan residual model sebelumnya.
 
-Evaluasi dilakukan dalam dua tahap yang menghasilkan dua set metrik berbeda. **Evaluasi *in-dataset*** mengaplikasikan ketiga model yang telah terlatih pada 20% *test set* CICIoT2023 untuk menghasilkan Macro F1, Accuracy, dan Recall per kelas pada domain asal (*F1*_in, *Acc*_in, *Rec*_in). **Evaluasi *cross-dataset*** mengaplikasikan model yang sama — tanpa modifikasi atau *retraining* apapun — pada seluruh DataSense yang telah diselaraskan fitur dan kelasnya, menghasilkan metrik yang setara pada domain target (*F1*_cross, *Acc*_cross, *Rec*_cross).
+Evaluasi dilakukan dalam dua tahap mengikuti metodologi Farah [26]. Metrik-metrik yang digunakan — Weighted AUC, Macro F1, Accuracy, Precision, Recall, F1-score per kelas, dan FPR — didefinisikan secara matematis pada Subbab 2.2.5; bagian ini menjelaskan cara penerapannya dalam eksperimen.
 
-*Generalization gap* kemudian dihitung untuk masing-masing model sebagai:
+**Tahap 1 — Evaluasi *in-dataset*:** Ketiga model diaplikasikan pada 20% *test set* CICIoT2023. Untuk setiap model, dihasilkan: (1) *classification report* per kelas (Precision, Recall, F1-score) sebagai profil deteksi per jenis serangan; (2) *confusion matrix* 8×8 untuk mengidentifikasi pola kesalahan klasifikasi antar kelas; (3) *Weighted AUC* sebagai metrik agregat utama yang tidak terpengaruh ketidakseimbangan kelas [26]; (4) *Macro F1* sebagai metrik sekunder yang memberi bobot setara pada kelas minoritas [10]; serta (5) *False Positive Rate* (FPR) per kelas sebagai ukuran alarm palsu yang ditoleransi sistem.
 
-$$\Delta \text{Macro F1} = \text{F1}_{\text{in}} - \text{F1}_{\text{cross}} \tag{Pers. 3.1}$$
+**Tahap 2 — Evaluasi *cross-dataset*:** Model yang sama diaplikasikan pada seluruh DataSense setelah pemetaan label ke 5 kelas bersama — tanpa modifikasi atau *retraining* apapun [26]. Output yang dihasilkan identik dengan Tahap 1 namun pada skala 5 kelas, menghasilkan pasangan nilai (*AUC*_cross, *F1*_cross) yang dapat dibandingkan langsung dengan hasil *in-dataset* pada kelas yang sama.
 
-Nilai Δ Macro F1 yang mendekati nol mengindikasikan kemampuan generalisasi yang tinggi, sementara nilai yang besar mengindikasikan adanya *domain shift* yang signifikan antara CICIoT2023 dan DataSense. Persamaan 3.1 dihitung untuk ketiga model secara terpisah, sehingga menghasilkan perbandingan langsung antara Decision Tree, Random Forest, dan XGBoost dalam hal ketahanan terhadap pergeseran domain. Model dengan Δ Macro F1 terkecil ditetapkan sebagai algoritma yang paling *robust* untuk skenario evaluasi lintas domain IoT ke IIoT.
+**Perhitungan *Generalization Gap*:** Selisih performa antara kedua tahap dihitung untuk masing-masing model menggunakan dua ukuran komplementer:
+
+$$\Delta \text{AUC} = \text{AUC}_{\text{in}} - \text{AUC}_{\text{cross}} \tag{Pers. 3.1}$$
+
+$$\Delta \text{Macro F1} = \text{F1}_{\text{in}} - \text{F1}_{\text{cross}} \tag{Pers. 3.2}$$
+
+Nilai Δ mendekati nol menunjukkan generalisasi tinggi; nilai besar mengindikasikan *domain shift* signifikan [26], [29]. Ketiga model dibandingkan berdasarkan nilai Δ-nya — model dengan Δ terkecil ditetapkan sebagai algoritma paling *robust* untuk skenario lintas domain IoT ke IIoT.
 
 ## 3.3 Timeline Pengerjaan
 
-==timeline
-
-Studi Literatur & Analisis Kebutuhan
-Penyusunan metodologi dan rancangan eksperimen
-Persiapan, cleaning, dan preprocessing data cic iot 2023
-Persiapan, cleaning, dan preprocessing data cic iot 2025
-Implementasi baseline dan model utama
-Evaluasi, tuning, dan analisis hasil
-Pengujian & Evaluasi Sistem
+| Aktivitas | Jul | Agt | Sep | Okt | Nov | Des |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Penyusunan metodologi dan rancangan eksperimen | ◼ | | | | | |
+| Persiapan, *cleaning*, dan *preprocessing* data CICIoT2023 | ◼ | ◼ | | | | |
+| Persiapan, *cleaning*, dan *preprocessing* data DataSense | | ◼ | ◼ | | | |
+| Integrasi data, *feature engineering*, dan penyiapan skenario eksperimen | | | ◼ | ◼ | | |
+| Implementasi *baseline* dan model utama | | | | ◼ | ◼ | |
+| Evaluasi, *tuning*, dan analisis hasil | | | | | ◼ | ◼ |
+| Pengujian & Evaluasi Sistem | | | | | | ◼ |
 
 
 # DAFTAR PUSTAKA
@@ -257,3 +311,9 @@ Pengujian & Evaluasi Sistem
 [24] Alabadi, M., Habbal, A., Wei, X., Industrial Internet of Things: Requirements, Architecture, Challenges, and Future Research Directions, IEEE Access, Vol. 10, Hal. 66374–66400, 2022.
 
 [25] Gaber, T., Awotunde, J. B., Folorunso, S. O., Ajagbe, S. A., Eldesouky, E., Industrial Internet of Things Intrusion Detection Method Using Machine Learning and Optimization Techniques, Wireless Communications and Mobile Computing, Vol. 2023, Art. No. 3939895, Hal. 1–15, 2023.
+
+[26] Farah, A., Cross-Dataset Evaluation for IoT Network Intrusion Detection, Master's Thesis, University of Wisconsin-Milwaukee, 2020.
+
+[27] Cantone, M., Marrocco, C., Bria, A., On the Cross-Dataset Generalization of Machine Learning for Network Intrusion Detection, IEEE Access, Vol. 12, Hal. 144489–144508, 2024.
+
+[29] Elangovan, R., Parthasarathy, D. D., Jawahar, M., Kaliyaperumal, P., Balusamy, B., Yogarajan, S., Venkatesan, V., Cross-Dataset Temporal and Semantic Generalization of Intrusion Detection Models for the Future Internet, 2026.

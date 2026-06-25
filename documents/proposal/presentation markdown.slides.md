@@ -19,14 +19,15 @@ Tita Karlita ,S.Kom, M.Kom
 NIP
 
 ```script
-terima kasih kehadirannya dosen dosen
+Good morning, professors. Thank you for taking the time to be here today.
 
-lemme introduce myself
+Mr. Ferry Astika Saputra and Ms. Tita Karlita.
 
-my name wahyu ikbal maulana from 3 sdt b
+My name is Wahyu
 
-and this is my research
-my passion is to have some resaerch project yuang ngebaunign ai dan cyber security
+The research I'm presenting today sits at the intersection of three things I'm genuinely interested in: ml and cyber and iot. The title is Cross-Dataset Evaluation of IoT/IIoT Intrusion Detection Model Generalization and CIC IIoT 2025.
+
+I know the title is a lot to take in, so let me explain how this research started and what it's really about
 ```
 
 ---
@@ -66,10 +67,21 @@ Karena performa model bisa bias terhadap karakteristik satu dataset tertentu, pe
 ```script
 aku mulai dari 5 why
 
-
+1. Jadi, ada dataset terbaru, yaitu CIC IIoT 2025, yang baru aja keluar dan jadi acuan dataset baru untuk bidang cyber security dan mengatasi kekurangan dari dataset sebelumnya.
+   
+2. Nah, kenapa dataset baru ini penting? Karena serangan siber terus naik tiap tahunnya, perkembangan AI juga bikin serangan makin canggih dan susah dideteksi, - dan jumlah perangkat IoT yang terus bertambah bikin celah keamanan makin banyak
+   
+3. Trus kenapa dataset lama nggak cukup? CICIoT2023 punya masalah class imbalance yang parah — traffic serangan bisa mendominasi sampai 97.7% dari data. Akibatnya, model yang kelihatan akurat 99% belum tentu beneran bagus, karena bisa jadi dia cuma nebak kelas mayoritas terus.
+   
+4. Oke, terus dataset baru ini mau diapain? Ya dipakai buat melatih model machine learning untuk deteksi serangan. Tapi ini nggak semudah kedengarannya — data keamanan IoT itu kompleks, tidak seimbang, dan performa multi-class biasanya jauh lebih rendah dibanding binary classification.
+   
+5. Nah, di sinilah cross-dataset evaluation masuk. Karena model yang bagus di satu dataset belum tentu bagus di dataset lain — bisa jadi dia cuma hafal pola data latihnya. Jadi penelitian ini bukan cuma soal membangun model, tapi nguji seberapa jauh model itu bisa generalisasi ke domain yang berbeda.
+   
 ```
 
 ---
+
+
 
 | Aspek                          | CIC IoT 2023                                                                 | CIC IIoT 2025 (DataSense)                                                                                     |
 | ------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -82,7 +94,7 @@ aku mulai dari 5 why
 | Jumlah fitur (baseline publik) | ±48 fitur per flow dalam banyak shytudi                                        | Tidak satu angka baku; menyediakan banyak fitur sensor dan jaringan + subset hasil feature selection          |
 | Tujuan desain                  | Benchmark realistik untuk deteksi & klasifikasi serangan IoT berbasis trafik | Benchmark realistik untuk deteksi serangan IIoT dengan feature selection multi‑objektif (akurasi vs resource) |
 ```script
-ini adalah detail dari 2 dataswet yang nanti bakal kupakai
+This is a detailed comparison of the two datasets I'll be using in this research.
 ```
 
 ---
