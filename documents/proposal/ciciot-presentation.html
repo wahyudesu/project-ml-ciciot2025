@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<title>Cross-Dataset Evaluation IoT/IIoT IDS — Wahyu Ikbal Maulana</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Albert+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ─── DESIGN TOKENS ────────────────────────────────────────── */
+  :root {
+    --paper:    #F1E6CB;
+    --paper-dk: #E5D6B0;
+    --ink:      #3A2516;
+    --red:      #E5392A;
+    --pink:     #E54489;
+    --orange:   #F09131;
+    --green:    #3D9F47;
+    --blue:     #3F8BC4;
+    --yellow:   #F0BC2A;
+    --line:     #3A2516;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: #0e0e0e; }
+  body { font-family: 'Albert Sans', 'Helvetica Neue', sans-serif; color: var(--ink); overflow: hidden; }
+
+  .deck { position: fixed; inset: 0; display: grid; place-items: center; }
+  .stage { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: var(--paper); }
+  .stage::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.16;
+    background-image: radial-gradient(circle at 1px 1px, rgba(58,37,22,0.55) 1px, transparent 1.6px);
+    background-size: 4px 4px; z-index: 1;
+  }
+
+  .slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 280ms ease; z-index: 2; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+
+  /* TYPE SYSTEM */
+  .disp     { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; line-height: 0.84; letter-spacing: -0.012em; }
+  .disp-700 { font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; line-height: 0.9;  letter-spacing: 0; }
+  .micro    { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; }
+  .body-tx  { font-family: 'Albert Sans', sans-serif; font-weight: 400; line-height: 1.5; }
+  .mono     { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 400; }
+  .jp       { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; }
+
+  .pagenum {
+    position: absolute; right: clamp(24px, 2.2vw, 44px); bottom: clamp(20px, 2.2vh, 36px);
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(11px, 0.82vw, 13px);
+    color: var(--ink); letter-spacing: 0.06em; z-index: 9;
+  }
+  .nav-hint {
+    position: fixed; left: clamp(20px, 2vw, 36px); bottom: clamp(16px, 2vh, 28px);
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(10px, 0.75vw, 12px);
+    color: var(--ink); letter-spacing: 0.08em; opacity: 0.36; z-index: 12; pointer-events: none;
+  }
+
+  /* DECORATIVE: petal-blob cluster */
+  .petals { position: absolute; pointer-events: none; z-index: 3; }
+  .petal  { position: absolute; border-radius: 50%; aspect-ratio: 1 / 1; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+     ════════════════════════════════════════════════════════════ */
+  .s-cover { background: var(--paper); }
+  .s-cover .petals { top: clamp(36px, 4vh, 64px); left: clamp(36px, 3.6vw, 72px); width: clamp(280px, 22vw, 380px); height: clamp(220px, 17.6vw, 304px); }
+  .s-cover .petals .p1 { background: var(--red);    width: 50%; left: 0;   top: 28%; }
+  .s-cover .petals .p2 { background: var(--orange); width: 38%; left: 14%; top: 50%; }
+  .s-cover .petals .p3 { background: var(--blue);   width: 44%; left: 28%; top: 0;   }
+  .s-cover .petals .p4 { background: var(--green);  width: 50%; left: 50%; top: 22%; }
+  .s-cover .petals .p5 { background: var(--yellow); width: 32%; left: 36%; top: 50%; }
+  .s-cover .brand { position: absolute; top: clamp(80px, 9vh, 140px); left: clamp(280px, 28vw, 460px); z-index: 5; }
+  .s-cover .brand .b1 { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(32px, min(3.4vw, 5.4vh), 56px); color: var(--ink); line-height: 0.92; letter-spacing: -0.02em; }
+  .s-cover .brand .b2 { margin-top: 4px; font-family: 'Albert Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 0.96vw, 17px); color: var(--ink); letter-spacing: 0.02em; }
+  .s-cover .hero { position: absolute; left: clamp(36px, 3.6vw, 72px); top: clamp(290px, 30vh, 440px); font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(120px, min(14vw, 22vh), 280px); color: var(--ink); line-height: 0.84; letter-spacing: -0.025em; z-index: 4; }
+  .s-cover .lockup { position: absolute; left: clamp(36px, 3.6vw, 72px); bottom: clamp(150px, 16vh, 240px); font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(32px, min(4vw, 6.5vh), 72px); color: var(--paper); line-height: 0.9; letter-spacing: -0.015em; background: var(--pink); padding: clamp(8px, 1.2vh, 18px) clamp(18px, 1.8vw, 32px) clamp(6px, 0.8vh, 12px); z-index: 4; }
+  .s-cover .ribbons { position: absolute; right: 0; top: clamp(160px, 18vh, 280px); bottom: clamp(180px, 18vh, 280px); width: 52%; z-index: 3; pointer-events: none; overflow: hidden; }
+  .s-cover .ribbon { position: absolute; left: -20%; width: 160%; transform-origin: 0 50%; }
+  .s-cover .ribbon.r-pink   { background: var(--pink); }
+  .s-cover .ribbon.r-orange { background: var(--orange); }
+  .s-cover .ribbon.r-yellow { background: var(--yellow); }
+  .s-cover .ribbon.r-green  { background: var(--green); }
+  .s-cover .ribbon.r-blue   { background: var(--blue); }
+  .s-cover .specs { position: absolute; right: clamp(40px, 4vw, 80px); top: clamp(260px, 32vh, 440px); z-index: 6; display: flex; flex-direction: column; gap: clamp(38px, 4.2vh, 66px); }
+  .s-cover .spec { font-family: 'Albert Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 20px); color: var(--ink); letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px; }
+  .s-cover .spec .box { display: inline-block; width: clamp(14px, 1.1vw, 20px); height: clamp(14px, 1.1vw, 20px); border: 2px solid var(--ink); background: transparent; }
+  .s-cover .spec .box.checked { background: var(--ink); position: relative; }
+  .s-cover .spec .box.checked::after { content: '×'; position: absolute; inset: 0; color: var(--paper); font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; display: grid; place-items: center; font-size: 1.2em; line-height: 1; }
+  .s-cover .cfooter { position: absolute; left: clamp(36px, 3.6vw, 72px); right: clamp(36px, 3.6vw, 72px); bottom: clamp(40px, 4vh, 72px); border-top: 1.5px solid var(--ink); padding-top: clamp(14px, 1.6vh, 22px); display: grid; grid-template-columns: auto 1fr auto auto; gap: clamp(20px, 2vw, 40px); align-items: center; z-index: 5; }
+  .s-cover .cfooter .made { font-family: 'Albert Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 0.9vw, 15px); color: var(--ink); letter-spacing: 0.04em; line-height: 1.65; }
+  .s-cover .cfooter .made .jp-tag { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; display: block; font-size: 0.82em; opacity: 0.65; margin-bottom: 2px; }
+  .s-cover .cfooter .nr { display: flex; flex-direction: column; gap: 3px; font-family: 'Albert Sans', sans-serif; font-weight: 500; font-size: clamp(12px, 0.84vw, 14px); color: var(--ink); letter-spacing: 0.02em; line-height: 1.55; }
+  .s-cover .cfooter .seal { position: relative; width: clamp(70px, 5.6vw, 96px); height: clamp(70px, 5.6vw, 96px); background: var(--ink); color: var(--paper); clip-path: polygon(50% 0%,60% 8%,73% 4%,76% 17%,89% 18%,87% 31%,100% 35%,92% 47%,100% 60%,87% 64%,90% 77%,76% 78%,75% 91%,62% 88%,53% 100%,42% 90%,30% 96%,25% 84%,12% 86%,13% 73%,0% 70%,7% 58%,0% 47%,11% 39%,4% 27%,17% 25%,13% 12%,27% 14%,25% 1%,38% 7%); display: grid; place-items: center; font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(15px, 1.3vw, 20px); line-height: 1.15; text-align: center; }
+  .s-cover .cfooter .stamp { position: relative; background: var(--red); color: var(--paper); padding: 6px 14px; font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(14px, 1.1vw, 20px); transform: none; line-height: 1; letter-spacing: 0.02em; display: flex; flex-direction: column; gap: 2px; }
+  .s-cover .cfooter .stamp .lab2 { font-family: 'Albert Sans', sans-serif; font-weight: 700; font-size: clamp(11px, 0.7vw, 12px); letter-spacing: 0.18em; line-height: 1; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 2 — 5 WHY CHAIN (new layout, manifesto blob vocabulary)
+     ════════════════════════════════════════════════════════════ */
+  .s-why { background: var(--paper); }
+  .s-why .blob { position: absolute; border-radius: 50%; z-index: 2; }
+  .s-why .blob.b-red    { background: var(--red);    width: 9vmin;  height: 9vmin;  top: 5%;  left: 3%; }
+  .s-why .blob.b-orange { background: var(--orange); width: 7vmin;  height: 7vmin;  top: 78%; left: 5%; }
+  .s-why .blob.b-green  { background: var(--green);  width: 8vmin;  height: 8vmin;  top: 74%; left: 83%; }
+  .s-why .blob.b-blue   { background: var(--blue);   width: 7vmin;  height: 7vmin;  top: 6%;  left: 84%; }
+  .s-why .why-kicker { position: absolute; top: clamp(28px, 3.5vh, 54px); left: 50%; transform: translateX(-50%); font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.32em; font-size: clamp(11px, 0.85vw, 13px); color: var(--ink); z-index: 6; white-space: nowrap; }
+  .s-why .why-chain { position: absolute; inset: clamp(72px, 9vh, 110px) clamp(36px, 3.6vw, 72px) clamp(48px, 6vh, 76px); z-index: 5; display: grid; grid-template-columns: repeat(5, 1fr); align-items: stretch; }
+  .s-why .why-item { border: 1.5px solid var(--ink); background: var(--paper); display: flex; flex-direction: column; overflow: hidden; margin-right: -1.5px; }
+  .s-why .why-item:last-child { margin-right: 0; }
+  .s-why .wi-strip { height: clamp(14px, 1.8vh, 24px); flex-shrink: 0; }
+  .s-why .why-item:nth-child(1) .wi-strip { background: var(--red); }
+  .s-why .why-item:nth-child(2) .wi-strip { background: var(--orange); }
+  .s-why .why-item:nth-child(3) .wi-strip { background: var(--yellow); }
+  .s-why .why-item:nth-child(4) .wi-strip { background: var(--green); }
+  .s-why .why-item:nth-child(5) .wi-strip { background: var(--blue); }
+  .s-why .wi-num { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(52px, min(5.2vw, 8vh), 100px); line-height: 0.84; letter-spacing: -0.02em; padding: clamp(10px, 1.2vw, 16px) clamp(12px, 1.3vw, 18px) 0; flex-shrink: 0; }
+  .s-why .why-item:nth-child(1) .wi-num { color: var(--red); }
+  .s-why .why-item:nth-child(2) .wi-num { color: var(--orange); }
+  .s-why .why-item:nth-child(3) .wi-num { color: var(--yellow); }
+  .s-why .why-item:nth-child(4) .wi-num { color: var(--green); }
+  .s-why .why-item:nth-child(5) .wi-num { color: var(--blue); }
+  .s-why .wi-body { padding: clamp(6px, 0.9vh, 12px) clamp(12px, 1.3vw, 18px) clamp(12px, 1.6vh, 20px); display: flex; flex-direction: column; gap: clamp(5px, 0.7vh, 9px); flex: 1; }
+  .s-why .wi-lbl { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; font-size: clamp(10px, 0.78vw, 12px); color: var(--ink); }
+  .s-why .wi-title { font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; font-size: clamp(14px, 1.4vw, 22px); line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
+  .s-why .wi-desc { font-family: 'Albert Sans', sans-serif; font-size: clamp(11px, 0.85vw, 14px); line-height: 1.45; color: var(--ink); opacity: 0.82; flex: 1; }
+  .s-why .wi-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(9px, 0.68vw, 11px); color: var(--ink); opacity: 0.52; letter-spacing: 0.04em; border-top: 1px dashed var(--ink); padding-top: clamp(6px, 0.8vh, 10px); margin-top: auto; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 3 & 4 — CATALOGUE GRID
+     ════════════════════════════════════════════════════════════ */
+  .s-catalogue { background: var(--paper); }
+  .s-catalogue .frame { position: absolute; inset: clamp(36px, 3.6vw, 72px) clamp(36px, 3.6vw, 72px) clamp(72px, 7vh, 110px); display: grid; grid-template-rows: auto 1fr; gap: clamp(20px, 2.2vh, 36px); z-index: 4; }
+  .s-catalogue .topbar { display: flex; align-items: end; justify-content: space-between; border-bottom: 1.5px solid var(--ink); padding-bottom: clamp(12px, 1.4vh, 22px); gap: 30px; }
+  .s-catalogue .topbar .ttl { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(52px, min(5.6vw, 9vh), 100px); line-height: 0.9; letter-spacing: -0.018em; color: var(--ink); }
+  .s-catalogue .topbar .ttl em { color: var(--red); font-style: normal; }
+  .s-catalogue .topbar .lab { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); text-align: right; }
+  .s-catalogue .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 1.6vw, 26px); }
+  .s-catalogue .grid.col-2 { grid-template-columns: repeat(2, 1fr); }
+  .s-catalogue .card { background: var(--paper); border: 1.5px solid var(--ink); display: flex; flex-direction: column; overflow: hidden; }
+  .s-catalogue .card .topstrip { height: clamp(18px, 2vh, 32px); }
+  .s-catalogue .card.c-red    .topstrip { background: var(--red); }
+  .s-catalogue .card.c-pink   .topstrip { background: var(--pink); }
+  .s-catalogue .card.c-orange .topstrip { background: var(--orange); }
+  .s-catalogue .card.c-blue   .topstrip { background: var(--blue); }
+  .s-catalogue .card.c-green  .topstrip { background: var(--green); }
+  .s-catalogue .card.c-yellow .topstrip { background: var(--yellow); }
+  .s-catalogue .card .body { padding: clamp(16px, 1.7vw, 24px) clamp(14px, 1.4vw, 20px); display: flex; flex-direction: column; gap: clamp(10px, 1.2vh, 16px); flex: 1; }
+  .s-catalogue .card .nm { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(28px, min(2.6vw, 4.6vh), 48px); line-height: 0.94; color: var(--ink); letter-spacing: -0.012em; }
+  .s-catalogue .card .desc { font-family: 'Albert Sans', sans-serif; font-size: clamp(14px, 0.95vw, 16px); line-height: 1.45; color: var(--ink); flex: 1; }
+  .s-catalogue .card .specs { border-top: 1px dashed var(--ink); padding-top: clamp(8px, 1vh, 14px); display: flex; flex-direction: column; gap: 4px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(11px, 0.78vw, 13px); color: var(--ink); letter-spacing: 0.02em; }
+  .s-catalogue .card .specs .row { display: flex; justify-content: space-between; gap: 8px; }
+  .s-catalogue .card .specs .row .k { opacity: 0.65; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 5 — STRIPE SPREAD (Previous Work)
+     ════════════════════════════════════════════════════════════ */
+  .s-stripe { background: var(--paper); }
+  .s-stripe .ribbon-stack { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+  .s-stripe .ribbon-stack .rib { position: absolute; height: clamp(40px, 6vh, 96px); width: 160%; left: -20%; transform-origin: 50% 50%; transform: rotate(-22deg); }
+  .s-stripe .ribbon-stack .rib.r1 { background: var(--pink);   top: 18%; }
+  .s-stripe .ribbon-stack .rib.r2 { background: var(--orange); top: 30%; }
+  .s-stripe .ribbon-stack .rib.r3 { background: var(--yellow); top: 42%; }
+  .s-stripe .ribbon-stack .rib.r4 { background: var(--green);  top: 54%; }
+  .s-stripe .ribbon-stack .rib.r5 { background: var(--blue);   top: 66%; }
+  .s-stripe .quote-wrap { position: absolute; left: clamp(40px, 4vw, 80px); right: clamp(40px, 4vw, 80px); top: 50%; transform: translateY(-50%); z-index: 5; display: flex; flex-direction: column; align-items: flex-start; gap: clamp(16px, 2vh, 28px); }
+  .s-stripe .qkicker { background: var(--paper); padding: clamp(6px, 0.8vh, 12px) clamp(14px, 1.4vw, 22px); border: 1.5px solid var(--ink); font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); }
+  .s-stripe .qbody { background: var(--paper); padding: clamp(20px, 2.4vh, 40px) clamp(28px, 2.6vw, 48px); border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); max-width: 82%; font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(44px, min(5vw, 8.5vh), 100px); line-height: 0.92; color: var(--ink); letter-spacing: -0.018em; }
+  .s-stripe .qbody em { color: var(--red); font-style: normal; }
+  .s-stripe .qattr { background: var(--ink); color: var(--paper); padding: clamp(8px, 1vh, 14px) clamp(14px, 1.4vw, 22px); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(12px, 0.85vw, 14px); letter-spacing: 0.04em; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 6 — DATA / EQ BARS (System Design)
+     ════════════════════════════════════════════════════════════ */
+  .s-data { background: var(--paper); }
+  .s-data .frame { position: absolute; inset: clamp(36px, 3.6vw, 72px) clamp(36px, 3.6vw, 72px) clamp(72px, 7vh, 110px); display: grid; grid-template-rows: auto 1fr; gap: clamp(18px, 2vh, 32px); z-index: 4; }
+  .s-data .topbar { display: flex; align-items: end; justify-content: space-between; border-bottom: 1.5px solid var(--ink); padding-bottom: clamp(12px, 1.4vh, 22px); gap: 30px; }
+  .s-data .topbar .ttl { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(48px, min(5vw, 8.5vh), 96px); line-height: 0.9; letter-spacing: -0.014em; color: var(--ink); }
+  .s-data .topbar .lab { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); text-align: right; }
+  .s-data .body { display: grid; grid-template-columns: 0.9fr 1.6fr; gap: clamp(28px, 3vw, 56px); }
+  .s-data .col-a { display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 2.4vh, 36px); }
+  .s-data .stat .vbig { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(90px, min(9vw, 15vh), 200px); line-height: 0.86; color: var(--red); letter-spacing: -0.025em; }
+  .s-data .stat .vbig sub { font-size: 0.34em; vertical-align: baseline; color: var(--ink); letter-spacing: 0; margin-left: 8px; }
+  .s-data .stat .lab-tag { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; font-size: clamp(13px, 0.95vw, 15px); color: var(--ink); margin-top: 6px; }
+  .s-data .stat .desc { font-family: 'Albert Sans', sans-serif; font-size: clamp(14px, 1vw, 17px); line-height: 1.5; color: var(--ink); max-width: 30ch; margin-top: 6px; }
+  .s-data .eq { border: 1.5px solid var(--ink); background: var(--paper); padding: clamp(18px, 2vw, 28px) clamp(20px, 2vw, 28px) clamp(14px, 1.6vh, 22px); display: grid; grid-template-rows: 1fr auto; gap: clamp(10px, 1.2vh, 18px); overflow: hidden; }
+  .s-data .eq .bars { display: grid; grid-template-columns: repeat(8, 1fr); gap: clamp(8px, 1vw, 16px); align-items: end; height: 100%; }
+  .s-data .eq .bcol { display: flex; flex-direction: column-reverse; justify-content: start; height: 100%; gap: clamp(4px, 0.6vh, 8px); }
+  .s-data .eq .bcol .seg { flex: 1 1 0; min-height: 12px; background: rgba(58,37,22,0.10); border: 1px solid rgba(58,37,22,0.22); }
+  .s-data .eq .bcol[data-c="r"] .seg.on { background: var(--red);    border-color: var(--red); }
+  .s-data .eq .bcol[data-c="p"] .seg.on { background: var(--pink);   border-color: var(--pink); }
+  .s-data .eq .bcol[data-c="o"] .seg.on { background: var(--orange); border-color: var(--orange); }
+  .s-data .eq .bcol[data-c="y"] .seg.on { background: var(--yellow); border-color: var(--yellow); }
+  .s-data .eq .bcol[data-c="g"] .seg.on { background: var(--green);  border-color: var(--green); }
+  .s-data .eq .bcol[data-c="b"] .seg.on { background: var(--blue);   border-color: var(--blue); }
+  .s-data .eq .ticks { display: grid; grid-template-columns: repeat(8, 1fr); gap: clamp(8px, 1vw, 16px); border-top: 1px solid var(--ink); padding-top: clamp(8px, 1vh, 14px); }
+  .s-data .eq .ticks .ticklab { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(10px, 0.78vw, 12px); color: var(--ink); letter-spacing: 0.04em; text-align: center; }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 7 — TIMELINE (calendar / ledger)
+     ════════════════════════════════════════════════════════════ */
+  .s-cal { background: var(--paper); }
+  .s-cal .frame { position: absolute; inset: clamp(36px, 3.6vw, 72px) clamp(36px, 3.6vw, 72px) clamp(72px, 7vh, 110px); display: flex; flex-direction: column; z-index: 4; }
+  .s-cal .topbar { display: flex; align-items: end; justify-content: space-between; border-bottom: 1.5px solid var(--ink); padding-bottom: clamp(12px, 1.4vh, 22px); gap: 30px; margin-bottom: clamp(14px, 1.6vh, 24px); }
+  .s-cal .topbar .ttl { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(48px, min(5vw, 8.5vh), 96px); line-height: 0.9; letter-spacing: -0.014em; color: var(--ink); }
+  .s-cal .topbar .lab { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); text-align: right; }
+  .s-cal .ledger { display: flex; flex-direction: column; gap: 0; flex: 1; }
+  .s-cal .row { display: grid; grid-template-columns: 84px 1.6fr 1.1fr 0.58fr 52px; gap: clamp(12px, 1.4vw, 24px); align-items: center; padding: clamp(8px, 1.05vh, 15px) 0; border-bottom: 1px solid rgba(58,37,22,0.22); }
+  .s-cal .row.headrow { border-bottom: 1.5px solid var(--ink); padding: 8px 0; }
+  .s-cal .row.headrow > div { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(11px, 0.75vw, 12px); color: var(--ink); }
+  .s-cal .row.active-row { background: rgba(58,37,22,0.04); }
+  .s-cal .date-tag { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); letter-spacing: 0.02em; }
+  .s-cal .ttl-row { font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; font-size: clamp(18px, 1.55vw, 26px); line-height: 1.1; color: var(--ink); letter-spacing: -0.005em; }
+  .s-cal .ttl-row em { color: var(--red); font-style: normal; }
+  .s-cal .ven { font-family: 'Albert Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); line-height: 1.4; }
+  .s-cal .chip { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(10px, 0.72vw, 11px); font-weight: 500; letter-spacing: 0.06em; color: var(--paper); text-transform: uppercase; width: fit-content; }
+  .s-cal .chip.c-red    { background: var(--red); }
+  .s-cal .chip.c-pink   { background: var(--pink); }
+  .s-cal .chip.c-orange { background: var(--orange); }
+  .s-cal .chip.c-blue   { background: var(--blue); }
+  .s-cal .chip.c-green  { background: var(--green); }
+  .s-cal .chip.c-yellow { background: var(--yellow); }
+  .s-cal .nr-cell { display: flex; gap: 6px; justify-content: end; }
+  .s-cal .nr-cell .b { width: 14px; height: 14px; border: 1.5px solid var(--ink); background: var(--paper); }
+  .s-cal .nr-cell .b.fill { background: var(--ink); }
+
+  /* ════════════════════════════════════════════════════════════
+     SLIDE 8 — COLOPHON / CLOSING
+     ════════════════════════════════════════════════════════════ */
+  .s-colophon { background: var(--paper); }
+  .s-colophon .ribbons { position: absolute; left: 0; top: clamp(140px, 16vh, 240px); bottom: clamp(160px, 16vh, 260px); width: 60%; z-index: 3; pointer-events: none; overflow: hidden; }
+  .s-colophon .ribbon { position: absolute; right: -20%; width: 160%; transform-origin: 100% 50%; }
+  .s-colophon .ribbon.r-pink   { background: var(--pink); }
+  .s-colophon .ribbon.r-orange { background: var(--orange); }
+  .s-colophon .ribbon.r-yellow { background: var(--yellow); }
+  .s-colophon .ribbon.r-green  { background: var(--green); }
+  .s-colophon .ribbon.r-blue   { background: var(--blue); }
+  .s-colophon .col-petals { position: absolute; bottom: clamp(80px, 9vh, 140px); right: clamp(40px, 4vw, 80px); width: clamp(180px, 18vw, 280px); height: clamp(140px, 14vw, 220px); pointer-events: none; z-index: 4; }
+  .s-colophon .col-petals .p1 { background: var(--red);    width: 50%; left: 0;   top: 28%; }
+  .s-colophon .col-petals .p2 { background: var(--orange); width: 38%; left: 16%; top: 50%; }
+  .s-colophon .col-petals .p3 { background: var(--green);  width: 44%; left: 30%; top: 0;   }
+  .s-colophon .col-petals .p4 { background: var(--blue);   width: 50%; left: 50%; top: 22%; }
+  .s-colophon .titlewrap { position: absolute; left: clamp(36px, 3.6vw, 72px); top: clamp(40px, 5vh, 96px); z-index: 5; max-width: 92%; }
+  .s-colophon .ktag { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); margin-bottom: clamp(14px, 1.6vh, 24px); }
+  .s-colophon .ttl { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(80px, min(9vw, 14vh), 180px); line-height: 0.86; color: var(--ink); letter-spacing: -0.022em; }
+  .s-colophon .col-footer { position: absolute; left: clamp(36px, 3.6vw, 72px); bottom: clamp(70px, 8vh, 110px); right: clamp(220px, 22vw, 320px); display: grid; grid-template-columns: 1.1fr 1fr 1.1fr; gap: clamp(20px, 2.4vw, 44px); z-index: 5; }
+  .s-colophon .col-footer > div { border-top: 1.5px solid var(--ink); padding-top: clamp(10px, 1.2vh, 16px); }
+  .s-colophon .col-footer .ftag { text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; font-size: clamp(11px, 0.78vw, 13px); margin-bottom: 6px; color: var(--ink); }
+  .s-colophon .col-footer .ftxt { font-family: 'Albert Sans', sans-serif; font-size: clamp(14px, 0.95vw, 15px); line-height: 1.5; color: var(--ink); }
+  .s-colophon .seal-stack { position: absolute; right: clamp(40px, 4vw, 80px); top: clamp(40px, 5vh, 96px); display: flex; flex-direction: column; gap: 14px; align-items: end; z-index: 6; }
+  .s-colophon .seal { width: clamp(92px, 7.4vw, 130px); height: clamp(92px, 7.4vw, 130px); background: var(--ink); color: var(--paper); clip-path: polygon(50% 0%,60% 8%,73% 4%,76% 17%,89% 18%,87% 31%,100% 35%,92% 47%,100% 60%,87% 64%,90% 77%,76% 78%,75% 91%,62% 88%,53% 100%,42% 90%,30% 96%,25% 84%,12% 86%,13% 73%,0% 70%,7% 58%,0% 47%,11% 39%,4% 27%,17% 25%,13% 12%,27% 14%,25% 1%,38% 7%); display: grid; place-items: center; font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(28px, 2.4vw, 42px); line-height: 0.9; letter-spacing: -0.01em; text-align: center; }
+  .s-colophon .red-stamp { background: var(--red); color: var(--paper); padding: clamp(8px, 1vh, 14px) clamp(14px, 1.4vw, 22px); font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(20px, 1.6vw, 28px); line-height: 1; letter-spacing: 0.02em; transform: rotate(-3deg); }
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="stage">
+
+    <!-- ═══════════════════════════════════════════════════════
+         1 / COVER
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-cover active" aria-label="Cover">
+
+      <div class="petals" aria-hidden="true">
+        <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+        <div class="petal p4"></div><div class="petal p5"></div>
+      </div>
+
+      <div class="brand">
+        <div class="b1">PENS<br/>2025</div>
+        <div class="b2">POLITEKNIK ELEKTRONIKA NEGERI SURABAYA</div>
+      </div>
+
+      <div class="ribbons" aria-hidden="true">
+        <div class="ribbon r-pink"   style="top: 0%;  height: 18%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-orange" style="top: 18%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-yellow" style="top: 35%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-green"  style="top: 52%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-blue"   style="top: 70%; height: 18%; transform: rotate(-22deg);"></div>
+      </div>
+
+      <div class="hero">IDS</div>
+
+      <div class="lockup">PROGRESS FINAL PROJECT</div>
+
+      <div class="specs">
+        <div class="spec caption"><span class="box checked"></span><span>ML</span></div>
+        <div class="spec caption"><span class="box checked"></span><span>IDS</span></div>
+        <div class="spec caption"><span class="box checked"></span><span>IoT</span></div>
+        <div class="spec caption"><span class="box"></span><span>IIoT</span></div>
+      </div>
+
+      <div class="cfooter">
+        <div class="made caption">
+          <span class="jp-tag caption">研究者</span>
+          Wahyu Ikbal Maulana<br/>
+          3323600056 · 3 SDT B
+        </div>
+        <div class="nr caption">
+          <span><strong>Pembimbing I</strong> · Ferry Astika Saputra, S.T, M.Sc</span>
+          <span><strong>Pembimbing II</strong> · Tita Karlita, S.Kom, M.Kom</span>
+        </div>
+        <div class="seal caption">FP<br/>01</div>
+        <div class="stamp caption">
+          <div class="lab2 caption">TOPIC</div>
+          <div>CYBER</div>
+        </div>
+      </div>
+
+      <div class="pagenum">01 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         2 / 5 WHY — Research Motivation
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-why" aria-label="5 WHY – Motivasi Penelitian">
+
+      <div class="why-kicker caption">Mengapa penelitian ini ada · 5 alasan yang saling terhubung</div>
+
+      <div class="blob b-red"    aria-hidden="true"></div>
+      <div class="blob b-orange" aria-hidden="true"></div>
+      <div class="blob b-green"  aria-hidden="true"></div>
+      <div class="blob b-blue"   aria-hidden="true"></div>
+
+      <div class="why-chain">
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">1</div>
+          <div class="wi-body">
+            <div class="wi-lbl caption">New Dataset</div>
+            <div class="wi-title">CIC IIoT 2025 Lahir</div>
+            <div class="wi-desc">Dataset IIoT terbaru — sensor time-series + trafik jaringan tersinkron. 50 jenis serangan, 7 kategori, 40 perangkat industri. Lebih representatif dari pendahulunya.</div>
+            <div class="wi-mono caption">unb.ca/cic · IIoT-Dataset-2025</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">2</div>
+          <div class="wi-body">
+            <div class="wi-lbl caption">Threat Landscape</div>
+            <div class="wi-title">820K Serangan / Hari</div>
+            <div class="wi-desc">Naik 46% dari tahun sebelumnya (ORDR). Ekosistem IoT terus berkembang — perangkat makin banyak, celah keamanan meluas, data lama tidak cukup representatif.</div>
+            <div class="wi-mono caption">ordr.net · IoT Security Statistics</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">3</div>
+          <div class="wi-body">
+            <div class="wi-lbl caption">Data Lama Bias</div>
+            <div class="wi-title">97.7% Class Imbalance</div>
+            <div class="wi-desc">CICIoT2023 didominasi traffic serangan sampai 97.7%. Akurasi 99% terlihat bagus, tapi model sebenarnya hanya menebak kelas mayoritas — tidak benar-benar belajar.</div>
+            <div class="wi-mono caption">CICIoT2023 · class analysis</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">4</div>
+          <div class="wi-body">
+            <div class="wi-lbl caption">ML Implementation</div>
+            <div class="wi-title">Dataset → Model IDS</div>
+            <div class="wi-desc">CIC IIoT 2025 relevan sebagai benchmark ML untuk IDS. Namun data keamanan IoT kompleks — multi-class performance jauh di bawah binary classification.</div>
+            <div class="wi-mono caption">Feature Selection · IDS · Benchmark</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">5</div>
+          <div class="wi-body">
+            <div class="wi-lbl caption">Generalization</div>
+            <div class="wi-title">Cross-Dataset Eval</div>
+            <div class="wi-desc">Model bagus di satu dataset belum tentu generalisasi ke domain lain. Evaluasi lintas dataset membuktikan model belajar pola serangan umum, bukan hafal data latih.</div>
+            <div class="wi-mono caption">Cross-domain · Generalization · IDS</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pagenum">02 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         3 / DATASET COMPARISON
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-catalogue" aria-label="Dataset Comparison">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Dataset <em>Comparison</em></div>
+          <div class="lab caption">CIC IoT 2023 · versus · CIC IIoT 2025 (DataSense)</div>
+        </div>
+        <div class="grid col-2">
+
+          <div class="card c-orange">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">CIC IoT<br/>2023</div>
+              <div class="desc">Benchmark keamanan jaringan IoT umum. Topologi dengan 105 perangkat IoT nyata — smart home, office, campus. Baseline utama di banyak penelitian IDS berbasis trafik jaringan.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">FOKUS</span><span class="caption">IoT umum · smart environment</span></div>
+                <div class="row"><span class="k caption">PERANGKAT</span><span class="caption">105 perangkat IoT nyata</span></div>
+                <div class="row"><span class="k caption">MODALITAS</span><span class="caption">Trafik jaringan (flow / packet)</span></div>
+                <div class="row"><span class="k caption">SERANGAN</span><span class="caption">33 jenis · 7 kategori</span></div>
+                <div class="row"><span class="k caption">FITUR</span><span class="caption">~48 fitur per flow</span></div>
+                <div class="row"><span class="k caption">LABEL</span><span class="caption">Benign vs 33 attack labels</span></div>
+                <div class="row"><span class="k caption">MASALAH</span><span class="caption">Class imbalance 97.7%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-blue">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">CIC IIoT<br/>2025</div>
+              <div class="desc">Benchmark Industrial IoT generasi terbaru. Menggabungkan sensor time-series dan trafik jaringan yang tersinkron — lebih dekat ke kondisi industri nyata, lebih kaya fitur.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">FOKUS</span><span class="caption">Industrial IoT · sensor + jaringan</span></div>
+                <div class="row"><span class="k caption">PERANGKAT</span><span class="caption">40 perangkat IIoT beragam</span></div>
+                <div class="row"><span class="k caption">MODALITAS</span><span class="caption">Sensor time-series + trafik</span></div>
+                <div class="row"><span class="k caption">SERANGAN</span><span class="caption">50 jenis · 7 kategori</span></div>
+                <div class="row"><span class="k caption">FITUR</span><span class="caption">Multi-fitur sensor + jaringan</span></div>
+                <div class="row"><span class="k caption">LABEL</span><span class="caption">Benign vs 50 attack types</span></div>
+                <div class="row"><span class="k caption">DESAIN</span><span class="caption">Multi-objektif: akurasi vs resource</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="pagenum">03 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         4 / RELATED WORKS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-catalogue" aria-label="Related Works">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Related <em>Works</em></div>
+          <div class="lab caption">Referensi workflow · peneliti sebelumnya · handling CICIoT2023</div>
+        </div>
+        <div class="grid">
+
+          <div class="card c-red">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Feature<br/>Engineering</div>
+              <div class="desc">Raw traffic → variance threshold → correlation filter → 48-fitur subset. PCA untuk dimensionality reduction sebelum klasifikasi. Fokus pada efisiensi komputasi.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">INPUT</span><span class="caption">Raw packet capture</span></div>
+                <div class="row"><span class="k caption">SELECTION</span><span class="caption">Variance + Correlation</span></div>
+                <div class="row"><span class="k caption">REDUCTION</span><span class="caption">PCA · Subset</span></div>
+                <div class="row"><span class="k caption">CLASSIFIER</span><span class="caption">Random Forest · SVM</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-pink">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Ensemble<br/>Learning</div>
+              <div class="desc">Multiple base classifiers (RF, DT, SVM, NB) → majority voting atau stacking → ensemble decision. Imbalance ditangani dengan SMOTE atau class weighting.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">BASE</span><span class="caption">RF · DT · SVM · NB</span></div>
+                <div class="row"><span class="k caption">COMBINE</span><span class="caption">Voting · Stacking</span></div>
+                <div class="row"><span class="k caption">IMBALANCE</span><span class="caption">SMOTE · Class weight</span></div>
+                <div class="row"><span class="k caption">EVAL</span><span class="caption">Precision · Recall · F1</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-orange">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Deep<br/>Learning</div>
+              <div class="desc">Normalisasi flow → LSTM/CNN untuk deteksi sequential. Autoencoder untuk anomaly detection pada traffic IoT terenkripsi atau tidak berlabel.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">INPUT</span><span class="caption">Time-series network flow</span></div>
+                <div class="row"><span class="k caption">MODEL</span><span class="caption">LSTM · CNN · Autoencoder</span></div>
+                <div class="row"><span class="k caption">TASK</span><span class="caption">Anomaly · Classification</span></div>
+                <div class="row"><span class="k caption">EDGE</span><span class="caption">Encrypted traffic</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-blue">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Cross-<br/>Validation</div>
+              <div class="desc">Stratified k-fold CV dengan per-class metrics. Beberapa studi menambahkan cross-dataset test untuk generalisasi ke environment lain.</div>
+              <div class="specs">
+                <div class="row"><span class="k caption">EVAL</span><span class="caption">Stratified k-fold CV</span></div>
+                <div class="row"><span class="k caption">METRICS</span><span class="caption">Precision · Recall · F1</span></div>
+                <div class="row"><span class="k caption">EXTRA</span><span class="caption">Cross-dataset validation</span></div>
+                <div class="row"><span class="k caption">REPORT</span><span class="caption">Confusion matrix · ROC</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="pagenum">04 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         5 / PREVIOUS WORK — Semester 3
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-stripe" aria-label="Previous Work – Semester 3">
+      <div class="ribbon-stack" aria-hidden="true">
+        <div class="rib r1"></div><div class="rib r2"></div><div class="rib r3"></div>
+        <div class="rib r4"></div><div class="rib r5"></div>
+      </div>
+      <div class="quote-wrap">
+        <div class="qkicker caption">Pengerjaan sebelumnya · Semester 3 · 3 SDT B</div>
+        <h2 class="qbody">Ensemble Learning pada <em>CIC IoT 2023</em></h2>
+        <div class="qattr caption">Komparasi 7 algoritma ML — Random Forest · XGBoost · SVM · KNN · Logistic Regression · Naive Bayes · Decision Tree → Ensemble · CICIoT2023 · PENS</div>
+      </div>
+      <div class="pagenum">05 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         6 / SYSTEM DESIGN
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-data" aria-label="System Design">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Arsitektur <em style="color:var(--red);font-style:normal;">Sistem</em></div>
+          <div class="lab caption">Proposed pipeline · CICIoT2023 + CIC IIoT 2025 · cross-dataset evaluation</div>
+        </div>
+        <div class="body">
+          <div class="col-a">
+            <div class="stat">
+              <div class="vbig" style="color:var(--blue);">2×<sub style="color:var(--ink);">DS</sub></div>
+              <div class="lab-tag caption">Dual Dataset</div>
+              <div class="desc">Dua dataset digunakan secara paralel — satu untuk train, satu untuk cross-test. Model lama (Semester 3) tetap dipertahankan sebagai pembanding baseline.</div>
+            </div>
+            <div class="stat">
+              <div class="vbig" style="font-size:clamp(48px,min(5vw,8vh),100px); color:var(--green);">GEN<sub style="color:var(--ink);font-size:0.35em;">ERAL</sub></div>
+              <div class="lab-tag caption">Target Akhir</div>
+              <div class="desc">Menemukan kombinasi feature selection + model yang paling generalisasi lintas domain IoT berbeda.</div>
+            </div>
+          </div>
+
+          <div class="eq">
+            <div class="bars">
+              <div class="bcol" data-c="o" title="CICIoT2023">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="b" title="CIC IIoT 2025">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="y" title="Preprocessing">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="p" title="Feature Selection">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="r" title="ML Training">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="g" title="Cross-Evaluation">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="b" title="Generalization Analysis">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+              </div>
+              <div class="bcol" data-c="p" title="Old Model Baseline">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+            </div>
+            <div class="ticks">
+              <div class="ticklab caption">DS.2023</div>
+              <div class="ticklab caption">DS.2025</div>
+              <div class="ticklab caption">Preproc</div>
+              <div class="ticklab caption">Feat.Sel</div>
+              <div class="ticklab caption">ML Train</div>
+              <div class="ticklab caption">Cross-Eval</div>
+              <div class="ticklab caption">Gen.Anal</div>
+              <div class="ticklab caption">Baseline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pagenum">06 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         7 / TIMELINE — 8 bulan
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-cal" aria-label="Timeline Penelitian">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Timeline</div>
+          <div class="lab caption">8 bulan · Maret – Oktober 2025 · saat ini: Bulan 1</div>
+        </div>
+        <div class="ledger">
+          <div class="row headrow">
+            <div class="caption">Bulan</div>
+            <div class="caption">Tahapan</div>
+            <div class="caption">Aktivitas Utama</div>
+            <div class="caption">Status</div>
+            <div class="caption">N.R.</div>
+          </div>
+          <div class="row active-row">
+            <div class="date-tag caption">Mar 2025</div>
+            <div class="ttl-row"><em>Eksplorasi Data</em></div>
+            <div class="ven">EDA, profiling CICIoT2023 &amp; CIC IIoT 2025, statistik awal</div>
+            <div><span class="chip c-pink caption">AKTIF</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Apr 2025</div>
+            <div class="ttl-row">Preprocessing</div>
+            <div class="ven">Cleaning, normalisasi, handling imbalance (SMOTE / class weight)</div>
+            <div><span class="chip c-orange caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Mei 2025</div>
+            <div class="ttl-row">Feature Selection</div>
+            <div class="ven">Seleksi fitur multi-objektif — akurasi vs resource efficiency</div>
+            <div><span class="chip c-orange caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Jun 2025</div>
+            <div class="ttl-row">Model Development</div>
+            <div class="ven">Training RF, XGBoost, SVM, ensemble pada kedua dataset</div>
+            <div><span class="chip c-yellow caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Jul 2025</div>
+            <div class="ttl-row">Cross-Dataset Eval</div>
+            <div class="ven">Train DS.2023 → test DS.2025, dan sebaliknya · baseline comparison</div>
+            <div><span class="chip c-yellow caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Agt 2025</div>
+            <div class="ttl-row">Analisis Hasil</div>
+            <div class="ven">Perbandingan generalisasi, identifikasi best model + feature subset</div>
+            <div><span class="chip c-green caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Sep 2025</div>
+            <div class="ttl-row">Penulisan Laporan</div>
+            <div class="ven">Draft laporan final project, revisi bab per bab bersama pembimbing</div>
+            <div><span class="chip c-blue caption">PLAN</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag caption">Okt 2025</div>
+            <div class="ttl-row">Sidang Final</div>
+            <div class="ven">Presentasi &amp; sidang akhir final project · PENS</div>
+            <div><span class="chip c-red caption">SIDANG</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b fill"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pagenum">07 / 08</div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         8 / CLOSING
+         ═══════════════════════════════════════════════════════ -->
+    <section class="slide s-colophon" aria-label="Penutup">
+
+      <div class="ribbons" aria-hidden="true">
+        <div class="ribbon r-blue"   style="bottom: 0%;  height: 18%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-green"  style="bottom: 18%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-yellow" style="bottom: 35%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-orange" style="bottom: 52%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-pink"   style="bottom: 70%; height: 18%; transform: rotate(22deg);"></div>
+      </div>
+
+      <div class="col-petals" aria-hidden="true">
+        <div class="petal p1"></div><div class="petal p2"></div>
+        <div class="petal p3"></div><div class="petal p4"></div>
+      </div>
+
+      <div class="seal-stack">
+        <div class="seal caption">FP<br/>08</div>
+        <div class="red-stamp caption">DONE</div>
+      </div>
+
+      <div class="titlewrap">
+        <div class="ktag caption">Penutup · Progress Final Project 2025 · PENS</div>
+        <h2 class="ttl">Terima<br/>Kasih.</h2>
+      </div>
+
+      <div class="col-footer">
+        <div>
+          <div class="ftag caption">Peneliti</div>
+          <div class="ftxt">Wahyu Ikbal Maulana<br/>3323600056 · 3 SDT B</div>
+        </div>
+        <div>
+          <div class="ftag caption">Dataset</div>
+          <div class="ftxt">CIC IoT 2023<br/>CIC IIoT 2025</div>
+        </div>
+        <div>
+          <div class="ftag caption">Pembimbing</div>
+          <div class="ftxt">Ferry Astika Saputra<br/>Tita Karlita, S.Kom, M.Kom</div>
+        </div>
+      </div>
+
+      <div class="pagenum">08 / 08</div>
+    </section>
+
+  </div><!-- /stage -->
+</div><!-- /deck -->
+
+<div class="caption nav-hint">← / → · space · home / end</div>
+
+<script>
+  /* Plain vanilla navigation: arrows, space, home/end, touch swipe */
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let current = 0;
+
+  function show(i) {
+    if (i < 0) i = 0;
+    if (i > slides.length - 1) i = slides.length - 1;
+    slides[current].classList.remove('active');
+    slides[i].classList.add('active');
+    current = i;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if      (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(current + 1); }
+    else if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { e.preventDefault(); show(current - 1); }
+    else if (e.key === 'Home')                                                  { e.preventDefault(); show(0); }
+    else if (e.key === 'End')                                                   { e.preventDefault(); show(slides.length - 1); }
+  });
+
+  let tx = null;
+  document.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (tx == null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+    tx = null;
+  });
+</script>
+
+</body>
+</html>

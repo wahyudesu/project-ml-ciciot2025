@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<title>Cross-Dataset Evaluation IoT/IIoT IDS — Wahyu Ikbal Maulana</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Albert+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+
+<!-- Styles & Script -->
+<link rel="stylesheet" href="styles.css" />
+<script src="slides.js" defer></script>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     SLIDE DECK
+     ════════════════════════════════════════════════════════════ -->
+<div class="deck">
+  <div class="stage">
+
+    <!-- ─────────────────────────────────────────────────────────
+         1 / COVER
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-cover active" aria-label="Cover">
+
+      <div class="petals" aria-hidden="true">
+        <div class="petal p1"></div>
+        <div class="petal p2"></div>
+        <div class="petal p3"></div>
+        <div class="petal p4"></div>
+        <div class="petal p5"></div>
+      </div>
+
+      <div class="brand">
+        <div class="b1">PENS<br/>2025</div>
+        <div class="b2">POLITEKNIK ELEKTRONIKA NEGERI SURABAYA</div>
+      </div>
+
+      <div class="ribbons" aria-hidden="true">
+        <div class="ribbon r-pink"   style="top: 0%;  height: 18%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-orange" style="top: 18%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-yellow" style="top: 35%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-green"  style="top: 52%; height: 16%; transform: rotate(-22deg);"></div>
+        <div class="ribbon r-blue"   style="top: 70%; height: 18%; transform: rotate(-22deg);"></div>
+      </div>
+
+      <div class="hero">IDS</div>
+
+      <div class="lockup">PROGRESS FINAL PROJECT</div>
+
+      <div class="specs">
+        <div class="spec"><span class="box checked"></span><span>ML</span></div>
+        <div class="spec"><span class="box checked"></span><span>IDS</span></div>
+        <div class="spec"><span class="box checked"></span><span>IoT</span></div>
+        <div class="spec"><span class="box"></span><span>IIoT</span></div>
+      </div>
+
+      <div class="cfooter">
+        <div class="made">
+          <span class="jp-tag">研究者</span>
+          Wahyu Ikbal Maulana<br/>
+          3323600056 · 3 SDT B
+        </div>
+        <div class="nr">
+          <span><strong>Pembimbing I</strong> · Ferry Astika Saputra, S.T, M.Sc</span>
+          <span><strong>Pembimbing II</strong> · Tita Karlita, S.Kom, M.Kom</span>
+        </div>
+        <div class="seal">FP<br/>01</div>
+        <div class="stamp">
+          <div class="lab2">TOPIC</div>
+          <div>CYBER</div>
+        </div>
+      </div>
+
+      <div class="pagenum">01 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         2 / 5 WHY — Research Motivation
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-why" aria-label="5 WHY – Motivasi Penelitian">
+
+      <div class="why-kicker">Mengapa penelitian ini ada · 5 alasan yang saling terhubung</div>
+
+      <div class="blob b-red"    aria-hidden="true"></div>
+      <div class="blob b-orange" aria-hidden="true"></div>
+      <div class="blob b-green"  aria-hidden="true"></div>
+      <div class="blob b-blue"   aria-hidden="true"></div>
+
+      <div class="why-chain">
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">1</div>
+          <div class="wi-body">
+            <div class="wi-lbl">New Dataset</div>
+            <div class="wi-title">CIC IIoT 2025 Lahir</div>
+            <div class="wi-desc">Dataset IIoT terbaru — sensor time-series + trafik jaringan tersinkron. 50 jenis serangan, 7 kategori, 40 perangkat industri. Lebih representatif dari pendahulunya.</div>
+            <div class="wi-mono">unb.ca/cic · IIoT-Dataset-2025</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">2</div>
+          <div class="wi-body">
+            <div class="wi-lbl">Threat Landscape</div>
+            <div class="wi-title">820K Serangan / Hari</div>
+            <div class="wi-desc">Naik 46% dari tahun sebelumnya (ORDR). Ekosistem IoT terus berkembang — perangkat makin banyak, celah keamanan meluas, data lama tidak cukup representatif.</div>
+            <div class="wi-mono">ordr.net · IoT Security Statistics</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">3</div>
+          <div class="wi-body">
+            <div class="wi-lbl">Data Lama Bias</div>
+            <div class="wi-title">97.7% Class Imbalance</div>
+            <div class="wi-desc">CICIoT2023 didominasi traffic serangan sampai 97.7%. Akurasi 99% terlihat bagus, tapi model sebenarnya hanya menebak kelas mayoritas — tidak benar-benar belajar.</div>
+            <div class="wi-mono">CICIoT2023 · class analysis</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">4</div>
+          <div class="wi-body">
+            <div class="wi-lbl">ML Implementation</div>
+            <div class="wi-title">Dataset → Model IDS</div>
+            <div class="wi-desc">CIC IIoT 2025 relevan sebagai benchmark ML untuk IDS. Namun data keamanan IoT kompleks — multi-class performance jauh di bawah binary classification.</div>
+            <div class="wi-mono">Feature Selection · IDS · Benchmark</div>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="wi-strip"></div>
+          <div class="wi-num">5</div>
+          <div class="wi-body">
+            <div class="wi-lbl">Generalization</div>
+            <div class="wi-title">Cross-Dataset Eval</div>
+            <div class="wi-desc">Model bagus di satu dataset belum tentu generalisasi ke domain lain. Evaluasi lintas dataset membuktikan model belajar pola serangan umum, bukan hafal data latih.</div>
+            <div class="wi-mono">Cross-domain · Generalization · IDS</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pagenum">02 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         3 / DATASET COMPARISON
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-catalogue" aria-label="Dataset Comparison">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Dataset <em>Comparison</em></div>
+          <div class="lab">CIC IoT 2023 · versus · CIC IIoT 2025 (DataSense)</div>
+        </div>
+        <div class="grid col-2">
+
+          <div class="card c-orange">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">CIC IoT<br/>2023</div>
+              <div class="desc">Benchmark keamanan jaringan IoT umum. Topologi dengan 105 perangkat IoT nyata — smart home, office, campus. Baseline utama di banyak penelitian IDS berbasis trafik jaringan.</div>
+              <div class="specs">
+                <div class="row"><span class="k">FOKUS</span><span>IoT umum · smart environment</span></div>
+                <div class="row"><span class="k">PERANGKAT</span><span>105 perangkat IoT nyata</span></div>
+                <div class="row"><span class="k">MODALITAS</span><span>Trafik jaringan (flow / packet)</span></div>
+                <div class="row"><span class="k">SERANGAN</span><span>33 jenis · 7 kategori</span></div>
+                <div class="row"><span class="k">FITUR</span><span>~48 fitur per flow</span></div>
+                <div class="row"><span class="k">LABEL</span><span>Benign vs 33 attack labels</span></div>
+                <div class="row"><span class="k">MASALAH</span><span>Class imbalance 97.7%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-blue">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">CIC IIoT<br/>2025</div>
+              <div class="desc">Benchmark Industrial IoT generasi terbaru. Menggabungkan sensor time-series dan trafik jaringan yang tersinkron — lebih dekat ke kondisi industri nyata, lebih kaya fitur.</div>
+              <div class="specs">
+                <div class="row"><span class="k">FOKUS</span><span>Industrial IoT · sensor + jaringan</span></div>
+                <div class="row"><span class="k">PERANGKAT</span><span>40 perangkat IIoT beragam</span></div>
+                <div class="row"><span class="k">MODALITAS</span><span>Sensor time-series + trafik</span></div>
+                <div class="row"><span class="k">SERANGAN</span><span>50 jenis · 7 kategori</span></div>
+                <div class="row"><span class="k">FITUR</span><span>Multi-fitur sensor + jaringan</span></div>
+                <div class="row"><span class="k">LABEL</span><span>Benign vs 50 attack types</span></div>
+                <div class="row"><span class="k">DESAIN</span><span>Multi-objektif: akurasi vs resource</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="pagenum">03 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         4 / RELATED WORKS
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-catalogue" aria-label="Related Works">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Related <em>Works</em></div>
+          <div class="lab">Referensi workflow · peneliti sebelumnya · handling CICIoT2023</div>
+        </div>
+        <div class="grid">
+
+          <div class="card c-red">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Feature<br/>Engineering</div>
+              <div class="desc">Raw traffic → variance threshold → correlation filter → 48-fitur subset. PCA untuk dimensionality reduction sebelum klasifikasi. Fokus pada efisiensi komputasi.</div>
+              <div class="specs">
+                <div class="row"><span class="k">INPUT</span><span>Raw packet capture</span></div>
+                <div class="row"><span class="k">SELECTION</span><span>Variance + Correlation</span></div>
+                <div class="row"><span class="k">REDUCTION</span><span>PCA · Subset</span></div>
+                <div class="row"><span class="k">CLASSIFIER</span><span>Random Forest · SVM</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-pink">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Ensemble<br/>Learning</div>
+              <div class="desc">Multiple base classifiers (RF, DT, SVM, NB) → majority voting atau stacking → ensemble decision. Imbalance ditangani dengan SMOTE atau class weighting.</div>
+              <div class="specs">
+                <div class="row"><span class="k">BASE</span><span>RF · DT · SVM · NB</span></div>
+                <div class="row"><span class="k">COMBINE</span><span>Voting · Stacking</span></div>
+                <div class="row"><span class="k">IMBALANCE</span><span>SMOTE · Class weight</span></div>
+                <div class="row"><span class="k">EVAL</span><span>Precision · Recall · F1</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-orange">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Deep<br/>Learning</div>
+              <div class="desc">Normalisasi flow → LSTM/CNN untuk deteksi sequential. Autoencoder untuk anomaly detection pada traffic IoT terenkripsi atau tidak berlabel.</div>
+              <div class="specs">
+                <div class="row"><span class="k">INPUT</span><span>Time-series network flow</span></div>
+                <div class="row"><span class="k">MODEL</span><span>LSTM · CNN · Autoencoder</span></div>
+                <div class="row"><span class="k">TASK</span><span>Anomaly · Classification</span></div>
+                <div class="row"><span class="k">EDGE</span><span>Encrypted traffic</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card c-blue">
+            <div class="topstrip"></div>
+            <div class="body">
+              <div class="nm">Cross-<br/>Validation</div>
+              <div class="desc">Stratified k-fold CV dengan per-class metrics. Beberapa studi menambahkan cross-dataset test untuk generalisasi ke environment lain.</div>
+              <div class="specs">
+                <div class="row"><span class="k">EVAL</span><span>Stratified k-fold CV</span></div>
+                <div class="row"><span class="k">METRICS</span><span>Precision · Recall · F1</span></div>
+                <div class="row"><span class="k">EXTRA</span><span>Cross-dataset validation</span></div>
+                <div class="row"><span class="k">REPORT</span><span>Confusion matrix · ROC</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="pagenum">04 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         5 / PREVIOUS WORK — Semester 3
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-stripe" aria-label="Previous Work – Semester 3">
+      <div class="ribbon-stack" aria-hidden="true">
+        <div class="rib r1"></div>
+        <div class="rib r2"></div>
+        <div class="rib r3"></div>
+        <div class="rib r4"></div>
+        <div class="rib r5"></div>
+      </div>
+      <div class="quote-wrap">
+        <div class="qkicker">Pengerjaan sebelumnya · Semester 3 · 3 SDT B</div>
+        <h2 class="qbody">Ensemble Learning pada <em>CIC IoT 2023</em></h2>
+        <div class="qattr">Komparasi 7 algoritma ML — Random Forest · XGBoost · SVM · KNN · Logistic Regression · Naive Bayes · Decision Tree → Ensemble · CICIoT2023 · PENS</div>
+      </div>
+      <div class="pagenum">05 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         6 / SYSTEM DESIGN
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-data" aria-label="System Design">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Arsitektur <em style="color:var(--red);font-style:normal;">Sistem</em></div>
+          <div class="lab">Proposed pipeline · CICIoT2023 + CIC IIoT 2025 · cross-dataset evaluation</div>
+        </div>
+        <div class="body">
+          <div class="col-a">
+            <div class="stat">
+              <div class="vbig" style="color:var(--blue);">2×<sub style="color:var(--ink);">DS</sub></div>
+              <div class="lab-tag">Dual Dataset</div>
+              <div class="desc">Dua dataset digunakan secara paralel — satu untuk train, satu untuk cross-test. Model lama (Semester 3) tetap dipertahankan sebagai pembanding baseline.</div>
+            </div>
+            <div class="stat">
+              <div class="vbig" style="font-size:clamp(48px,min(5vw,8vh),100px); color:var(--green);">GEN<sub style="color:var(--ink);font-size:0.35em;">ERAL</sub></div>
+              <div class="lab-tag">Target Akhir</div>
+              <div class="desc">Menemukan kombinasi feature selection + model yang paling generalisasi lintas domain IoT berbeda.</div>
+            </div>
+          </div>
+
+          <div class="eq">
+            <div class="bars">
+              <div class="bcol" data-c="o" title="CICIoT2023">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="b" title="CIC IIoT 2025">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="y" title="Preprocessing">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="p" title="Feature Selection">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="r" title="ML Training">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="g" title="Cross-Evaluation">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div>
+              </div>
+              <div class="bcol" data-c="b" title="Generalization Analysis">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+              </div>
+              <div class="bcol" data-c="p" title="Old Model Baseline">
+                <div class="seg on"></div><div class="seg on"></div><div class="seg on"></div>
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+            </div>
+            <div class="ticks">
+              <div class="ticklab">DS.2023</div>
+              <div class="ticklab">DS.2025</div>
+              <div class="ticklab">Preproc</div>
+              <div class="ticklab">Feat.Sel</div>
+              <div class="ticklab">ML Train</div>
+              <div class="ticklab">Cross-Eval</div>
+              <div class="ticklab">Gen.Anal</div>
+              <div class="ticklab">Baseline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pagenum">06 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         7 / TIMELINE — 8 bulan
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-cal" aria-label="Timeline Penelitian">
+      <div class="frame">
+        <div class="topbar">
+          <div class="ttl">Timeline</div>
+          <div class="lab">8 bulan · Maret – Oktober 2025 · saat ini: Bulan 1</div>
+        </div>
+        <div class="ledger">
+          <div class="row headrow">
+            <div>Bulan</div>
+            <div>Tahapan</div>
+            <div>Aktivitas Utama</div>
+            <div>Status</div>
+            <div>N.R.</div>
+          </div>
+          <div class="row active-row">
+            <div class="date-tag">Mar 2025</div>
+            <div class="ttl-row"><em>Eksplorasi Data</em></div>
+            <div class="ven">EDA, profiling CICIoT2023 &amp; CIC IIoT 2025, statistik awal</div>
+            <div><span class="chip c-pink">AKTIF</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Apr 2025</div>
+            <div class="ttl-row">Preprocessing</div>
+            <div class="ven">Cleaning, normalisasi, handling imbalance (SMOTE / class weight)</div>
+            <div><span class="chip c-orange">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Mei 2025</div>
+            <div class="ttl-row">Feature Selection</div>
+            <div class="ven">Seleksi fitur multi-objektif — akurasi vs resource efficiency</div>
+            <div><span class="chip c-orange">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Jun 2025</div>
+            <div class="ttl-row">Model Development</div>
+            <div class="ven">Training RF, XGBoost, SVM, ensemble pada kedua dataset</div>
+            <div><span class="chip c-yellow">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Jul 2025</div>
+            <div class="ttl-row">Cross-Dataset Eval</div>
+            <div class="ven">Train DS.2023 → test DS.2025, dan sebaliknya · baseline comparison</div>
+            <div><span class="chip c-yellow">PLAN</span></div>
+            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Agt 2025</div>
+            <div class="ttl-row">Analisis Hasil</div>
+            <div class="ven">Perbandingan generalisasi, identifikasi best model + feature subset</div>
+            <div><span class="chip c-green">PLAN</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Sep 2025</div>
+            <div class="ttl-row">Penulisan Laporan</div>
+            <div class="ven">Draft laporan final project, revisi bab per bab bersama pembimbing</div>
+            <div><span class="chip c-blue">PLAN</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+          </div>
+          <div class="row">
+            <div class="date-tag">Okt 2025</div>
+            <div class="ttl-row">Sidang Final</div>
+            <div class="ven">Presentasi &amp; sidang akhir final project · PENS</div>
+            <div><span class="chip c-red">SIDANG</span></div>
+            <div class="nr-cell"><span class="b fill"></span><span class="b fill"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pagenum">07 / 08</div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         8 / CLOSING
+         ───────────────────────────────────────────────────────── -->
+    <section class="slide s-colophon" aria-label="Penutup">
+
+      <div class="ribbons" aria-hidden="true">
+        <div class="ribbon r-blue"   style="bottom: 0%;  height: 18%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-green"  style="bottom: 18%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-yellow" style="bottom: 35%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-orange" style="bottom: 52%; height: 16%; transform: rotate(22deg);"></div>
+        <div class="ribbon r-pink"   style="bottom: 70%; height: 18%; transform: rotate(22deg);"></div>
+      </div>
+
+      <div class="col-petals" aria-hidden="true">
+        <div class="petal p1"></div>
+        <div class="petal p2"></div>
+        <div class="petal p3"></div>
+        <div class="petal p4"></div>
+      </div>
+
+      <div class="seal-stack">
+        <div class="seal">FP<br/>08</div>
+        <div class="red-stamp">DONE</div>
+      </div>
+
+      <div class="titlewrap">
+        <div class="ktag">Penutup · Progress Final Project 2025 · PENS</div>
+        <h2 class="ttl">Terima<br/>Kasih.</h2>
+      </div>
+
+      <div class="col-footer">
+        <div>
+          <div class="ftag">Peneliti</div>
+          <div class="ftxt">Wahyu Ikbal Maulana<br/>3323600056 · 3 SDT B</div>
+        </div>
+        <div>
+          <div class="ftag">Dataset</div>
+          <div class="ftxt">CIC IoT 2023<br/>CIC IIoT 2025</div>
+        </div>
+        <div>
+          <div class="ftag">Pembimbing</div>
+          <div class="ftxt">Ferry Astika Saputra<br/>Tita Karlita, S.Kom, M.Kom</div>
+        </div>
+      </div>
+
+      <div class="pagenum">08 / 08</div>
+    </section>
+
+  </div><!-- /stage -->
+</div><!-- /deck -->
+
+
+<!-- ════════════════════════════════════════════════════════════
+     BOTTOM NAVIGATION
+     ════════════════════════════════════════════════════════════ -->
+<nav class="bottom-nav" id="bottom-nav" aria-label="Navigasi slide">
+  <button class="nav-btn" id="btn-prev" type="button" aria-label="Slide sebelumnya" disabled>&#8592;</button>
+  <div class="nav-dots" id="nav-dots" role="tablist" aria-label="Daftar slide"></div>
+  <span class="nav-counter" id="nav-counter" aria-live="polite">01 / 08</span>
+  <button class="nav-btn" id="btn-next" type="button" aria-label="Slide berikutnya">&#8594;</button>
+</nav>
+
+</body>
+</html>

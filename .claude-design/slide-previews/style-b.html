@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview B – Neon Cyber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT BASE === */
+html,body{height:100%;overflow-x:hidden;}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;}
+:root{
+  --title-size:clamp(1.5rem,4.5vw,3.8rem);
+  --body-size:clamp(0.75rem,1.5vw,1.1rem);
+  --small-size:clamp(0.6rem,1vw,0.85rem);
+  --slide-padding:clamp(1rem,4vw,4rem);
+}
+@media(max-height:700px){:root{--slide-padding:clamp(0.75rem,3vw,2rem);--title-size:clamp(1.25rem,4vw,2.5rem);}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important;}}
+
+/* === NEON CYBER THEME === */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#050a14;}
+
+.slide{
+  background:#050a14;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:var(--slide-padding) clamp(3rem,8vw,8rem);
+}
+
+/* Grid background */
+.slide::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,255,204,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,204,0.04) 1px,transparent 1px);
+  background-size:clamp(30px,4vw,60px) clamp(30px,4vw,60px);
+  pointer-events:none;
+}
+
+/* Scan line overlay */
+.slide::after{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);
+  pointer-events:none;
+  opacity:0.4;
+}
+
+/* Glow orb */
+.glow{
+  position:absolute;
+  top:-20%;left:-10%;
+  width:clamp(300px,60vw,700px);
+  height:clamp(300px,60vw,700px);
+  background:radial-gradient(ellipse,rgba(0,255,204,0.08) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+/* Top bar */
+.topbar{
+  position:absolute;top:0;left:0;right:0;
+  padding:clamp(1rem,2vw,1.5rem) clamp(3rem,8vw,8rem);
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid rgba(0,255,204,0.1);
+  z-index:1;
+}
+.topbar-logo{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:var(--small-size);
+  color:#00ffcc;
+  letter-spacing:0.1em;
+  opacity:0;
+  animation:fadeIn 0.5s 0.1s ease forwards;
+}
+.topbar-status{
+  display:flex;align-items:center;gap:0.5em;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:var(--small-size);
+  color:rgba(255,255,255,0.3);
+  opacity:0;
+  animation:fadeIn 0.5s 0.2s ease forwards;
+}
+.topbar-status::before{
+  content:'';display:block;
+  width:6px;height:6px;border-radius:50%;
+  background:#00ffcc;
+  box-shadow:0 0 8px #00ffcc;
+  animation:pulse 2s infinite;
+}
+
+/* Content */
+.content{position:relative;z-index:1;}
+
+.badge{
+  display:inline-flex;align-items:center;gap:0.5em;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:var(--small-size);
+  color:#00ffcc;
+  border:1px solid rgba(0,255,204,0.3);
+  padding:0.3em 0.8em;
+  border-radius:2px;
+  margin-bottom:clamp(1rem,2.5vh,2rem);
+  opacity:0;
+  animation:fadeIn 0.5s 0.3s ease forwards;
+  background:rgba(0,255,204,0.05);
+}
+.badge::before{content:'>';margin-right:0.2em;}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:var(--title-size);
+  line-height:1.05;
+  color:#fff;
+  letter-spacing:-0.03em;
+  max-width:min(90%,700px);
+  opacity:0;
+  transform:translateY(24px);
+  animation:fadeUp 0.8s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+h1 span{
+  color:#00ffcc;
+  text-shadow:0 0 20px rgba(0,255,204,0.5);
+}
+
+/* Divider */
+.sep{
+  display:flex;align-items:center;gap:1rem;
+  margin:clamp(1rem,2.5vh,2rem) 0;
+  opacity:0;
+  animation:fadeIn 0.5s 0.8s ease forwards;
+}
+.sep-line{flex:0 0 clamp(30px,5vw,60px);height:1px;background:#00ffcc;}
+.sep-text{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:var(--small-size);
+  color:rgba(255,255,255,0.35);
+  letter-spacing:0.1em;
+}
+
+/* Author block */
+.author{
+  opacity:0;
+  animation:fadeUp 0.5s 0.9s ease forwards;
+}
+.author-name{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(0.9rem,1.5vw,1.1rem);
+  color:#fff;
+  font-weight:700;
+  margin-bottom:0.3em;
+}
+.author-meta{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:var(--small-size);
+  color:rgba(255,255,255,0.35);
+  line-height:1.7;
+}
+
+/* Bottom accent bar */
+.bottombar{
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,#00ffcc,transparent 60%);
+  opacity:0;
+  animation:fadeIn 0.8s 1s ease forwards;
+}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="glow"></div>
+
+  <div class="topbar">
+    <span class="topbar-logo">PENS · IDS Research · 2025</span>
+    <span class="topbar-status">Active</span>
+  </div>
+
+  <div class="content">
+    <div class="badge">Progress Final Project</div>
+    <h1>Cross-Dataset Evaluation of <span>IoT/IIoT</span> Intrusion Detection Model Generalization</h1>
+    <div class="sep">
+      <div class="sep-line"></div>
+      <span class="sep-text">CIC IoT 2023 &nbsp;×&nbsp; CIC IIoT 2025</span>
+    </div>
+    <div class="author">
+      <div class="author-name">Wahyu Ikbal Maulana</div>
+      <div class="author-meta">
+        3323600056 · 3 SDT B<br>
+        Advisor: Ferry Astika Saputra · Tita Karlita, S.Kom, M.Kom
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar"></div>
+</section>
+</body>
+</html>
