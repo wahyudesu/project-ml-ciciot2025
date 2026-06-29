@@ -56,7 +56,7 @@ CICIoT2023 masih berguna sebagai baseline, tetapi banyak studi menunjukkan adany
 <!--Bagaimana dataset ini bisa dipakai untuk tujuan tersebut? -->
 
 4. dataset digunaskan untuk dilakukan prediksi ml
-Dataset seperti CIC IIoT 2025 relevan untuk prediksi ML karena dirancang sebagai benchmark deteksi anomali dan serangan pada lingkungan IIoT yang lebih dekat ke kondisi nyata. Memang tugas ini tidak mudah, sebab data keamanan IoT umumnya kompleks, tidak seimbang, dan multi-class performance biasanya turun cukup jauh dibanding binary classification, sehingga tantangan berikutnya adalah memastikan model yang dibangun tidak hanya bagus di satu dataset saja.
+Dataset seperti CIC IIoT 2025 relevan untuk prediksi ML karena dirancang sebagai benchmark deteksi anomali dan serangan pada lingkungan IIoT yang lebih dekat ke kondisi nyata. Memang tugas ini tidak mudah, sebab data keamanan IoT umumnya kompleks, tidak seimbang, sehingga tantangan berikutnya adalah memastikan model yang dibangun tidak hanya bagus di satu dataset saja.
 
 
 <!--bukankah sulit?-->
