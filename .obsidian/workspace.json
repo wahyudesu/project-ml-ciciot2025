@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "documents/QNA 2.md",
+                "file": "documents/proposal/presentation markdown.slides.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "QNA 2"
+              "title": "presentation markdown.slides"
             }
           }
         ]
@@ -123,13 +123,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "documents/QNA 2.md",
+                "file": "documents/proposal/presentation markdown.slides.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of QNA 2"
+              "title": "Outline of presentation markdown.slides"
             }
           },
           {
@@ -185,16 +185,19 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "b8127f9a75ff3139",
+  "active": "dab765118384a9b7",
   "lastOpenFiles": [
+    "documents/proposal/~$CDE - merged - 2.docx",
+    "documents/proposal/proposal_markdown_fixed.md",
+    "documents/AGENTS.md",
+    "documents/QNA 2.md",
+    "documents/proposal/ABCDE - merged - 2~7FE9D.tmp",
     "documents/proposal/presentation/sakura-chroma/template.json",
     "documents/proposal/presentation/sakura-chroma/template.html",
     "documents/proposal/presentation/sakura-chroma/design.md",
     "documents/proposal/presentation/sakura-chroma",
     "documents/proposal/presentation/assets/pens-logo.png",
-    "documents/proposal/~$CDE - merged - 2.docx",
     "documents/QNA.md",
-    "documents/QNA 2.md",
     "documents/proposal/proposal markdown.md",
     "documents/proposal/proposal markdown.md.tmp.31484.a9a8de268233",
     "documents/proposal/proposal markdown.md.tmp.31484.7ef777f34896",
@@ -203,12 +206,9 @@
     "documents/proposal/proposal markdown.md.tmp.32448.1adc1bead4ac",
     "references/references-writing.md",
     "documents/proposal/proposal_markdown.md",
-    "documents/proposal/proposal_markdown_fixed.md",
     "references/proposal_markdown_fixed.md",
     "references/proposal_markdown.md",
-    "documents/proposal/~$presentation.pptx",
     "documents/bab3_draft.md",
-    "documents/proposal/ABCDE - merged - 2~4DA65.tmp",
     "references/references-paper.md",
     "references/references-writinig.md",
     "references/looking-for-paper.md",
@@ -223,7 +223,6 @@
     "logbook-bimbingan.md",
     "documents/proposal/instruction proposal.md",
     "documents/proposal/diagram-systems.png",
-    "documents/AGENTS.md",
     "documents/brainstorming-v1.md",
     "docuemnts/proposal/diagram-systems.png",
     "books/proposal/diagram-systems.png",

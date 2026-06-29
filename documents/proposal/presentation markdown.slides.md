@@ -25,7 +25,7 @@ Mr. Ferry Astika Saputra and Ms. Tita Karlita.
 
 My name is Wahyu
 
-The research I'm presenting today sits at the intersection of three things I'm genuinely interested in: ml and cyber and iot. The title is Cross-Dataset Evaluation of IoT/IIoT Intrusion Detection Model Generalization and CIC IIoT 2025.
+The research I'm presenting today sits at the intersection of three things I'm genuinely interested in: ml and cyber and iot. The title is Cross-Dataset Evaluation of IoT/IIoT Intrusion Detection Model Generalization on CIC IIoT 2025.
 
 I know the title is a lot to take in, so let me explain how this research started and what it's really about
 ```
@@ -141,3 +141,5 @@ penutup
 ```
 baik kurang lebih saya seperti itu 
 ```
+
+
