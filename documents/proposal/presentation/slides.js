@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    CICIOT PRESENTATION — slides.js
-   Navigation logic, bottom nav initialization, keyboard & touch.
+   Navigation, lightbox, inline edit mode, keyboard & touch.
    ═══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -11,8 +11,19 @@
   const TOTAL       = slides.length;
   let   current     = 0;
   let   isAnimating = false;
-  const EXIT_MS     = 320;   /* must match slideExit animation duration in CSS */
-  const LOCK_MS     = 380;   /* debounce window to prevent double-fire */
+  let   whyProblemRevealed = false;
+  const EXIT_MS     = 320;
+  const LOCK_MS     = 380;
+
+  function syncPageNumbers() {
+    slides.forEach(function (slide, idx) {
+      var pagenum = slide.querySelector('.pagenum');
+      if (!pagenum) return;
+      var n = String(idx + 1).padStart(2, '0');
+      var total = String(TOTAL).padStart(2, '0');
+      pagenum.textContent = n + ' / ' + total;
+    });
+  }
 
   /* ─── Navigate to slide i ───────────────────────────────────── */
   function show(i) {
@@ -21,45 +32,55 @@
     if (i >= TOTAL)  i = TOTAL - 1;
     if (i === current) return;
 
+    if (current === 1 && i === current + 1 && !whyProblemRevealed) {
+      slides[current].classList.add('problem-revealed');
+      whyProblemRevealed = true;
+      isAnimating = true;
+      setTimeout(function () { isAnimating = false; }, 220);
+      return;
+    }
+
     isAnimating = true;
 
     const prev = slides[current];
     const next = slides[i];
+    const direction = i > current ? 1 : -1;
 
-    /* Exit the current slide */
+    prev.style.setProperty('--slide-dir', direction);
+    next.style.setProperty('--slide-dir', direction);
+
     prev.classList.remove('active');
     prev.classList.add('slide-exit');
-    setTimeout(() => prev.classList.remove('slide-exit'), EXIT_MS + 40);
+    setTimeout(function () { prev.classList.remove('slide-exit'); }, EXIT_MS + 40);
 
-    /* Enter the new slide — adding 'active' triggers CSS animation */
     next.classList.add('active');
-
     current = i;
     updateNav();
 
-    setTimeout(() => { isAnimating = false; }, LOCK_MS);
+    setTimeout(function () { isAnimating = false; }, LOCK_MS);
   }
 
   /* ─── Bottom Nav: initialization ───────────────────────────── */
   function initNav() {
-    const dotsEl   = document.getElementById('nav-dots');
-    const btnPrev  = document.getElementById('btn-prev');
-    const btnNext  = document.getElementById('btn-next');
+    var dotsEl  = document.getElementById('nav-dots');
+    var btnPrev = document.getElementById('btn-prev');
+    var btnNext = document.getElementById('btn-next');
 
     if (!dotsEl || !btnPrev || !btnNext) return;
 
-    /* Generate one dot per slide */
     slides.forEach(function (_, idx) {
-      const dot = document.createElement('button');
+      var dot = document.createElement('button');
+      var slideTitle = (slides[idx].querySelector('.topbar .ttl') || {}).textContent || slides[idx].getAttribute('aria-label') || ('Slide ' + (idx + 1));
+      slideTitle = slideTitle.replace(/\s+/g, ' ').trim();
       dot.className   = 'nav-dot' + (idx === 0 ? ' active' : '');
       dot.setAttribute('aria-label',    'Slide ' + (idx + 1));
       dot.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
       dot.setAttribute('type',          'button');
+      dot.setAttribute('title',         slideTitle);
       dot.addEventListener('click', function () { show(idx); });
       dotsEl.appendChild(dot);
     });
 
-    /* Arrow buttons */
     btnPrev.addEventListener('click', function () { show(current - 1); });
     btnNext.addEventListener('click', function () { show(current + 1); });
 
@@ -68,31 +89,240 @@
 
   /* ─── Bottom Nav: update state ──────────────────────────────── */
   function updateNav() {
-    /* Dots */
-    const dots = document.querySelectorAll('.nav-dot');
+    var dots = document.querySelectorAll('.nav-dot');
     dots.forEach(function (dot, idx) {
-      const isActive = idx === current;
+      var isActive = idx === current;
       dot.classList.toggle('active', isActive);
       dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
-    /* Counter: "01 / 08" */
-    const counter = document.getElementById('nav-counter');
+    var counter = document.getElementById('nav-counter');
     if (counter) {
-      const n     = String(current + 1).padStart(2, '0');
-      const total = String(TOTAL).padStart(2, '0');
+      var n     = String(current + 1).padStart(2, '0');
+      var total = String(TOTAL).padStart(2, '0');
       counter.textContent = n + ' / ' + total;
     }
 
-    /* Prev / Next button disabled state */
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
+    var btnPrev = document.getElementById('btn-prev');
+    var btnNext = document.getElementById('btn-next');
     if (btnPrev) btnPrev.disabled = (current === 0);
     if (btnNext) btnNext.disabled = (current === TOTAL - 1);
   }
 
+
+  /* ═══════════════════════════════════════════════════════════════
+     LIGHTBOX
+     ═══════════════════════════════════════════════════════════════ */
+  function initLightbox() {
+    var lb      = document.getElementById('lightbox');
+    var lbTitle = document.getElementById('lb-title');
+    var lbBody  = document.getElementById('lb-body');
+    var lbFoot  = document.getElementById('lb-footer');
+    var lbClose = document.getElementById('lb-close');
+
+    if (!lb) return;
+
+    function openLightbox(item) {
+      var title   = item.getAttribute('data-title')   || 'Figure';
+      var caption = item.getAttribute('data-caption') || '';
+      var srcSvg  = item.querySelector('svg');
+
+      if (lbTitle) lbTitle.textContent = title;
+      if (lbFoot)  lbFoot.textContent  = caption;
+      if (lbBody && srcSvg) {
+        lbBody.innerHTML = '';
+        lbBody.appendChild(srcSvg.cloneNode(true));
+      }
+
+      lb.classList.add('open');
+      lb.focus();
+    }
+
+    function closeLightbox() {
+      lb.classList.remove('open');
+    }
+
+    /* Attach click to every gallery item */
+    document.querySelectorAll('.gallery-item').forEach(function (item) {
+      item.addEventListener('click', function () { openLightbox(item); });
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(item); }
+      });
+    });
+
+    /* Close on backdrop or close button */
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb) closeLightbox();
+    });
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+
+    /* Keyboard: Esc closes */
+    lb.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  }
+
+  function initLinkPreviews() {
+    var links = document.querySelectorAll('.dataset-link[data-preview-url]');
+    var preview = document.querySelector('.dataset-preview');
+    if (!links.length || !preview) return;
+
+    var titleEl = preview.querySelector('[data-preview-title]');
+    var urlEl = preview.querySelector('[data-preview-url]');
+    var frame = preview.querySelector('.dataset-preview-frame');
+    var hideTimer = null;
+
+    function setPreview(link) {
+      var title = link.getAttribute('data-preview-title') || link.textContent.trim();
+      var url = link.getAttribute('data-preview-url') || link.getAttribute('href');
+      if (titleEl) titleEl.textContent = title;
+      if (urlEl) urlEl.textContent = url;
+      if (frame) {
+        var frameUrl = frame.getAttribute('data-preview-src') || url;
+        if (frameUrl && frame.getAttribute('src') !== frameUrl) {
+          frame.setAttribute('src', frameUrl);
+        }
+      }
+      preview.classList.add('is-visible');
+    }
+
+    function hidePreview() {
+      preview.classList.remove('is-visible');
+    }
+
+    function scheduleHide() {
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        hidePreview();
+      }, 90);
+    }
+
+    links.forEach(function (link) {
+      link.addEventListener('mouseenter', function () {
+        if (hideTimer) clearTimeout(hideTimer);
+        setPreview(link);
+      });
+      link.addEventListener('mouseleave', function () {
+        scheduleHide();
+      });
+    });
+
+    preview.addEventListener('mouseenter', function () {
+      if (hideTimer) clearTimeout(hideTimer);
+    });
+    preview.addEventListener('mouseleave', function () {
+      scheduleHide();
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     INLINE EDIT MODE
+     Edit text in-slide and save to localStorage.
+     Toggle: click ✏ button in nav, or press E.
+     Save: Ctrl/Cmd + S (or button again).
+     ═══════════════════════════════════════════════════════════════ */
+  var editMode = false;
+
+  function initEditMode() {
+    var btn   = document.getElementById('edit-btn');
+    var saved = document.getElementById('edit-saved');
+
+    /* Restore from localStorage on load */
+    loadEdits();
+
+    if (btn) {
+      btn.addEventListener('click', function () { toggleEditMode(); });
+    }
+
+    function showSaved() {
+      if (!saved) return;
+      saved.classList.add('show');
+      setTimeout(function () { saved.classList.remove('show'); }, 1800);
+    }
+
+    window._editMode   = false;
+    window._saveEdits  = saveEdits;
+    window._showSaved  = showSaved;
+  }
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    window._editMode = editMode;
+
+    var btn = document.getElementById('edit-btn');
+    document.body.classList.toggle('editing', editMode);
+
+    if (btn) {
+      btn.classList.toggle('edit-on', editMode);
+      btn.title = editMode ? 'Exit edit mode (E)' : 'Edit slide text (E)';
+    }
+
+    document.querySelectorAll('[data-eid]').forEach(function (el) {
+      if (editMode) {
+        el.setAttribute('contenteditable', 'plaintext-only');
+      } else {
+        el.removeAttribute('contenteditable');
+      }
+    });
+
+    if (!editMode) {
+      saveEdits();
+      if (window._showSaved) window._showSaved();
+    }
+  }
+
+  function saveEdits() {
+    try {
+      var data = {};
+      document.querySelectorAll('[data-eid]').forEach(function (el) {
+        data[el.getAttribute('data-eid')] = el.textContent;
+      });
+      localStorage.setItem('ciciot-pres-edits', JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function loadEdits() {
+    try {
+      var raw = localStorage.getItem('ciciot-pres-edits');
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      Object.keys(data).forEach(function (key) {
+        var el = document.querySelector('[data-eid="' + key + '"]');
+        if (el) el.textContent = data[key];
+      });
+    } catch (e) {}
+  }
+
+
   /* ─── Keyboard navigation ───────────────────────────────────── */
   document.addEventListener('keydown', function (e) {
+    /* When a contenteditable element is focused, don't navigate */
+    var active = document.activeElement;
+    var inEdit = active && (active.isContentEditable ||
+                            active.tagName === 'INPUT' ||
+                            active.tagName === 'TEXTAREA');
+
+    /* Ctrl/Cmd+S always saves when in edit mode */
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      if (editMode) {
+        saveEdits();
+        if (window._showSaved) window._showSaved();
+      }
+      return;
+    }
+
+    /* E key toggles edit mode (only when not typing) */
+    if ((e.key === 'e' || e.key === 'E') && !inEdit && !e.ctrlKey && !e.metaKey) {
+      toggleEditMode();
+      return;
+    }
+
+    if (inEdit) return;
+
+    /* Lightbox closes on Esc (handled in lightbox itself) */
+
     switch (e.key) {
       case 'ArrowRight':
       case 'PageDown':
@@ -129,7 +359,6 @@
     if (touchStartX === null) return;
     var dx = e.changedTouches[0].clientX - touchStartX;
     var dy = e.changedTouches[0].clientY - touchStartY;
-    /* Only trigger if horizontal swipe is dominant and long enough */
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
       show(current + (dx < 0 ? 1 : -1));
     }
@@ -139,5 +368,9 @@
 
   /* ─── Init ──────────────────────────────────────────────────── */
   initNav();
+  initLightbox();
+  initLinkPreviews();
+  initEditMode();
+  syncPageNumbers();
 
 }());

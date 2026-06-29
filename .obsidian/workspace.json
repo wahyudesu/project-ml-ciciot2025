@@ -185,8 +185,13 @@
       "terminal:Open terminal": false
     }
   },
-  "active": "dab765118384a9b7",
+  "active": "b8127f9a75ff3139",
   "lastOpenFiles": [
+    "documents/proposal/presentation/sakura-chroma/template.json",
+    "documents/proposal/presentation/sakura-chroma/template.html",
+    "documents/proposal/presentation/sakura-chroma/design.md",
+    "documents/proposal/presentation/sakura-chroma",
+    "documents/proposal/presentation/assets/pens-logo.png",
     "documents/proposal/~$CDE - merged - 2.docx",
     "documents/QNA.md",
     "documents/QNA 2.md",
@@ -214,15 +219,12 @@
     "documents/index.md",
     "PROJECT_INDEX.md",
     "documents/proposal/instructions presentation.md",
-    "documents/proposal/presentation~9EB96.tmp",
-    "documents/proposal/ABCDE - merged - 2~9E434.tmp",
     "CLAUDE.md",
     "logbook-bimbingan.md",
     "documents/proposal/instruction proposal.md",
     "documents/proposal/diagram-systems.png",
     "documents/AGENTS.md",
     "documents/brainstorming-v1.md",
-    "books/TODO.md",
     "docuemnts/proposal/diagram-systems.png",
     "books/proposal/diagram-systems.png",
     "books/proposal/image.png",
@@ -230,7 +232,6 @@
     "assets/class distribution 2025.png",
     "assets/class distribution 2025 2.jpg",
     "assets/workflow.png",
-    "assets/20260521014032.png",
-    "Pasted image 20260622155812.png"
+    "assets/20260521014032.png"
   ]
 }
