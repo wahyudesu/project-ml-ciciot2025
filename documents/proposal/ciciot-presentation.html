@@ -204,25 +204,16 @@
   .s-cal .topbar { display: flex; align-items: end; justify-content: space-between; border-bottom: 1.5px solid var(--ink); padding-bottom: clamp(12px, 1.4vh, 22px); gap: 30px; margin-bottom: clamp(14px, 1.6vh, 24px); }
   .s-cal .topbar .ttl { font-family: 'Big Shoulders Display', sans-serif; font-weight: 900; font-size: clamp(48px, min(5vw, 8.5vh), 96px); line-height: 0.9; letter-spacing: -0.014em; color: var(--ink); }
   .s-cal .topbar .lab { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); text-align: right; }
-  .s-cal .ledger { display: flex; flex-direction: column; gap: 0; flex: 1; }
-  .s-cal .row { display: grid; grid-template-columns: 84px 1.6fr 1.1fr 0.58fr 52px; gap: clamp(12px, 1.4vw, 24px); align-items: center; padding: clamp(8px, 1.05vh, 15px) 0; border-bottom: 1px solid rgba(58,37,22,0.22); }
-  .s-cal .row.headrow { border-bottom: 1.5px solid var(--ink); padding: 8px 0; }
+  .s-cal .note { font-family: 'Albert Sans', sans-serif; font-size: clamp(14px, 1vw, 17px); line-height: 1.45; color: rgba(58,37,22,0.82); max-width: 980px; margin-bottom: clamp(12px, 1.5vh, 20px); }
+  .s-cal .ledger { display: flex; flex-direction: column; gap: 0; flex: 1; border-top: 1px solid rgba(58,37,22,0.22); }
+  .s-cal .row { display: grid; grid-template-columns: 178px 1.05fr 1.7fr; gap: clamp(12px, 1.4vw, 24px); align-items: start; padding: clamp(14px, 1.6vh, 20px) 0; border-bottom: 1px solid rgba(58,37,22,0.22); }
+  .s-cal .row.headrow { border-bottom: 1.5px solid var(--ink); padding: 10px 0 12px; }
   .s-cal .row.headrow > div { font-family: 'Albert Sans', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(11px, 0.75vw, 12px); color: var(--ink); }
   .s-cal .row.active-row { background: rgba(58,37,22,0.04); }
   .s-cal .date-tag { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); letter-spacing: 0.02em; }
-  .s-cal .ttl-row { font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; font-size: clamp(18px, 1.55vw, 26px); line-height: 1.1; color: var(--ink); letter-spacing: -0.005em; }
+  .s-cal .ttl-row { font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; font-size: clamp(20px, 1.7vw, 30px); line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
   .s-cal .ttl-row em { color: var(--red); font-style: normal; }
-  .s-cal .ven { font-family: 'Albert Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); color: var(--ink); line-height: 1.4; }
-  .s-cal .chip { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(10px, 0.72vw, 11px); font-weight: 500; letter-spacing: 0.06em; color: var(--paper); text-transform: uppercase; width: fit-content; }
-  .s-cal .chip.c-red    { background: var(--red); }
-  .s-cal .chip.c-pink   { background: var(--pink); }
-  .s-cal .chip.c-orange { background: var(--orange); }
-  .s-cal .chip.c-blue   { background: var(--blue); }
-  .s-cal .chip.c-green  { background: var(--green); }
-  .s-cal .chip.c-yellow { background: var(--yellow); }
-  .s-cal .nr-cell { display: flex; gap: 6px; justify-content: end; }
-  .s-cal .nr-cell .b { width: 14px; height: 14px; border: 1.5px solid var(--ink); background: var(--paper); }
-  .s-cal .nr-cell .b.fill { background: var(--ink); }
+  .s-cal .ven { font-family: 'Albert Sans', sans-serif; font-size: clamp(13px, 0.98vw, 15px); color: var(--ink); line-height: 1.45; }
 
   /* ════════════════════════════════════════════════════════════
      SLIDE 8 — COLOPHON / CLOSING
@@ -603,71 +594,49 @@
       <div class="frame">
         <div class="topbar">
           <div class="ttl">Timeline</div>
-          <div class="lab caption">8 bulan · Maret – Oktober 2025 · saat ini: Bulan 1</div>
+          <div class="lab caption">Ringkas per fase · Jul 2026 – Mar 2027</div>
         </div>
+        <div class="note">Timeline dipadatkan jadi fase utama supaya alurnya mudah dibaca saat presentasi: dari penyusunan metodologi, preprocessing dua dataset, integrasi data, implementasi model, sampai evaluasi akhir.</div>
         <div class="ledger">
           <div class="row headrow">
-            <div class="caption">Bulan</div>
-            <div class="caption">Tahapan</div>
-            <div class="caption">Aktivitas Utama</div>
-            <div class="caption">Status</div>
-            <div class="caption">N.R.</div>
+            <div class="caption">Periode</div>
+            <div class="caption">Tahap</div>
+            <div class="caption">Fokus Utama</div>
           </div>
           <div class="row active-row">
-            <div class="date-tag caption">Mar 2025</div>
-            <div class="ttl-row"><em>Eksplorasi Data</em></div>
-            <div class="ven">EDA, profiling CICIoT2023 &amp; CIC IIoT 2025, statistik awal</div>
-            <div><span class="chip c-pink caption">AKTIF</span></div>
-            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+            <div class="date-tag caption">Jul–Agu 2026</div>
+            <div class="ttl-row"><em>Metodologi</em></div>
+            <div class="ven">Penyusunan metodologi dan rancangan eksperimen</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Apr 2025</div>
-            <div class="ttl-row">Preprocessing</div>
-            <div class="ven">Cleaning, normalisasi, handling imbalance (SMOTE / class weight)</div>
-            <div><span class="chip c-orange caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+            <div class="date-tag caption">Jul–Sep 2026</div>
+            <div class="ttl-row">Preprocessing 2023</div>
+            <div class="ven">Cleaning, preprocessing, dan penyeimbangan data CICIoT2023</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Mei 2025</div>
-            <div class="ttl-row">Feature Selection</div>
-            <div class="ven">Seleksi fitur multi-objektif — akurasi vs resource efficiency</div>
-            <div><span class="chip c-orange caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+            <div class="date-tag caption">Jul–Okt 2026</div>
+            <div class="ttl-row">Preprocessing 2025</div>
+            <div class="ven">Cleaning dan preprocessing data DataSense / CIC IIoT 2025</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Jun 2025</div>
-            <div class="ttl-row">Model Development</div>
-            <div class="ven">Training RF, XGBoost, SVM, ensemble pada kedua dataset</div>
-            <div><span class="chip c-yellow caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+            <div class="date-tag caption">Sep–Nov 2026</div>
+            <div class="ttl-row">Integrasi &amp; Fitur</div>
+            <div class="ven">Integrasi data, feature engineering, dan penyiapan skenario eksperimen</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Jul 2025</div>
-            <div class="ttl-row">Cross-Dataset Eval</div>
-            <div class="ven">Train DS.2023 → test DS.2025, dan sebaliknya · baseline comparison</div>
-            <div><span class="chip c-yellow caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b"></span><span class="b fill"></span></div>
+            <div class="date-tag caption">Nov–Des 2026</div>
+            <div class="ttl-row">Implementasi Model</div>
+            <div class="ven">Implementasi baseline dan model utama: Decision Tree, Random Forest, dan XGBoost</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Agt 2025</div>
-            <div class="ttl-row">Analisis Hasil</div>
-            <div class="ven">Perbandingan generalisasi, identifikasi best model + feature subset</div>
-            <div><span class="chip c-green caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
+            <div class="date-tag caption">Des 2026–Jan 2027</div>
+            <div class="ttl-row">Evaluasi</div>
+            <div class="ven">Evaluasi, tuning, dan analisis hasil</div>
           </div>
           <div class="row">
-            <div class="date-tag caption">Sep 2025</div>
-            <div class="ttl-row">Penulisan Laporan</div>
-            <div class="ven">Draft laporan final project, revisi bab per bab bersama pembimbing</div>
-            <div><span class="chip c-blue caption">PLAN</span></div>
-            <div class="nr-cell"><span class="b fill"></span><span class="b"></span></div>
-          </div>
-          <div class="row">
-            <div class="date-tag caption">Okt 2025</div>
-            <div class="ttl-row">Sidang Final</div>
-            <div class="ven">Presentasi &amp; sidang akhir final project · PENS</div>
-            <div><span class="chip c-red caption">SIDANG</span></div>
-            <div class="nr-cell"><span class="b fill"></span><span class="b fill"></span></div>
+            <div class="date-tag caption">Feb–Mar 2027</div>
+            <div class="ttl-row">Pengujian Sistem</div>
+            <div class="ven">Pengujian &amp; evaluasi sistem sebelum penutupan penelitian</div>
           </div>
         </div>
       </div>

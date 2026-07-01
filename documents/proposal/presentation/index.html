@@ -84,7 +84,7 @@
          ═════════════════════════════════════════════ -->
     <section class="slide s-why" aria-label="Research Motivation – 5 Why">
 
-      <div class="why-kicker" data-eid="why-kicker">Why this research exists · 5 interconnected reasons</div>
+      <div class="why-kicker" data-eid="why-kicker">Research gap · 5 linked reasons</div>
 
       <div class="blob b-red"    aria-hidden="true"></div>
       <div class="blob b-orange" aria-hidden="true"></div>
@@ -109,7 +109,7 @@
           <div class="wi-num">2</div>
         <div class="wi-body">
             <div class="wi-lbl">Threat Landscape</div>
-            <div class="wi-note">Problem</div>
+            <div class="wi-note">Gap</div>
             <div class="wi-title" data-eid="why2-title">820K Attacks / Day</div>
             <div class="wi-desc" data-eid="why2-desc">Up 46% from the previous year (ORDR). The IoT ecosystem keeps expanding — more devices, wider attack surface, older datasets no longer representative enough.</div>
             <div class="wi-mono">ordr.net · IoT Security Statistics</div>
@@ -121,7 +121,7 @@
           <div class="wi-num">3</div>
         <div class="wi-body">
             <div class="wi-lbl">Dataset Bias</div>
-            <div class="wi-note">Problem</div>
+            <div class="wi-note">Gap</div>
             <div class="wi-title" data-eid="why3-title">97.7% Class Imbalance</div>
             <div class="wi-desc" data-eid="why3-desc">CICIoT2023 is dominated by attack traffic at 97.7%. 99% accuracy looks great, but the model is mostly guessing the majority class — not actually learning.</div>
             <div class="wi-mono">CICIoT2023 · class analysis</div>
@@ -133,7 +133,7 @@
           <div class="wi-num">4</div>
         <div class="wi-body">
             <div class="wi-lbl">ML Implementation</div>
-            <div class="wi-note">Problem</div>
+            <div class="wi-note">Gap</div>
             <div class="wi-title" data-eid="why4-title">Dataset → IDS Model</div>
             <div class="wi-desc" data-eid="why4-desc">CIC IIoT 2025 is relevant as an ML benchmark for IDS. But IoT security data is complex — multi-class performance falls far below binary classification.</div>
             <div class="wi-mono">Feature Selection · IDS · Benchmark</div>
@@ -160,7 +160,7 @@
     <!-- ═════════════════════════════════════════════
          3 / GOALS & BENEFITS (new slide)
          ═════════════════════════════════════════════ -->
-    <section class="slide s-goals" aria-label="Research Goals and Benefits">
+    <section class="slide s-goals" aria-label="Objectives and Contributions">
       <div class="frame">
         <div class="topbar">
           <div class="ttl">Goals &amp; <em>Benefits</em></div>
@@ -168,11 +168,11 @@
         </div>
         <div class="cols">
 
-          <!-- Left: Research Goals -->
+          <!-- Left: Objectives -->
           <div class="col-card">
             <div class="col-hd hd-goals">
               <div class="hd-label">Objectives</div>
-              <div class="hd-title">Research Goals</div>
+              <div class="hd-title">Objectives</div>
             </div>
             <div class="col-body">
               <div class="goal-item">
@@ -194,11 +194,11 @@
             </div>
           </div>
 
-          <!-- Right: Research Benefits -->
+          <!-- Right: Contributions -->
           <div class="col-card">
             <div class="col-hd hd-bene">
               <div class="hd-label">Contributions</div>
-              <div class="hd-title">Research Benefits</div>
+              <div class="hd-title">Contributions</div>
             </div>
             <div class="col-body">
               <div class="benefit-item">
@@ -318,7 +318,7 @@
       <div class="frame">
         <div class="topbar">
           <div class="ttl">Related <em>Works</em></div>
-          <div class="lab">Prior workflows · researchers · CICIoT2023 approaches</div>
+          <div class="lab">Prior studies · methods · limitations</div>
         </div>
         <div class="grid paper-grid">
 
@@ -329,7 +329,7 @@
               <h3 class="paper-title">Evaluating Ensemble Versus Non-Ensemble Machine Learning Performance with Preprocessing Techniques for IoT Intrusion Detection on CICIoT2023</h3>
               <div class="paper-author">Firdaus et al.</div>
               <p class="desc paper-abstract" data-eid="rw1-desc">Penelitian ini membandingkan model ensemble dan non-ensemble pada CICIoT2023 dengan random undersampling dan seleksi fitur hybrid MI + RFFI. Lima model diuji menggunakan stratified 5-fold cross-validation, dan XGBoost menjadi yang terbaik dengan Macro F1 0,8891 ± 0,0008. Temuan utamanya menegaskan bahwa normalisasi Min-Max penting untuk stabilitas performa, tetapi seluruh evaluasi masih berada dalam domain dataset yang sama.</p>
-              <div class="paper-foot"><span class="k">Takeaway</span><span>Preprocessing matters; cross-domain robustness not yet tested.</span></div>
+              <div class="paper-foot"><span class="k">Gap</span><span>Strong preprocessing, but cross-domain robustness remains untested.</span></div>
             </div>
           </article>
 
@@ -340,7 +340,7 @@
               <h3 class="paper-title">Accelerating Classification for IoT Attack Detection Using Decision Tree Model with Gini Impurity Tree-Based Feature Selection Technique</h3>
               <div class="paper-author">Dzaki et al.</div>
               <p class="desc paper-abstract" data-eid="rw2-desc">Studi ini mengevaluasi enam teknik feature selection pada Decision Tree untuk CICIoT2023, lalu memilih Gini Impurity Tree-based sebagai pendekatan paling efisien. Subset 10 fitur yang dihasilkan memangkas waktu latih secara signifikan dan menghasilkan pohon yang lebih dangkal, tetapi eksperimen masih fokus pada performa in-dataset.</p>
-              <div class="paper-foot"><span class="k">Takeaway</span><span>Fast feature selection, but robustness across domains remains open.</span></div>
+              <div class="paper-foot"><span class="k">Gap</span><span>Efficient feature selection, but no cross-domain validation.</span></div>
             </div>
           </article>
 
@@ -351,7 +351,7 @@
               <h3 class="paper-title">Interpretable Intrusion Detection for IoT: A CNN-BiLSTM Permutation Importance Framework for Deep Feature Selection</h3>
               <div class="paper-author">Al-Shibly et al.</div>
               <p class="desc paper-abstract" data-eid="rw3-desc">Penelitian ini adalah salah satu yang memakai DataSense (CIC IIoT 2025) secara langsung. Dari 94 fitur, 20 fitur terpilih lalu dipakai untuk melatih classifier ringan, dengan Random Forest memberi hasil terbaik. Namun evaluasi masih biner dan sepenuhnya in-dataset, sehingga multiclass cross-dataset generalization belum terjawab.</p>
-              <div class="paper-foot"><span class="k">Takeaway</span><span>Useful DataSense baseline, but still binary and single-domain.</span></div>
+              <div class="paper-foot"><span class="k">Gap</span><span>Useful DataSense baseline, but still binary and single-domain.</span></div>
             </div>
           </article>
 
@@ -362,7 +362,7 @@
               <h3 class="paper-title">Cross-Dataset Temporal and Semantic Generalization of Intrusion Detection Models for the Future Internet</h3>
               <div class="paper-author">Elangovan et al.</div>
               <p class="desc paper-abstract" data-eid="rw4-desc">Studi ini mengevaluasi generalisasi lintas dataset pada empat dataset dari 2017 hingga 2024 tanpa retraining. Tree-ensemble menunjukkan degradasi yang paling rendah dibanding model lain, dan fitur flow/temporal lebih stabil antar dataset. Meski begitu, arah evaluasinya berbeda dari pasangan CICIoT2023 → DataSense yang menjadi fokus penelitian ini.</p>
-              <div class="paper-foot"><span class="k">Takeaway</span><span>Cross-dataset gap is real, but not for CICIoT2023 → DataSense.</span></div>
+              <div class="paper-foot"><span class="k">Gap</span><span>Cross-dataset gap is real, but not yet tested on CICIoT2023 → DataSense.</span></div>
             </div>
           </article>
 
@@ -378,7 +378,7 @@
     <section class="slide s-prev" aria-label="Previous Work – Semester 3">
       <div class="frame">
         <div class="topbar">
-          <div class="ttl">Proposed Workflow <em>CIC IoT 2023 - Related Research</em></div>
+          <div class="ttl">Reference Workflow <em>CICIoT2023 studies</em></div>
         </div>
         <div class="workflow-board">
           <figure class="workflow-main">
@@ -431,7 +431,7 @@
       <div class="frame">
         <div class="topbar">
           <div class="ttl">Final <em>Outputs</em></div>
-          <div class="lab">Three deliverables from the study</div>
+          <div class="lab">Expected outcomes from the study</div>
         </div>
         <div class="outputs-wrap">
           <div class="outputs-hero">
@@ -467,63 +467,14 @@
       <div class="frame">
         <div class="topbar">
           <div class="ttl" data-eid="tl-title">Timeline</div>
-          <div class="lab">Jul 2026 - Jul 2027<br/>roadmap fase penelitian</div>
+          <div class="lab">Rancangan timeline pengerjaan proyek akhir</div>
         </div>
-
-        <div class="gantt-wrap">
-          <div class="gantt-table" role="table" aria-label="Research timeline gantt chart">
-            <div class="gantt-row gantt-headrow" role="row">
-              <div class="gantt-cell gantt-label gantt-headcell" role="columnheader">Kegiatan</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Jul 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Agu 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Sep 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Okt 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Nov 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Des 26</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Jan 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Feb 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Mar 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Apr 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Mei 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Jun 27</div>
-              <div class="gantt-cell gantt-headcell" role="columnheader">Jul 27</div>
-            </div>
-
-            <div class="gantt-row row-1" role="row" style="--bar-start: 2; --bar-end: 4;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Penyusunan metodologi dan rancangan eksperimen</span></div>
-              <div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-2" role="row" style="--bar-start: 2; --bar-end: 5;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Persiapan, cleaning, dan preprocessing data CIC IoT 2023</span></div>
-              <div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-3" role="row" style="--bar-start: 2; --bar-end: 6;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Persiapan, cleaning, dan preprocessing data CIC IIoT 2025</span></div>
-              <div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-4" role="row" style="--bar-start: 4; --bar-end: 7;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Integrasi data, feature engineering, dan penyiapan skenario eksperimen</span></div>
-              <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-5" role="row" style="--bar-start: 6; --bar-end: 8;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Implementasi baseline dan model utama</span></div>
-              <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-6" role="row" style="--bar-start: 7; --bar-end: 9;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Evaluasi, tuning, dan analisis hasil</span></div>
-              <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-
-            <div class="gantt-row row-7" role="row" style="--bar-start: 9; --bar-end: 11;">
-              <div class="gantt-cell gantt-label" role="rowheader"><span class="dot">•</span><span>Pengujian &amp; Evaluasi Sistem</span></div>
-              <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell on"></div><div class="gantt-cell on"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            </div>
-          </div>
+        <div class="timeline-art" aria-label="Rancangan timeline pengerjaan proyek akhir">
+          <img
+            class="timeline-art-image"
+            src="assets/timeline-rencana.png"
+            alt="Rancangan timeline pengerjaan proyek akhir"
+          />
         </div>
       </div>
       <div class="pagenum">08 / 09</div>

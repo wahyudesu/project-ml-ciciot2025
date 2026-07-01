@@ -131,7 +131,7 @@ Ini adalah diagram sistem yang saya usulkan untuk dataset 2025. Pendekatan yang 
 ---
 
 ```script
-Untuk timeline, rencana saya adalah menyelesaikan dalam 8 bulan, dan saat ini saya masih berada pada tahap eksplorasi data.
+Untuk timeline, saya ringkas jadi 7 fase utama dari Jul 2026 sampai Mar 2027: mulai dari penyusunan metodologi, preprocessing dua dataset, integrasi data, implementasi model, evaluasi, sampai pengujian akhir.
 ```
 
 ---
@@ -141,5 +141,4 @@ penutup
 ```
 baik kurang lebih saya seperti itu 
 ```
-
 
