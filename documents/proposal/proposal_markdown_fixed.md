@@ -46,7 +46,7 @@ Bab ini menguraikan latar belakang permasalahan terkait meningkatnya ancaman ser
 Bab ini membahas landasan teoretis yang menjadi fondasi utama dalam pengembangan sistem, meliputi konsep dasar IoT dan IIoT, karakteristik ancaman keamanan jaringan, serta prinsip kerja Intrusion Detection System berbasis anomali. Pembahasan teknis juga diuraikan secara mendalam, mencakup algoritma-algoritma machine learning yang digunakan yaitu Decision Tree, Random Forest, dan XGBoost, beserta karakteristik dataset CICIoT2023 dan DataSense (CIC IIoT 2025) sebagai sumber data penelitian. Selain itu, bab ini memuat tinjauan terhadap berbagai penelitian terdahulu yang relevan untuk menunjukkan posisi kebaruan serta memperkuat argumen ilmiah dari pendekatan yang diusulkan.
 
 **BAB 3** Desain Sistem
-Bab ini memaparkan rancangan alur penelitian secara komprehensif, mulai dari tahap pengumpulan dan eksplorasi data, prapemrosesan, seleksi fitur, pelatihan model, hingga evaluasi performa. Penjelasan mendetail diberikan mengenai setiap tahapan eksperimen, termasuk strategi penanganan ketidakseimbangan kelas, teknik validasi yang diterapkan, serta metrik evaluasi yang digunakan seperti akurasi, presisi, recall, dan F1-score. Pada bagian akhir bab ini juga dijabarkan lingkungan pengujian dan konfigurasi eksperimen yang menjadi acuan dalam proses implementasi.
+Bab ini memaparkan rancangan alur penelitian secara komprehensif, mulai dari tahap pengumpulan dan eksplorasi data, prapemrosesan, seleksi fitur, pelatihan model, hingga evaluasi performa. Penjelasan mendetail diberikan mengenai setiap tahapan eksperimen, termasuk strategi penanganan ketidakseimbangan kelas, teknik validasi yang diterapkan, serta metrik evaluasi yang digunakan dengan penekanan pada Macro F1 sebagai metrik utama. Pada bagian akhir bab ini juga dijabarkan lingkungan pengujian dan konfigurasi eksperimen yang menjadi acuan dalam proses implementasi.
 # BAB 2 KAJIAN PUSTAKA
 
 ## 2.1 Deskripsi Permasalahan
@@ -61,9 +61,6 @@ Permasalahan utama yang dihadapi dalam penelitian ini adalah kesenjangan general
 Secara konkret, CICIoT2023 mencakup 33 jenis serangan yang dibangkitkan oleh 105 perangkat IoT konsumen dalam topologi terkontrol dengan lebih dari 46 juta rekaman dan 48 fitur jaringan [2], [11]. Sementara itu, DataSense (CIC IIoT 2025) mencakup 50 skenario serangan pada sensor industri berbasis Arduino dan perangkat IoT komersial yang terhubung melalui MQTT broker, dengan data sensor yang tersinkronisasi dengan data trafik jaringan dalam pendekatan multi-objective feature selection [1]. Kombinasi perbedaan skala, ruang fitur, dan karakteristik domain ini menjadikan evaluasi cross-dataset sebagai tantangan teknis yang perlu dikaji secara sistematis.
 
 ## 2.2 Teori Penunjang
-
-aku sedang menunlis teori penunjang untuk penelitianku di bab 2.2 teori penunjang dan yang mau  iot, iiiot ml, llm  
-==muat informasi dari references iot, iiot, ids, ml: random forest, decision tree, xgboost==
 
 ### 2.2.1 Internet of Things (IoT)
 
@@ -156,16 +153,6 @@ Untuk evaluasi multikelas, terdapat dua pendekatan perataan: *macro-averaging* m
 
 ## 2.3 Penelitian Terkait
 
-==paper dgn keterkaitan paling tinggi aku mau pakai untuk dipake ke penelitian ku ini, diantanya nya topik  yang mkau aku pakai sebagai identitas untuk saya kutip tu
-1 cic iot 2025
-1 cic iot 2023
-1 tentang cross dataset
-**Cross-dataset** → [26] Farah 2020 atau [27] Cantone 2024
-**IDS ML pakai CICIoT2023** → [10] Firdaus 2026, [15] Premalatha 2025, atau [8] Ntayagabiri 2025
-**IDS ML pakai DataSense (CIC IIoT 2025)** → nah ini masalahnya, dari 27 references yang ada **belum ada** yang eksplisit pakai DataSense sebagai dataset penelitian. [1] itu paper dataset-nya sendiri, bukan penelitian yang menggunakannya.
-riset lagi utk deteksi model prlu ambil 
-
-
 ### 2.3.1 A Comparative Analysis of Supervised Machine Learning Algorithms for IoT Attack Detection and Classification [8]
 
 Ntayagabiri et al. [8] melakukan analisis komparatif sepuluh algoritma *supervised learning* pada dataset CICIoT2023, mencakup tiga keluarga model: algoritma klasik (Naive Bayes, Logistic Regression, k-NN), *ensemble* (Random Forest, XGBoost, LightGBM), dan *deep learning* (ANN, CNN, LSTM, GRU). Random Forest mencapai akurasi tertinggi sebesar 99,29% dengan presisi 82,30%, diikuti XGBoost sebesar 99,26%. Di antara model *deep learning*, CNN unggul dengan akurasi 98,33%, sementara LSTM dan GRU masing-masing mencapai 97,60% dan 96,87%. Penelitian ini menyoroti bahwa nilai recall yang bervariasi antar algoritma — Random Forest 72,19%, XGBoost 71,69%, CNN 64,72% — mengindikasikan bahwa akurasi agregat yang tinggi belum tentu mencerminkan kemampuan deteksi yang merata pada seluruh kelas serangan, terutama kelas minoritas. Seluruh evaluasi dilakukan secara *in-dataset* pada CICIoT2023 tanpa pengujian lintas domain.
@@ -183,8 +170,6 @@ Ketiga penelitian di atas secara konsisten menghasilkan model dengan performa ti
 
 Tabel 2.1 Gap penelitian
 
-==gap nya kudu dipilah lagi dari paper yg deteksi ids, ml dari references paper dan dama dri highlight di bab 2
-
 
 | Ref  | Peneliti           | Tahun | Dataset       | Kelas      | Metode                                 | Hasil Terbaik  | Gap                                                                                                                      |
 | ---- | ------------------ | ----- | ------------- | ---------- | -------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -199,16 +184,12 @@ Tabel 2.1 Gap penelitian
 
 %% Deskripsikan solusi yang ditawarkan pada buku proyek akhir dengan jelas dan detil. Tuliskan secara argumentatif apa saja fitur-fitur yang ditawarkan pada kegiatan sebagai sesuatu solusi pada kegiatan laporan akhir. Pada contoh judul "Deteksi Kanker dengan Sistem Pakar Berbasis Fuzzy", solusinya adalah Sistem Pakar Berbasis Fuzzy, sehingga penulis disini dapat menjelaskan tentang pemodelan sistem pakar dan fitur-fitur fuzzy yang seperti apa untuk deteksi penyakit kanker. Terangkan secara argumentatif tentang fitur-fitur pemodelan Sistem Pakar dengan Fuzzy sehingga dapat digunakan untuk mendeteksi penyakit kanker. %%
 
-==fomat narasinya tuh dari kebutuhan sistem dan ruang lingkup soolusi, cara kerja sistem, sumber data dan pendekatan yang digunakan, lalu terakhir validasi, evaluasi, keterbatasan dan peran manusia jika diperlukan==
-
 Penelitian ini mengajukan kerangka evaluasi _cross-dataset_ sebagai solusi terhadap permasalahan yang belum banyak diteliti dalam literatur: sejauh mana model _intrusion detection_ berbasis machine learning yang dilatih pada dataset IoT konsumen (CICIoT2023) mampu mempertahankan performanya ketika diterapkan pada lingkungan IIoT industri (DataSense). Berbeda dari penelitian terdahulu yang mengevaluasi model dalam satu domain dataset yang sama, kerangka ini secara eksplisit mengukur _generalization gap_ — selisih performa model antara evaluasi _in-dataset_ dan evaluasi lintas domain — sebagai luaran analitik utamanya.
 
 Tiga algoritma dipilih untuk merepresentasikan spektrum kompleksitas ensemble yang berbeda: Decision Tree sebagai model pohon tunggal yang sepenuhnya _interpretable_, Random Forest sebagai ensemble berbasis _bagging_, dan XGBoost sebagai ensemble berbasis _boosting_ sekuensial. Pemilihan ini didukung oleh konsistensi performa ketiganya dalam literatur terkait, di mana Random Forest muncul sebagai _top performer_ di sebagian besar studi [4][8][15], XGBoost mengungguli seluruh model dalam macro F1-score pada dua studi berbasis CICIoT2023 [8][10], dan Decision Tree terbukti paling efisien dengan akurasi 98,34% serta waktu seleksi fitur tercepat [5][11]. Dengan membandingkan ketiga algoritma pada level kompleksitas yang berbeda, penelitian ini dapat menjawab apakah kompleksitas ensemble memberikan keunggulan tambahan saat model harus digeneralisasikan ke domain baru.
 
 Data CICIoT2023 diproses melalui pipeline empat tahap secara berurutan: _data cleaning_ untuk menghapus duplikat dan nilai hilang, _random undersampling_ untuk menyeimbangkan distribusi kelas [10][11], _Gini Impurity Tree-based feature selection_ untuk mereduksi 48 fitur menjadi subset minimal [11], dan _Min-Max normalization_ ke rentang [0,1] sebagai prasyarat konsistensi skala fitur lintas domain [10][11]. Evaluasi lintas domain dilakukan dengan membangun interseksi fitur — hanya fitur yang tersedia di kedua dataset yang dipertahankan sebagai input model — sekaligus menyelaraskan label ke lima kelas bersama yang ada di kedua domain: DDoS, DoS, Reconnaissance, Brute Force, dan Benign. _Generalization gap_ dihitung sebagai selisih Macro F1 antara evaluasi _in-dataset_ dan _cross-dataset_ untuk masing-masing algoritma, sehingga model dengan degradasi performa terkecil dapat diidentifikasi sebagai algoritma paling _robust_ untuk skenario deteksi lintas domain IoT ke IIoT.
 ## 3.2 Desain Sistem
-
-==1. dataset 2023 dataset 2025, 2. data preprocessing, 3. feature selection, ==
 
 Desain sistem dari kerangka evaluasi *cross-dataset* yang diajukan diilustrasikan pada Gambar 3.1. Sistem terdiri dari dua pipeline paralel yang berasal dari dua sumber data berbeda — CICIoT2023 sebagai domain IoT konsumen dan DataSense (CIC IIoT 2025) sebagai domain IIoT industri — yang keduanya bermuara pada satu node evaluasi bersama.
 

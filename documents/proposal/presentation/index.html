@@ -8,12 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Albert+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="animation.css" />
 <script src="slides.js" defer></script>
 </head>
 <body>
 
-<div class="deck">
-  <div class="stage">
+<div class="deck-viewport">
+  <div class="stage deck-stage">
 
     <!-- ═════════════════════════════════════════════
       1 / COVER
@@ -460,14 +461,15 @@
 
 
     <!-- ═════════════════════════════════════════════
-         8 / TIMELINE — 4×2 phase flow grid
+         8 / TIMELINE — roadmap cards
          ═════════════════════════════════════════════ -->
     <section class="slide s-timeline" aria-label="Research Timeline">
       <div class="frame">
         <div class="topbar">
           <div class="ttl" data-eid="tl-title">Timeline</div>
-          <div class="lab">Jul 2026 - Jul 2027<br/>timeline kegiatan per bulan</div>
+          <div class="lab">Jul 2026 - Jul 2027<br/>roadmap fase penelitian</div>
         </div>
+
         <div class="gantt-wrap">
           <div class="gantt-table" role="table" aria-label="Research timeline gantt chart">
             <div class="gantt-row gantt-headrow" role="row">
@@ -541,7 +543,7 @@
     </section>
 
   </div><!-- /stage -->
-</div><!-- /deck -->
+</div><!-- /deck-viewport -->
 
 
 <!-- ════════════════════════════════════════════════

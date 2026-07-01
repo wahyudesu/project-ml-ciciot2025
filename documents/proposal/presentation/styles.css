@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    CICIOT PRESENTATION — styles.css
-   Design tokens, layout, slide-specific styles, animations,
-   bottom navigation, lightbox, edit mode.
+   Design tokens, layout, bottom navigation, lightbox, edit mode.
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── DESIGN TOKENS ──────────────────────────────────────────── */
@@ -31,43 +30,26 @@ body {
 }
 
 /* ─── DECK & STAGE ───────────────────────────────────────────── */
-.deck {
+.deck-viewport {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  bottom: var(--nav-h);
-}
-.stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   overflow: hidden;
+  background: #0e0e0e;
+}
+.deck-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  transform-origin: 0 0;
   background: var(--paper);
 }
 .stage::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.16;
   background-image: radial-gradient(circle at 1px 1px, rgba(58,37,22,0.55) 1px, transparent 1.6px);
   background-size: 4px 4px; z-index: 1;
-}
-
-/* ─── SLIDE BASE + TRANSITIONS ──────────────────────────────── */
-.slide {
-  position: absolute; inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2;
-  font-size: 1.03em;
-  will-change: transform, opacity;
-}
-.slide.active {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 3;
-  animation: slideEnter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.slide.slide-exit {
-  animation: slideExit 300ms ease forwards;
-  z-index: 2;
-  pointer-events: none;
 }
 
 /* ─── TYPOGRAPHY SYSTEM ─────────────────────────────────────── */
@@ -342,13 +324,6 @@ body {
 }
 .s-catalogue .paper-foot span:last-child { text-align: left; }
 
-.s-catalogue.active .topbar { animation: fadeSlideUp 400ms ease both; animation-delay: 100ms; }
-.s-catalogue.active .card { animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-.s-catalogue.active .card:nth-child(1) { animation-delay: 200ms; }
-.s-catalogue.active .card:nth-child(2) { animation-delay: 280ms; }
-.s-catalogue.active .card:nth-child(3) { animation-delay: 360ms; }
-.s-catalogue.active .card:nth-child(4) { animation-delay: 440ms; }
-
 @media (max-width: 1100px) {
   .s-catalogue .grid { grid-template-columns: 1fr; }
   .s-catalogue .paper-title { font-size: clamp(15px, 1.3vw, 20px); }
@@ -420,12 +395,6 @@ body {
   object-fit: contain;
   display: block;
 }
-.s-prev.active .workflow-card:nth-child(1) { animation: workflowPop 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 180ms; }
-.s-prev.active .workflow-card:nth-child(2) { animation: workflowPop 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 260ms; }
-.s-prev.active .workflow-card:nth-child(3) { animation: workflowPop 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 340ms; }
-.s-prev.active .workflow-card:nth-child(4) { animation: workflowPop 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 420ms; }
-
-
 .s-why .wi-note {
   display: inline-flex;
   align-self: flex-start;
@@ -509,12 +478,6 @@ body {
   grid-template-columns: auto 1fr;
   gap: clamp(18px, 2vw, 32px);
   align-items: center;
-  opacity: 0;
-  transform: translateY(18px) scale(0.98);
-}
-.s-outputs.active .outputs-hero {
-  animation: cardIn 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: 120ms;
 }
 .s-outputs .out-num {
   font-family: 'Big Shoulders Display', sans-serif;
@@ -652,55 +615,6 @@ body.editing [contenteditable]:focus {
   pointer-events: none;
 }
 .edit-saved.show { opacity: 1; }
-
-
-/* ═══════════════════════════════════════════════════════════════
-   KEYFRAME ANIMATIONS
-   ═══════════════════════════════════════════════════════════════ */
-@keyframes slideEnter {
-  from { opacity: 0; transform: translate3d(calc(var(--slide-dir, 1) * 26px), 16px, 0) scale(0.985); filter: blur(2px); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
-}
-@keyframes slideExit {
-  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
-  to   { opacity: 0; transform: translate3d(calc(var(--slide-dir, 1) * -18px), -10px, 0) scale(0.992); filter: blur(1px); }
-}
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeSlideLeft {
-  from { opacity: 0; transform: translateX(22px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes heroSlide {
-  from { opacity: 0; transform: translateX(-40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(18px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes fadePop {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes rowSlideIn {
-  from { opacity: 0; transform: translateX(-16px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes titleBig {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes sealPop {
-  from { opacity: 0; transform: scale(0.5) rotate(-15deg); }
-  to   { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-@keyframes workflowPop {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -903,33 +817,6 @@ body.editing [contenteditable]:focus {
 .s-cover .cover-foot-right {
   letter-spacing: 0.14em;
 }
-/* Cover motion */
-.s-cover .cover-brand,
-.s-cover .cover-ribbons .rib,
-.s-cover .cover-kicker,
-.s-cover .cover-headline span,
-.s-cover .advisor-item,
-.s-cover .cover-footer {
-  opacity: 0;
-}
-.s-cover .cover-ribbons .rib { transform: translateX(18px) rotate(38deg) scaleX(0.96); }
-.s-cover .cover-title .cover-kicker { transform: translateY(12px); }
-.s-cover .cover-headline span { transform: translateY(22px); }
-.s-cover .advisor-item,
-.s-cover .cover-footer { transform: translateY(14px); }
-.s-cover.active .cover-brand { animation: fadeSlideUp 420ms ease both; animation-delay: 80ms; }
-.s-cover.active .cover-ribbons .r1 { animation: fadeSlideLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 70ms; }
-.s-cover.active .cover-ribbons .r2 { animation: fadeSlideLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 130ms; }
-.s-cover.active .cover-ribbons .r3 { animation: fadeSlideLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 190ms; }
-.s-cover.active .cover-ribbons .r4 { animation: fadeSlideLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 250ms; }
-.s-cover.active .cover-ribbons .r5 { animation: fadeSlideLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 310ms; }
-.s-cover.active .cover-kicker { animation: fadeSlideUp 380ms ease both; animation-delay: 180ms; }
-.s-cover.active .cover-headline span:nth-child(1) { animation: fadeSlideUp 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 240ms; }
-.s-cover.active .cover-headline span:nth-child(2) { animation: fadeSlideUp 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 330ms; }
-.s-cover.active .cover-headline span:nth-child(3) { animation: fadeSlideUp 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 420ms; }
-.s-cover.active .advisor-item:nth-child(1) { animation: fadeSlideUp 380ms ease both; animation-delay: 540ms; }
-.s-cover.active .advisor-item:nth-child(2) { animation: fadeSlideUp 380ms ease both; animation-delay: 620ms; }
-.s-cover.active .cover-footer { animation: fadeSlideUp 420ms ease both; animation-delay: 680ms; }
 @media (max-width: 1100px) {
   .s-cover .cover-main {
     grid-template-columns: 1fr;
@@ -945,138 +832,6 @@ body.editing [contenteditable]:focus {
     font-size: clamp(56px, 8.4vw, 112px);
   }
 }
-
-/* Slide 2: 5 WHY */
-.s-why.active .why-kicker { animation: fadeSlideUp 400ms ease both; animation-delay: 80ms; }
-.s-why.active .blob       { animation: fadePop 600ms ease both; animation-delay: 100ms; }
-/* Per-item motion is handled below. */
-
-/* Slide 3: GOALS & BENEFITS */
-.s-goals.active .topbar               { animation: fadeSlideUp 400ms ease both; animation-delay: 100ms; }
-
-/* Slide 4: DATASET COMPARE */
-.s-compare.active .topbar { animation: fadeSlideUp 400ms ease both; animation-delay: 100ms; }
-.s-compare.active .compare-table tr   { animation: rowSlideIn 360ms ease both; }
-.s-compare.active .compare-table tr:nth-child(1) { animation-delay: 180ms; }
-.s-compare.active .compare-table tr:nth-child(2) { animation-delay: 230ms; }
-.s-compare.active .compare-table tr:nth-child(3) { animation-delay: 280ms; }
-.s-compare.active .compare-table tr:nth-child(4) { animation-delay: 330ms; }
-.s-compare.active .compare-table tr:nth-child(5) { animation-delay: 380ms; }
-.s-compare.active .compare-table tr:nth-child(6) { animation-delay: 430ms; }
-.s-compare.active .compare-table tr:nth-child(7) { animation-delay: 480ms; }
-.s-compare.active .compare-table tr:nth-child(8) { animation-delay: 530ms; }
-
-/* Slide 5: CATALOGUE (Related Works) */
-.s-catalogue.active .topbar { animation: fadeSlideUp 400ms ease both; animation-delay: 100ms; }
-
-/* Slide 6: PREVIOUS WORK GALLERY */
-.s-prev.active .topbar { animation: fadeSlideUp 400ms ease both; animation-delay: 100ms; }
-
-/* Slide 7: SYSTEM DESIGN */
-.s-data.active .topbar                    { animation: fadeSlideUp 400ms ease both; animation-delay: 80ms; }
-
-/* Slide 8: TIMELINE */
-.s-timeline.active .topbar { animation: fadeSlideUp 400ms ease both; animation-delay: 80ms; }
-
-/* Slide 9: COLOPHON */
-.s-colophon.active .ktag                          { animation: fadeSlideUp 400ms ease both; animation-delay: 180ms; }
-.s-colophon.active .ttl                           { animation: titleBig 620ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 260ms; }
-
-.s-why .why-item {
-  opacity: 0;
-  transform: translateY(18px) scale(0.98);
-}
-.s-why.active.item-motion .why-item.anim-reveal {
-  animation: workflowPop 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.s-goals .goal-item,
-.s-goals .benefit-item {
-  opacity: 0;
-  transform: translateY(14px) scale(0.98);
-  will-change: transform, opacity;
-}
-.s-goals.active.item-motion .goal-item.anim-reveal,
-.s-goals.active.item-motion .benefit-item.anim-reveal {
-  animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.s-catalogue .card .topstrip,
-.s-catalogue .card .nm,
-.s-catalogue .card .desc {
-  opacity: 0;
-  transform: translateY(12px);
-}
-.s-catalogue.active .card .topstrip { animation: fadePop 300ms ease both; animation-delay: 140ms; }
-.s-catalogue.active .card .nm { animation: fadeSlideUp 360ms ease both; animation-delay: 220ms; }
-.s-catalogue.active .card .desc { animation: fadeSlideUp 360ms ease both; animation-delay: 300ms; }
-
-.s-prev .workflow-main img,
-.s-prev .workflow-card img {
-  opacity: 0;
-  transform: scale(0.98);
-}
-.s-prev.active .workflow-main img { animation: cardIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 90ms; }
-.s-prev.active .workflow-card:nth-child(1) img { animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 180ms; }
-.s-prev.active .workflow-card:nth-child(2) img { animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 260ms; }
-.s-prev.active .workflow-card:nth-child(3) img { animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 340ms; }
-.s-prev.active .workflow-card:nth-child(4) img { animation: cardIn 460ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 420ms; }
-
-.s-data .diagram-figure,
-.s-data .diagram-caption {
-  opacity: 0;
-  transform: translateY(14px);
-}
-.s-data.active .diagram-figure { animation: cardIn 560ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 140ms; }
-.s-data.active .diagram-caption { animation: fadeSlideUp 400ms ease both; animation-delay: 300ms; }
-
-.s-outputs .out-num,
-.s-outputs .out-kicker,
-.s-outputs .out-card,
-.s-outputs .out-card-title,
-.s-outputs .out-card-desc {
-  opacity: 0;
-  transform: translateY(12px);
-}
-.s-outputs.active .out-num { animation: heroSlide 560ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 140ms; }
-.s-outputs.active .out-kicker { animation: fadeSlideUp 360ms ease both; animation-delay: 220ms; }
-.s-outputs.active .out-card:nth-child(1) { animation: fadeSlideUp 420ms ease both; animation-delay: 300ms; }
-.s-outputs.active .out-card:nth-child(2) { animation: fadeSlideUp 420ms ease both; animation-delay: 390ms; }
-.s-outputs.active .out-card:nth-child(3) { animation: fadeSlideUp 420ms ease both; animation-delay: 480ms; }
-.s-outputs.active .out-card:nth-child(1) .out-card-title { animation: fadeSlideUp 320ms ease both; animation-delay: 360ms; }
-.s-outputs.active .out-card:nth-child(1) .out-card-desc  { animation: fadeSlideUp 320ms ease both; animation-delay: 420ms; }
-.s-outputs.active .out-card:nth-child(2) .out-card-title { animation: fadeSlideUp 320ms ease both; animation-delay: 450ms; }
-.s-outputs.active .out-card:nth-child(2) .out-card-desc  { animation: fadeSlideUp 320ms ease both; animation-delay: 510ms; }
-.s-outputs.active .out-card:nth-child(3) .out-card-title { animation: fadeSlideUp 320ms ease both; animation-delay: 540ms; }
-.s-outputs.active .out-card:nth-child(3) .out-card-desc  { animation: fadeSlideUp 320ms ease both; animation-delay: 600ms; }
-
-.s-timeline .gantt-headrow .gantt-cell,
-.s-timeline .gantt-label {
-  opacity: 0;
-  transform: translateY(10px);
-}
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(1) { animation: fadeSlideUp 300ms ease both; animation-delay: 120ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(2) { animation: fadeSlideUp 300ms ease both; animation-delay: 150ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(3) { animation: fadeSlideUp 300ms ease both; animation-delay: 180ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(4) { animation: fadeSlideUp 300ms ease both; animation-delay: 210ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(5) { animation: fadeSlideUp 300ms ease both; animation-delay: 240ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(6) { animation: fadeSlideUp 300ms ease both; animation-delay: 270ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(7) { animation: fadeSlideUp 300ms ease both; animation-delay: 300ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(8) { animation: fadeSlideUp 300ms ease both; animation-delay: 330ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(9) { animation: fadeSlideUp 300ms ease both; animation-delay: 360ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(10) { animation: fadeSlideUp 300ms ease both; animation-delay: 390ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(11) { animation: fadeSlideUp 300ms ease both; animation-delay: 420ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(12) { animation: fadeSlideUp 300ms ease both; animation-delay: 450ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(13) { animation: fadeSlideUp 300ms ease both; animation-delay: 480ms; }
-.s-timeline.active .gantt-headrow .gantt-cell:nth-child(14) { animation: fadeSlideUp 300ms ease both; animation-delay: 510ms; }
-.s-timeline.active .gantt-row .gantt-label { animation: fadeSlideUp 360ms ease both; }
-.s-timeline.active .gantt-row.row-1 .gantt-label { animation-delay: 160ms; }
-.s-timeline.active .gantt-row.row-2 .gantt-label { animation-delay: 230ms; }
-.s-timeline.active .gantt-row.row-3 .gantt-label { animation-delay: 300ms; }
-.s-timeline.active .gantt-row.row-4 .gantt-label { animation-delay: 370ms; }
-.s-timeline.active .gantt-row.row-5 .gantt-label { animation-delay: 440ms; }
-.s-timeline.active .gantt-row.row-6 .gantt-label { animation-delay: 510ms; }
-.s-timeline.active .gantt-row.row-7 .gantt-label { animation-delay: 580ms; }
 /* ═══════════════════════════════════════════════════════════════
    BOTTOM NAVIGATION BAR
    ═══════════════════════════════════════════════════════════════ */
@@ -1087,10 +842,6 @@ body.editing [contenteditable]:focus {
   display: flex; align-items: center; justify-content: center;
   gap: clamp(8px, 1.2vw, 18px); z-index: 50;
   padding: 0 clamp(12px, 2vw, 36px);
-}
-body.is-cover-slide .bottom-nav {
-  opacity: 0;
-  pointer-events: none;
 }
 .nav-btn {
   background: none; border: 1.5px solid var(--ink); color: var(--ink); cursor: pointer;
@@ -1267,8 +1018,6 @@ body.is-cover-slide .bottom-nav {
   letter-spacing: 0.04em;
   opacity: 0.78;
 }
-.s-compare.active .dataset-link:nth-child(1) { animation: cardIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 140ms; }
-.s-compare.active .dataset-link:nth-child(2) { animation: cardIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 220ms; }
 .s-compare .dataset-preview {
   position: absolute;
   right: clamp(36px, 3.6vw, 72px);
@@ -1433,7 +1182,6 @@ body.is-cover-slide .bottom-nav {
 }
 .s-timeline .gantt-headrow .gantt-label { font-family: 'Big Shoulders Display', sans-serif; font-size: clamp(16px, 1.35vw, 24px); font-weight: 900; line-height: 1; letter-spacing: -0.01em; justify-content: center; }
 .s-timeline .gantt-table .gantt-row:not(.gantt-headrow):hover .gantt-cell.on { opacity: 1; }
-.s-timeline.active .gantt-headrow .gantt-cell { animation: fadeSlideUp 360ms ease both; }
 
 .s-timeline .gantt-row {
   position: relative;
@@ -1454,17 +1202,6 @@ body.is-cover-slide .bottom-nav {
   pointer-events: none;
   z-index: 1;
 }
-.s-timeline.active .gantt-row::after {
-  animation: fadePop 280ms ease both;
-}
-.s-timeline.active .gantt-row.row-1::after { animation-delay: 240ms; }
-.s-timeline.active .gantt-row.row-2::after { animation-delay: 300ms; }
-.s-timeline.active .gantt-row.row-3::after { animation-delay: 360ms; }
-.s-timeline.active .gantt-row.row-4::after { animation-delay: 420ms; }
-.s-timeline.active .gantt-row.row-5::after { animation-delay: 500ms; }
-.s-timeline.active .gantt-row.row-6::after { animation-delay: 560ms; }
-.s-timeline.active .gantt-row.row-7::after { animation-delay: 620ms; }
-
 .s-timeline .gantt-row:not(.gantt-headrow):nth-child(even) .gantt-label {
   background: rgba(58,37,22,0.05);
 }
@@ -1473,53 +1210,13 @@ body.is-cover-slide .bottom-nav {
 }
 
 @media (max-width: 1100px) {
-  .s-compare .dataset-links,
-  .s-outputs .out-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .s-timeline .gantt-row {
     grid-template-columns: minmax(210px, 2.15fr) repeat(13, minmax(20px, 1fr));
   }
   .s-timeline .gantt-label {
     font-size: clamp(10px, 0.88vw, 13px);
   }
-  .s-outputs .outputs-hero {
-    grid-template-columns: 1fr;
-    gap: clamp(14px, 1.4vh, 20px);
-  }
   .s-timeline .gantt-headcell {
     font-size: clamp(8px, 0.64vw, 10px);
   }
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   REDUCED MOTION
-   ═══════════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  .slide.active, .slide.slide-exit,
-  .s-cover.active .cover-brand, .s-cover.active .cover-ribbons .rib,
-  .s-cover.active .cover-kicker, .s-cover.active .cover-headline span, .s-cover.active .advisor-item,
-  .s-cover.active .cover-footer,
-  .s-why.active .why-kicker, .s-why.active .blob, .s-why.active .why-item, .s-why.active .wi-num,
-  .s-why.active .why-item .wi-lbl, .s-why.active .why-item .wi-note, .s-why.active .why-item .wi-title,
-  .s-why.active .why-item .wi-desc, .s-why.active .why-item .wi-mono,
-  .s-goals.active .topbar, .s-goals.active .goal-item, .s-goals.active .benefit-item,
-  .s-goals.active .goal-num, .s-goals.active .benefit-dot, .s-goals.active .goal-text, .s-goals.active .benefit-text,
-  .s-compare.active .topbar, .s-compare.active .compare-table tr, .s-compare.active .dataset-link,
-  .s-catalogue.active .topbar, .s-catalogue.active .card .topstrip, .s-catalogue.active .card .nm,
-  .s-catalogue.active .card .desc,
-  .s-prev.active .topbar, .s-prev.active .workflow-main img, .s-prev.active .workflow-card img,
-  .s-data.active .topbar, .s-data.active .diagram-figure, .s-data.active .diagram-caption,
-  .s-outputs.active .topbar, .s-outputs.active .out-num, .s-outputs.active .out-kicker,
-  .s-outputs.active .out-card, .s-outputs.active .out-card-title, .s-outputs.active .out-card-desc,
-  .s-timeline.active .topbar, .s-timeline.active .gantt-headrow .gantt-cell, .s-timeline.active .gantt-label,
-  .s-timeline.active .gantt-row::after, .s-timeline.active .gantt-cell.on,
-  .s-colophon.active .ktag, .s-colophon.active .ttl {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .slide { transition: opacity 180ms ease; }
-  .slide.active { opacity: 1; animation: none; }
 }

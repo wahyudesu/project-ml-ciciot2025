@@ -15,11 +15,68 @@
   let   itemMotionTimers = [];
   const EXIT_MS     = 320;
   const LOCK_MS     = 380;
+  const DESIGN_W    = 1920;
+  const DESIGN_H    = 1080;
+  const deckStage   = document.querySelector('.deck-stage') || document.querySelector('.stage');
+  const MOTION_GROUPS = [
+    {
+      selectors: '.cover-brand, .topbar .ttl, .ktag, .cover-kicker, .cover-headline span, .wi-title, .hd-title, .paper-title, .out-card-title, .preview-title, .out-num',
+      className: 'motion-title',
+      start: 120,
+      step: 90
+    },
+    {
+      selectors: '.brand-kicker, .brand-sub, .advisor-label, .advisor-name, .cover-name, .cover-nim, .cover-link, .cover-linknote, .topbar .lab, .wi-lbl, .wi-note, .wi-desc, .wi-mono, .goal-text, .benefit-text, .paper-id, .paper-author, .paper-abstract, .paper-foot, .dl-tag, .dl-url, .preview-kicker, .preview-url, .diagram-caption, .out-kicker',
+      className: 'motion-copy',
+      start: 150,
+      step: 55
+    },
+    {
+      selectors: '.why-item, .goal-item, .benefit-item, .card, .dataset-link, .workflow-main, .workflow-card, .out-card, .outputs-hero, .dataset-preview, .col-card, .cover-linkbox, .advisor-box, .diagram-figure, .table-wrap, .timeline-stat, .timeline-note, .phase-card',
+      className: 'motion-panel',
+      start: 180,
+      step: 80
+    },
+    {
+      selectors: '.cover-ribbons .rib, .blob, .wi-strip, .topstrip, .benefit-dot, .timeline-ribbon .month, .phase-code, .phase-tag',
+      className: 'motion-accent',
+      start: 100,
+      step: 60
+    },
+    {
+      selectors: '.compare-table tr',
+      className: 'motion-row',
+      start: 120,
+      step: 35
+    },
+    {
+      selectors: '.slide img',
+      className: 'motion-media',
+      start: 140,
+      step: 80
+    }
+  ];
 
   function clearItemMotionTimers() {
     while (itemMotionTimers.length) {
       clearTimeout(itemMotionTimers.pop());
     }
+  }
+
+  function fitStage() {
+    if (!deckStage) return;
+    var navEl = document.getElementById('bottom-nav');
+    var navH = navEl ? navEl.getBoundingClientRect().height : 0;
+
+    var availableW = window.innerWidth;
+    var availableH = Math.max(0, window.innerHeight - navH);
+    var scale = Math.min(availableW / DESIGN_W, availableH / DESIGN_H);
+    var x = Math.max(0, (availableW - (DESIGN_W * scale)) / 2);
+    var y = Math.max(0, (availableH - (DESIGN_H * scale)) / 2);
+
+    deckStage.style.width = DESIGN_W + 'px';
+    deckStage.style.height = DESIGN_H + 'px';
+    deckStage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
   }
 
   function queueItemMotion(item, delay) {
@@ -34,40 +91,34 @@
     itemMotionTimers.push(timer);
   }
 
+  function clearMotionClasses(slide) {
+    slide.querySelectorAll('.motion-title, .motion-copy, .motion-panel, .motion-accent, .motion-row, .motion-media').forEach(function (node) {
+      node.classList.remove('motion-title', 'motion-copy', 'motion-panel', 'motion-accent', 'motion-row', 'motion-media', 'anim-reveal');
+      node.style.removeProperty('--motion-delay');
+      node.style.animation = '';
+    });
+  }
+
+  function applyMotionGroups(slide) {
+    MOTION_GROUPS.forEach(function (group) {
+      var items = Array.from(slide.querySelectorAll(group.selectors));
+      items.forEach(function (item, idx) {
+        if (!item || !slide.contains(item)) return;
+        item.classList.add(group.className);
+        queueItemMotion(item, group.start + (idx * group.step));
+      });
+    });
+  }
+
   function replayItemMotion(slide) {
     if (!slide) return;
 
     clearItemMotionTimers();
-
     slide.classList.remove('item-motion');
-    slide.querySelectorAll('.anim-reveal').forEach(function (node) {
-      node.classList.remove('anim-reveal');
-      node.style.animation = '';
-    });
-
+    clearMotionClasses(slide);
     void slide.offsetWidth;
     slide.classList.add('item-motion');
-
-    if (slide.classList.contains('s-why')) {
-      slide.querySelectorAll('.why-item').forEach(function (item, idx) {
-        queueItemMotion(item, 180 + (idx * 90));
-      });
-    } else if (slide.classList.contains('s-goals')) {
-      var goals = Array.from(slide.querySelectorAll('.goal-item'));
-      var benefits = Array.from(slide.querySelectorAll('.benefit-item'));
-      var delay = 140;
-      var step = 80;
-
-      goals.forEach(function (item) {
-        queueItemMotion(item, delay);
-        delay += step;
-      });
-
-      benefits.forEach(function (item) {
-        queueItemMotion(item, delay);
-        delay += step;
-      });
-    }
+    applyMotionGroups(slide);
   }
 
   function syncPageNumbers() {
@@ -155,8 +206,6 @@
 
   /* ─── Bottom Nav: update state ──────────────────────────────── */
   function updateNav() {
-    document.body.classList.toggle('is-cover-slide', current === 0);
-
     var dots = document.querySelectorAll('.nav-dot');
     dots.forEach(function (dot, idx) {
       var isActive = idx === current;
@@ -460,5 +509,8 @@
   initLinkPreviews();
   initEditMode();
   syncPageNumbers();
+  fitStage();
+  window.addEventListener('resize', fitStage);
+  replayItemMotion(slides[current]);
 
 }());

@@ -7,6 +7,12 @@
       "skillPath": "skills/productivity/caveman/SKILL.md",
       "computedHash": "536908fcfcb232600a5875aa85f1fd50fd13305e9d67379bcd95f07c8c916f3f"
     },
+    "frontend-slides": {
+      "source": "zarazhangrui/frontend-slides",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "a862de3e74a25cc4a5d27716489c59ebb69b970716840d04426201f32196cda4"
+    },
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",

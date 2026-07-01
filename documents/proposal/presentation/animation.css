@@ -1,0 +1,188 @@
+/* ═══════════════════════════════════════════════════════════════
+   CICIOT PRESENTATION — animation.css
+   Slide motion, item reveals, and reduced-motion fallback.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --motion-ease-playful: cubic-bezier(0.22, 1.15, 0.34, 1);
+  --motion-ease-friendly: cubic-bezier(0.2, 1, 0.28, 1);
+}
+
+/* ─── SLIDE TRANSITIONS ──────────────────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 1.03em;
+  will-change: transform, opacity;
+  background: var(--paper);
+}
+.slide.active,
+.slide.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+  animation: slideEnter 420ms var(--motion-ease-playful) both;
+}
+.slide.slide-exit {
+  animation: slideExit 300ms var(--motion-ease-friendly) forwards;
+  z-index: 2;
+  pointer-events: none;
+}
+.slide.active,
+.slide.slide-exit,
+.slide.active *,
+.slide.slide-exit * {
+  animation-timing-function: var(--motion-ease-playful) !important;
+}
+
+/* ─── ITEM MOTION SYSTEM ───────────────────────────────────── */
+.slide .motion-title,
+.slide .motion-copy,
+.slide .motion-panel,
+.slide .motion-media,
+.slide .motion-accent,
+.slide .motion-row {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.slide .motion-title,
+.slide .motion-copy { transform: translateY(16px); }
+.slide .motion-panel,
+.slide .motion-media { transform: translateY(18px) scale(0.98); }
+.slide .motion-accent { transform: translateY(10px) scale(0.96); }
+.slide .motion-row { transform: translateX(-12px); }
+.slide .motion-title.anim-reveal { animation: titleBig 560ms var(--motion-ease-playful) both; }
+.slide .motion-copy.anim-reveal { animation: fadeSlideUp 420ms var(--motion-ease-playful) both; }
+.slide .motion-panel.anim-reveal,
+.slide .motion-media.anim-reveal { animation: cardIn 520ms var(--motion-ease-playful) both; }
+.slide .motion-accent.anim-reveal { animation: fadePop 340ms var(--motion-ease-friendly) both; }
+.slide .motion-row.anim-reveal { animation: rowSlideIn 360ms var(--motion-ease-playful) both; }
+
+/* ─── TIMELINE MOTION ───────────────────────────────────────── */
+.s-timeline .gantt-headrow .gantt-cell,
+.s-timeline .gantt-label {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.s-timeline .gantt-row::after {
+  opacity: 0;
+  transform: scaleX(0.96);
+  transform-origin: left center;
+}
+.s-timeline.active .gantt-headrow .gantt-cell {
+  animation: fadeSlideUp 300ms var(--motion-ease-playful) both;
+}
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(1) { animation-delay: 120ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(2) { animation-delay: 150ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(3) { animation-delay: 180ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(4) { animation-delay: 210ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(5) { animation-delay: 240ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(6) { animation-delay: 270ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(7) { animation-delay: 300ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(8) { animation-delay: 330ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(9) { animation-delay: 360ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(10) { animation-delay: 390ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(11) { animation-delay: 420ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(12) { animation-delay: 450ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(13) { animation-delay: 480ms; }
+.s-timeline.active .gantt-headrow .gantt-cell:nth-child(14) { animation-delay: 510ms; }
+.s-timeline.active .gantt-row .gantt-label {
+  animation: fadeSlideUp 360ms var(--motion-ease-playful) both;
+}
+.s-timeline.active .gantt-row.row-1 .gantt-label { animation-delay: 160ms; }
+.s-timeline.active .gantt-row.row-2 .gantt-label { animation-delay: 230ms; }
+.s-timeline.active .gantt-row.row-3 .gantt-label { animation-delay: 300ms; }
+.s-timeline.active .gantt-row.row-4 .gantt-label { animation-delay: 370ms; }
+.s-timeline.active .gantt-row.row-5 .gantt-label { animation-delay: 440ms; }
+.s-timeline.active .gantt-row.row-6 .gantt-label { animation-delay: 510ms; }
+.s-timeline.active .gantt-row.row-7 .gantt-label { animation-delay: 580ms; }
+.s-timeline.active .gantt-row::after {
+  animation: fadePop 280ms var(--motion-ease-friendly) both;
+}
+.s-timeline.active .gantt-row.row-1::after { animation-delay: 240ms; }
+.s-timeline.active .gantt-row.row-2::after { animation-delay: 300ms; }
+.s-timeline.active .gantt-row.row-3::after { animation-delay: 360ms; }
+.s-timeline.active .gantt-row.row-4::after { animation-delay: 420ms; }
+.s-timeline.active .gantt-row.row-5::after { animation-delay: 500ms; }
+.s-timeline.active .gantt-row.row-6::after { animation-delay: 560ms; }
+.s-timeline.active .gantt-row.row-7::after { animation-delay: 620ms; }
+
+/* ─── KEYFRAMES ─────────────────────────────────────────────── */
+@keyframes slideEnter {
+  0%   { opacity: 0; transform: translate3d(calc(var(--slide-dir, 1) * 26px), 18px, 0) scale(0.975); filter: blur(2px); }
+  68%  { opacity: 1; transform: translate3d(0, -3px, 0) scale(1.01); filter: blur(0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+}
+@keyframes slideExit {
+  0%   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translate3d(calc(var(--slide-dir, 1) * -18px), -10px, 0) scale(0.99); filter: blur(1px); }
+}
+@keyframes fadeSlideUp {
+  0%   { opacity: 0; transform: translateY(18px) scale(0.985); }
+  72%  { opacity: 1; transform: translateY(-2px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeSlideLeft {
+  0%   { opacity: 0; transform: translateX(22px) scale(0.985); }
+  72%  { opacity: 1; transform: translateX(-2px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes heroSlide {
+  0%   { opacity: 0; transform: translateX(-40px) scale(0.98); }
+  72%  { opacity: 1; transform: translateX(4px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes cardIn {
+  0%   { opacity: 0; transform: translateY(18px) scale(0.965); }
+  70%  { opacity: 1; transform: translateY(-3px) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadePop {
+  0%   { opacity: 0; transform: scale(0.96); }
+  75%  { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes rowSlideIn {
+  0%   { opacity: 0; transform: translateX(-16px) scale(0.99); }
+  72%  { opacity: 1; transform: translateX(2px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes titleBig {
+  0%   { opacity: 0; transform: translateY(34px) scale(0.97); }
+  72%  { opacity: 1; transform: translateY(-3px) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes sealPop {
+  0%   { opacity: 0; transform: scale(0.55) rotate(-12deg); }
+  70%  { opacity: 1; transform: scale(1.04) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes workflowPop {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.955); }
+  72%  { opacity: 1; transform: translateY(-3px) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── REDUCED MOTION ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .slide.active, .slide.visible, .slide.slide-exit,
+  .slide .motion-title, .slide .motion-copy, .slide .motion-panel, .slide .motion-media,
+  .slide .motion-accent, .slide .motion-row,
+  .slide .motion-title.anim-reveal, .slide .motion-copy.anim-reveal, .slide .motion-panel.anim-reveal,
+  .slide .motion-media.anim-reveal, .slide .motion-accent.anim-reveal, .slide .motion-row.anim-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .slide { transition: opacity 180ms ease; }
+  .slide.active { opacity: 1; animation: none; }
+}
